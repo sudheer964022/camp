@@ -1,4 +1,0 @@
-{
-  "_note": "Static test data removed. All tests are dynamically fetched and parsed from 'CRL TEST MENU FINAL 07.10.2026 (KKK).xlsx' via SheetJS.",
-  "tests": []
-}
