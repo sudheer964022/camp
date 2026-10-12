@@ -172,10 +172,8 @@ for (let r = 1; r < lplRows.length; r++) {
   const desc = String(row[2] || '').trim();
   const techRaw = String(row[3] || 'PHOTOMETRY').trim().toUpperCase();
   const sampleRaw = String(row[4] || 'SERUM').trim().toUpperCase();
-  const cprt = row[5] !== undefined && row[5] !== null ? Number(Number(row[5]).toFixed(2)) : 0;
-  const rawB2b = row[6] !== undefined && row[6] !== null ? Number(row[6]) : 0;
-  const b2b = Number((rawB2b * 0.5).toFixed(2));
   const b2c = row[7] !== undefined && row[7] !== null ? Math.round(Number(row[7])) : 0;
+  const b2b = Math.round(b2c * 0.5);
   const analyzer = row[8] ? String(row[8]).trim() : null;
 
   let fasting = null;
