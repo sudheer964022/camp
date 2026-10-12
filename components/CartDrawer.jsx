@@ -336,14 +336,14 @@ export default function CartDrawer({
                   <input
                     type="number"
                     min={0}
-                    max={pp.systemPrice}
-                    value={discountedPrice !== '' ? discountedPrice : pp.systemPrice}
+                    max={calc.b2c}
+                    placeholder={String(calc.b2c)}
+                    value={discountedPrice}
                     onFocus={(e) => e.target.select()}
                     onChange={(e) => {
                       const v = e.target.value;
-                      // Snap down to systemPrice ceiling if user types above it
-                      if (v !== '' && Number(v) > pp.systemPrice) {
-                        setDiscountedPrice(String(pp.systemPrice));
+                      if (v !== '' && Number(v) > calc.b2c) {
+                        setDiscountedPrice(String(calc.b2c));
                       } else {
                         setDiscountedPrice(v);
                       }
@@ -351,9 +351,9 @@ export default function CartDrawer({
                     className="w-full pl-6 pr-2 py-1.5 text-sm font-bold border border-line rounded-lg focus:outline-none focus:border-teal bg-white transition-colors"
                   />
                 </div>
-                {discountedPrice !== '' && Number(discountedPrice) >= pp.systemPrice && (
+                {discountedPrice !== '' && Number(discountedPrice) >= calc.b2c && (
                   <p className="text-[10px] text-amber-dark font-medium">
-                    ⚠ Must be less than {money(pp.systemPrice)}
+                    ⚠ Must be less than {money(calc.b2c)}
                   </p>
                 )}
               </div>
