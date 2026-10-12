@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "preview": "next start"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
