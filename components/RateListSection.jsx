@@ -566,12 +566,11 @@ export default function RateListSection({
           {view === 'tests' ? (
             <div>
 
-              <div className="grid grid-cols-[70px_minmax(0,1.7fr)_140px_72px_84px_104px_92px_96px_54px] gap-3 items-center px-5 py-3.5 bg-[#f8fafc] border-b border-line text-xs font-bold uppercase tracking-wider text-ink-faint">
+              <div className="grid grid-cols-[70px_minmax(0,1.8fr)_140px_80px_110px_100px_104px_54px] gap-3 items-center px-5 py-3.5 bg-[#f8fafc] border-b border-line text-xs font-bold uppercase tracking-wider text-ink-faint">
                 <span>Code</span>
                 <span>Test</span>
                 <span>Technology</span>
                 <span>Sample</span>
-                <span>Processed At</span>
                 <span className="text-right">Processing Cost</span>
                 <span className="text-right">Test Price</span>
                 <span className="text-right" title="Includes Promotion, Collection, Consumables, Logistics & Margin">PCCLM</span>
@@ -587,7 +586,7 @@ export default function RateListSection({
                   return (
                     <div
                       key={test.code}
-                      className={`grid grid-cols-[70px_minmax(0,1.7fr)_140px_72px_84px_104px_92px_96px_54px] gap-3 items-center px-5 py-3 text-sm transition-colors hover:bg-paper/50 ${
+                      className={`grid grid-cols-[70px_minmax(0,1.8fr)_140px_80px_110px_100px_104px_54px] gap-3 items-center px-5 py-3 text-sm transition-colors hover:bg-paper/50 ${
                         isAdded ? 'bg-emerald-bg/30' : owner ? 'bg-slate-50/50 opacity-80' : ''
                       }`}
                     >
@@ -617,11 +616,6 @@ export default function RateListSection({
                         </span>
                       </div>
                       <div className="text-xs text-ink-soft">{test.sample}</div>
-                      <div>
-                        <span className="inline-block px-2 py-0.5 rounded text-xs font-bold uppercase bg-teal-bg text-teal">
-                          {test.processedAt || 'LPL'}
-                        </span>
-                      </div>
                       <div className="text-right font-bold text-navy text-sm sm:text-base">
                         {customerView ? '—' : money(test.b2b)}
                       </div>
@@ -663,10 +657,9 @@ export default function RateListSection({
           ) : (
             <div>
 
-              <div className="grid grid-cols-[minmax(0,2.5fr)_85px_100px_110px_110px_110px_54px] gap-3 items-center px-5 py-3.5 bg-[#f8fafc] border-b border-line text-xs font-bold uppercase tracking-wider text-ink-faint">
+              <div className="grid grid-cols-[minmax(0,2.8fr)_90px_120px_120px_120px_54px] gap-3 items-center px-5 py-3.5 bg-[#f8fafc] border-b border-line text-xs font-bold uppercase tracking-wider text-ink-faint">
                 <div>Profile</div>
                 <div className="text-center">No of Tests</div>
-                <div className="text-center">Processed At</div>
                 <div className="text-right">Processing Cost</div>
                 <div className="text-right">Profile Price</div>
                 <div className="text-right" title="Includes Promotion, Collection, Consumables, Logistics & Margin">PCCLM</div>
@@ -691,7 +684,7 @@ export default function RateListSection({
                   return (
                     <div key={pkg.id} className="transition-colors">
                       <div
-                        className={`grid grid-cols-[minmax(0,2.5fr)_85px_100px_110px_110px_110px_54px] gap-3 items-center px-5 py-3.5 text-sm transition-colors ${
+                        className={`grid grid-cols-[minmax(0,2.8fr)_90px_120px_120px_120px_54px] gap-3 items-center px-5 py-3.5 text-sm transition-colors ${
                           isAdded
                             ? 'bg-sky-50/40 hover:bg-sky-50/60'
                             : blockingPkg
@@ -717,12 +710,6 @@ export default function RateListSection({
 
                         <div className="text-center font-bold text-navy text-sm">
                           {testCount}
-                        </div>
-
-                        <div className="text-center">
-                          <span className="inline-block px-2.5 py-0.5 rounded text-xs font-bold uppercase bg-[#E1EFFE] text-[#1E429F]">
-                            {pkg.processedAt || 'LPL'}
-                          </span>
                         </div>
 
                         <div className="text-right font-bold text-navy text-sm sm:text-base">
