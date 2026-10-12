@@ -7213,7 +7213,7 @@
       "category": "LPL",
       "cprt": 81,
       "pricing": {
-        "b2b": 125,
+        "b2b": 400,
         "b2c": 800
       },
       "codes": [
@@ -7235,7 +7235,7 @@
       "category": "LPL",
       "cprt": 152,
       "pricing": {
-        "b2b": 250,
+        "b2b": 750,
         "b2c": 1500
       },
       "codes": [
@@ -7257,7 +7257,7 @@
       "category": "LPL",
       "cprt": 307,
       "pricing": {
-        "b2b": 450,
+        "b2b": 1500,
         "b2c": 3000
       },
       "codes": [
@@ -7281,7 +7281,7 @@
       "category": "LPL",
       "cprt": 364,
       "pricing": {
-        "b2b": 550,
+        "b2b": 1800,
         "b2c": 3600
       },
       "codes": [
@@ -7302,7 +7302,7 @@
       "category": "LPL",
       "cprt": 619,
       "pricing": {
-        "b2b": 800,
+        "b2b": 3000,
         "b2c": 6000
       },
       "codes": [
@@ -7325,7 +7325,7 @@
       "category": "LPL",
       "cprt": 12,
       "pricing": {
-        "b2b": 20,
+        "b2b": 125,
         "b2c": 250
       },
       "codes": [
@@ -7347,7 +7347,7 @@
       "category": "LPL",
       "cprt": 22,
       "pricing": {
-        "b2b": 35,
+        "b2b": 150,
         "b2c": 300
       },
       "codes": [
@@ -7373,7 +7373,7 @@
       "category": "LPL",
       "cprt": 13,
       "pricing": {
-        "b2b": 20,
+        "b2b": 125,
         "b2c": 250
       },
       "codes": [
@@ -7396,7 +7396,7 @@
       "category": "LPL",
       "cprt": 18,
       "pricing": {
-        "b2b": 30,
+        "b2b": 150,
         "b2c": 300
       },
       "codes": [
@@ -7416,7 +7416,7 @@
       "category": "LPL",
       "cprt": 22,
       "pricing": {
-        "b2b": 50,
+        "b2b": 250,
         "b2c": 500
       },
       "codes": [
@@ -7436,7 +7436,7 @@
       "category": "LPL",
       "cprt": 30,
       "pricing": {
-        "b2b": 25,
+        "b2b": 150,
         "b2c": 300
       },
       "codes": [
@@ -7457,7 +7457,7 @@
       "category": "LPL",
       "cprt": 81,
       "pricing": {
-        "b2b": 90,
+        "b2b": 400,
         "b2c": 800
       },
       "codes": [
@@ -7477,7 +7477,7 @@
       "category": "LPL",
       "cprt": 50,
       "pricing": {
-        "b2b": 45,
+        "b2b": 250,
         "b2c": 500
       },
       "codes": [

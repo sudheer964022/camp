@@ -327,10 +327,8 @@ for (let r = 1; r < lplP.length; r++) {
   if (!row || !row[1] || row[4] === undefined) continue;
   const name = String(row[1]).trim();
   const contents = String(row[2] || '').trim();
-  const cprt = row[3] !== undefined ? Number(Number(row[3]).toFixed(2)) : 0;
-  const rawB2b = row[4] !== undefined && row[4] !== null ? Number(row[4]) : 0;
-  const b2b = Number((rawB2b * 0.5).toFixed(2));
   const b2c = Math.round(Number(row[5]));
+  const b2b = Math.round(b2c * 0.5);
 
   const pId = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   let resolvedCodes = tokenize(contents).map(resolveCode).filter(c => allByCode[c.toUpperCase()]);
