@@ -18,14 +18,7 @@ export default function PrintProfilePage() {
   const [branding, setBranding] = useState(null);
   const [brandingOpen, setBrandingOpen] = useState(false);
   const [brandingForm, setBrandingForm] = useState({ name: '', phone: '', address: '', logo: null });
-  const [shareModalOpen, setShareModalOpen] = useState(false);
-  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
-  const [feedbackMsg, setFeedbackMsg] = useState('');
-
-  const showFeedback = (msg) => {
-    setFeedbackMsg(msg);
-    setTimeout(() => setFeedbackMsg(''), 3500);
-  };
+  const [isSharing, setIsSharing] = useState(false);
 
   const packageById = useMemo(() => {
     return Object.fromEntries((catalogData.packages || []).map((p) => [p.id, p]));
@@ -208,181 +201,27 @@ export default function PrintProfilePage() {
     return url.toString();
   };
 
-  const loadHtml2Pdf = () => {
-    return new Promise((resolve, reject) => {
-      if (typeof window === 'undefined') return reject(new Error('Window not available'));
-      if (window.html2pdf) return resolve(window.html2pdf);
-
-      const existing = document.getElementById('html2pdf-script');
-      if (existing) {
-        if (window.html2pdf) return resolve(window.html2pdf);
-        existing.addEventListener('load', () => resolve(window.html2pdf));
-        existing.addEventListener('error', reject);
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.id = 'html2pdf-script';
-      script.src = '/assets/js/html2pdf.bundle.min.js';
-      script.onload = () => resolve(window.html2pdf);
-      script.onerror = () => {
-        const cdnScript = document.createElement('script');
-        cdnScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-        cdnScript.onload = () => resolve(window.html2pdf);
-        cdnScript.onerror = reject;
-        document.head.appendChild(cdnScript);
-      };
-      document.head.appendChild(script);
-    });
-  };
-
-  const generatePdfBlob = async () => {
-    const html2pdf = await loadHtml2Pdf();
-    const element = document.getElementById('sheet');
-    if (!element) throw new Error('Sheet element not found');
-
-    const brandName = (branding?.name || 'AVMLabs').trim().replace(/[^a-zA-Z0-9_-]/g, '_');
-    const safeDate = dateStr ? dateStr.replace(/[^a-zA-Z0-9]/g, '_') : 'Profile';
-    const filename = `${brandName}_Health_Profile_${safeDate}.pdf`;
-
-    const opt = {
-      margin: [6, 8, 8, 8],
-      filename: filename,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, logging: false },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
-    };
-
-    const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
-    return { blob: pdfBlob, filename };
-  };
-
-  const handleDownloadPdf = async () => {
-    if (isEmpty) {
-      showFeedback('No tests in profile to generate PDF');
-      return;
-    }
-    setIsGeneratingPdf(true);
-    try {
-      const { blob, filename } = await generatePdfBlob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      showFeedback('PDF downloaded successfully!');
-      setShareModalOpen(false);
-    } catch (err) {
-      console.error('PDF error:', err);
-      showFeedback('Direct PDF export error, opening Print to Save as PDF...');
-      handlePrint();
-    } finally {
-      setIsGeneratingPdf(false);
-    }
-  };
-
-  const handleSharePdfFile = async () => {
-    if (isEmpty) {
-      showFeedback('No tests in profile to share');
-      return;
-    }
-    setIsGeneratingPdf(true);
-    try {
-      const { blob, filename } = await generatePdfBlob();
-      const file = new File([blob], filename, { type: 'application/pdf' });
-      const brandTitle = branding?.name || 'AVMLabs';
-      const effectiveTotal = discountedPrice != null && discountedPrice > 0 ? discountedPrice : totalB2C;
-
-      if (typeof navigator !== 'undefined' && navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          title: `${brandTitle} — Health Profile PDF`,
-          text: `${brandTitle} Health Profile with ${items.length + bundlePkgs.length} items. Total: ₹${effectiveTotal}`,
-          files: [file],
-        });
-        showFeedback('PDF shared successfully!');
-        setShareModalOpen(false);
-        return;
-      }
-
-      // If browser doesn't support sharing raw files via navigator.share, download PDF and open WhatsApp
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      showFeedback('PDF downloaded! Sharing summary on WhatsApp...');
-      handleWhatsAppShare();
-    } catch (err) {
-      if (err && err.name !== 'AbortError') {
-        console.error('Share PDF error:', err);
-        handleWhatsAppShare();
-      }
-    } finally {
-      setIsGeneratingPdf(false);
-    }
-  };
-
-  const handleWhatsAppShare = () => {
-    const brandTitle = branding?.name || 'AVMLabs';
+  const handleShare = async () => {
+    const totalCount = items.length + bundlePkgs.length;
+    const shareUrl = getShareUrl() || (typeof window !== 'undefined' ? window.location.href : '');
     const effectiveTotal = discountedPrice != null && discountedPrice > 0 ? discountedPrice : totalB2C;
+    const brandName = branding?.name || 'AVMLabs';
 
-    let msg = `*${brandTitle.toUpperCase()} - HEALTH PROFILE*\n`;
-    msg += `📅 Date: ${dateStr}\n\n`;
-
-    if (bundlePkgs.length > 0) {
-      msg += `*Included Packages:*\n`;
-      bundlePkgs.forEach((p) => {
-        msg += `• ${p.name} (₹${p.pricing?.b2c || 0})\n`;
-      });
-      msg += `\n`;
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share({
+          title: `${brandName} — Health Profile`,
+          text: `${brandName} Health Profile with ${totalCount} items. Total: ₹${effectiveTotal}`,
+          url: shareUrl,
+        });
+      } catch (err) {
+        if (err && err.name !== 'AbortError') {
+          handlePrint();
+        }
+      }
+    } else {
+      handlePrint();
     }
-
-    if (items.length > 0) {
-      msg += `*Included Tests:*\n`;
-      items.forEach((t) => {
-        msg += `• ${t.name} (₹${t.b2c || 0})\n`;
-      });
-      msg += `\n`;
-    }
-
-    msg += `*Total Amount:* ₹${effectiveTotal}\n`;
-    if (discountedPrice != null && discountedPrice > 0 && discountedPrice !== totalB2C) {
-      msg += `_(Standard MRP: ₹${totalB2C})_\n`;
-    }
-
-    if (fastingItems.length > 0) {
-      msg += `\n⚠️ *Fasting Required:* 8–10 hours overnight fasting recommended.\n`;
-    }
-
-    const shareUrl = getShareUrl();
-    if (shareUrl) {
-      msg += `\n📄 *View & Print Full Profile Online:* \n${shareUrl}\n`;
-    }
-
-    const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
-    window.open(waUrl, '_blank');
-    setShareModalOpen(false);
-  };
-
-  const handleCopyLink = async () => {
-    const shareUrl = getShareUrl();
-    try {
-      await navigator.clipboard.writeText(shareUrl);
-      showFeedback('Shareable link copied to clipboard!');
-    } catch (err) {
-      showFeedback('Link generated: ' + shareUrl);
-    }
-  };
-
-  const handleShare = () => {
-    setShareModalOpen(true);
   };
 
   const handleSaveBranding = () => {
@@ -655,14 +494,6 @@ export default function PrintProfilePage() {
         </footer>
       </div>
 
-      {/* Toast Feedback */}
-      {feedbackMsg && (
-        <div className="print:hidden fixed top-5 left-1/2 -translate-x-1/2 bg-navy text-white px-4 py-2 rounded-[7px] shadow-2xl text-xs sm:text-sm font-semibold z-50 flex items-center gap-2 border border-white/20 animate-fade-in">
-          <span>✨</span>
-          <span>{feedbackMsg}</span>
-        </div>
-      )}
-
       <div className="print:hidden fixed bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 bg-navy text-white px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-[7px] shadow-2xl flex items-center justify-center flex-nowrap whitespace-nowrap gap-1.5 sm:gap-2.5 z-50 text-xs sm:text-sm max-w-[calc(100vw-1rem)]">
         <span className="hidden md:inline text-white/70 mr-1">Customer copy — test name &amp; price only</span>
         <button
@@ -674,31 +505,10 @@ export default function PrintProfilePage() {
         </button>
         <button
           type="button"
-          onClick={handleDownloadPdf}
-          disabled={isGeneratingPdf}
-          className="px-2.5 sm:px-3 py-1.5 rounded-[7px] bg-emerald-600 hover:bg-emerald-500 text-white font-bold shrink-0 shadow transition-all cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
-          title="Directly download PDF file"
-        >
-          {isGeneratingPdf ? (
-            <>
-              <span className="inline-block animate-spin">⏳</span>
-              <span>Saving PDF...</span>
-            </>
-          ) : (
-            <>
-              <span>📄</span>
-              <span>Download PDF</span>
-            </>
-          )}
-        </button>
-        <button
-          type="button"
           onClick={handleShare}
-          className="px-2.5 sm:px-3.5 py-1.5 rounded-[7px] bg-white/15 hover:bg-white/25 text-white font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1"
-          title="Share on WhatsApp, copy link, or send PDF"
+          className="px-2 sm:px-3 py-1.5 rounded-[7px] bg-white/10 hover:bg-white/20 text-white font-medium shrink-0 transition-all cursor-pointer"
         >
-          <span>📤</span>
-          <span>Share</span>
+          📤 Share
         </button>
         <button
           type="button"
@@ -823,145 +633,6 @@ export default function PrintProfilePage() {
                   Save branding
                 </button>
               </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Share & Export Modal */}
-      {shareModalOpen && (
-        <div className="print:hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs">
-          <div className="bg-white rounded-[10px] border border-line p-5 sm:p-6 max-w-md w-full shadow-2xl animate-fade-in">
-            <div className="flex items-center justify-between pb-3 border-b border-line">
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-navy flex items-center gap-2">
-                  <span>📤</span>
-                  <span>Share Health Profile</span>
-                </h3>
-                <p className="text-xs text-ink-soft mt-0.5">
-                  Export as PDF or send directly to customer
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShareModalOpen(false)}
-                className="text-ink-soft hover:text-navy text-lg font-bold p-1 cursor-pointer"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="mt-4 space-y-2.5 text-xs sm:text-sm">
-              {/* Option 1: Direct Download PDF */}
-              <button
-                type="button"
-                onClick={handleDownloadPdf}
-                disabled={isGeneratingPdf}
-                className="w-full flex items-center justify-between p-3 rounded-[8px] border border-line hover:border-emerald-600 hover:bg-emerald-50/50 transition-all text-left cursor-pointer group disabled:opacity-60"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg font-bold">
-                    📄
-                  </div>
-                  <div>
-                    <strong className="block text-navy font-semibold text-sm group-hover:text-emerald-700">
-                      Download PDF File
-                    </strong>
-                    <span className="text-ink-soft text-xs">
-                      Save clean A4 PDF document to device
-                    </span>
-                  </div>
-                </div>
-                <span className="text-xs font-semibold text-emerald-700 group-hover:translate-x-0.5 transition-transform">
-                  &rarr;
-                </span>
-              </button>
-
-              {/* Option 2: Share via WhatsApp */}
-              <button
-                type="button"
-                onClick={handleWhatsAppShare}
-                className="w-full flex items-center justify-between p-3 rounded-[8px] border border-line hover:border-[#25D366] hover:bg-green-50/40 transition-all text-left cursor-pointer group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#25D366]/15 text-[#25D366] flex items-center justify-center text-lg font-bold">
-                    💬
-                  </div>
-                  <div>
-                    <strong className="block text-navy font-semibold text-sm group-hover:text-green-700">
-                      Share via WhatsApp
-                    </strong>
-                    <span className="text-ink-soft text-xs">
-                      Send quotation card with tests, prices &amp; direct link
-                    </span>
-                  </div>
-                </div>
-                <span className="text-xs font-semibold text-[#25D366] group-hover:translate-x-0.5 transition-transform">
-                  &rarr;
-                </span>
-              </button>
-
-              {/* Option 3: Send PDF via Apps */}
-              <button
-                type="button"
-                onClick={handleSharePdfFile}
-                disabled={isGeneratingPdf}
-                className="w-full flex items-center justify-between p-3 rounded-[8px] border border-line hover:border-navy hover:bg-navy/5 transition-all text-left cursor-pointer group disabled:opacity-60"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-navy/10 text-navy flex items-center justify-center text-lg font-bold">
-                    📱
-                  </div>
-                  <div>
-                    <strong className="block text-navy font-semibold text-sm">
-                      Send PDF via Apps
-                    </strong>
-                    <span className="text-ink-soft text-xs">
-                      Native share sheet with PDF attached (Mobile)
-                    </span>
-                  </div>
-                </div>
-                <span className="text-xs font-semibold text-navy group-hover:translate-x-0.5 transition-transform">
-                  &rarr;
-                </span>
-              </button>
-
-              {/* Option 4: Copy Shareable Link */}
-              <button
-                type="button"
-                onClick={handleCopyLink}
-                className="w-full flex items-center justify-between p-3 rounded-[8px] border border-line hover:border-teal hover:bg-teal-50/50 transition-all text-left cursor-pointer group"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-teal-100 text-teal-800 flex items-center justify-center text-lg font-bold">
-                    🔗
-                  </div>
-                  <div>
-                    <strong className="block text-navy font-semibold text-sm group-hover:text-teal-800">
-                      Copy Profile Link
-                    </strong>
-                    <span className="text-ink-soft text-xs">
-                      Copies URL that opens these tests on any browser
-                    </span>
-                  </div>
-                </div>
-                <span className="text-xs font-semibold text-teal-800 group-hover:translate-x-0.5 transition-transform">
-                  &rarr;
-                </span>
-              </button>
-            </div>
-
-            <div className="mt-5 pt-3 border-t border-line flex items-center justify-between text-xs">
-              <span className="text-ink-soft">
-                Tip: You can also choose <b>"Save as PDF"</b> in Print dialog.
-              </span>
-              <button
-                type="button"
-                onClick={() => setShareModalOpen(false)}
-                className="px-3.5 py-1.5 rounded-[5px] bg-gray-100 hover:bg-gray-200 font-medium text-ink cursor-pointer"
-              >
-                Close
-              </button>
             </div>
           </div>
         </div>
