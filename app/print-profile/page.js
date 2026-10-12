@@ -505,13 +505,6 @@ export default function PrintProfilePage() {
         </button>
         <button
           type="button"
-          onClick={handleShare}
-          className="px-2 sm:px-3 py-1.5 rounded-[7px] bg-white/10 hover:bg-white/20 text-white font-medium shrink-0 transition-all cursor-pointer"
-        >
-          📤 Share
-        </button>
-        <button
-          type="button"
           onClick={handleClose}
           className="px-2 sm:px-3 py-1.5 rounded-[7px] bg-white/10 hover:bg-white/20 text-white font-medium shrink-0 transition-all cursor-pointer"
         >
