@@ -1,0 +1,221 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 600" role="img" aria-labelledby="t d">
+  <title id="t">AVMLabs Health Check-up Camp</title>
+  <desc id="d">Illustration of an AVMLabs health camp: a red-and-white canopy, a phlebotomist collecting a blood sample from a seated participant, a queue of people waiting, sample tubes and a cool box.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#241A7A"/>
+      <stop offset="1" stop-color="#3B2FA8"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2C2290"/>
+      <stop offset="1" stop-color="#211873"/>
+    </linearGradient>
+    <clipPath id="roofClip"><path d="M930 150 H1390 L1460 232 H860 Z"/></clipPath>
+    <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.6" fill="#FFFFFF" opacity=".09"/>
+    </pattern>
+    <!-- standing person body (shirt uses currentColor) -->
+    <symbol id="stand" viewBox="0 0 60 190">
+      <rect x="17" y="112" width="11" height="74" rx="5" fill="#1B154F"/>
+      <rect x="32" y="112" width="11" height="74" rx="5" fill="#1B154F"/>
+      <path d="M10 52 Q10 40 22 38 H38 Q50 40 50 52 L52 118 H8 Z" fill="currentColor"/>
+      <rect x="2" y="50" width="10" height="56" rx="5" fill="currentColor"/>
+      <rect x="48" y="50" width="10" height="56" rx="5" fill="currentColor"/>
+    </symbol>
+  </defs>
+
+  <!-- background -->
+  <rect width="1600" height="600" fill="url(#sky)"/>
+  <rect width="1600" height="600" fill="url(#dots)"/>
+  <circle cx="1480" cy="96" r="150" fill="#FFFFFF" opacity=".05"/>
+  <circle cx="1480" cy="96" r="90" fill="#FFFFFF" opacity=".06"/>
+  <circle cx="-40" cy="620" r="260" fill="#E02029" opacity=".18"/>
+  <!-- bunting -->
+  <path d="M690 60 Q880 112 1070 84" fill="none" stroke="#FFFFFF" stroke-opacity=".35" stroke-width="2"/>
+  <g opacity=".9">
+    <path d="M712 67 l22 2 -12 20z" fill="#E02029"/>
+    <path d="M758 79 l22 2 -12 20z" fill="#FFFFFF"/>
+    <path d="M804 89 l22 2 -12 20z" fill="#E02029"/>
+    <path d="M850 95 l22 2 -12 20z" fill="#FFFFFF"/>
+    <path d="M896 98 l22 2 -12 20z" fill="#E02029"/>
+    <path d="M942 98 l22 2 -12 20z" fill="#FFFFFF"/>
+    <path d="M988 95 l22 2 -12 20z" fill="#E02029"/>
+    <path d="M1034 90 l22 2 -12 20z" fill="#FFFFFF"/>
+  </g>
+
+  <!-- ground -->
+  <path d="M0 520 Q800 490 1600 520 V600 H0 Z" fill="url(#ground)"/>
+  <ellipse cx="1160" cy="524" rx="380" ry="16" fill="#140F4D" opacity=".45"/>
+
+  <!-- ====== Left copy ====== -->
+  <g font-family="'Plus Jakarta Sans','Segoe UI',Arial,sans-serif">
+    <rect x="72" y="92" width="268" height="40" rx="20" fill="#E02029"/>
+    <text x="206" y="118" text-anchor="middle" font-size="16" font-weight="700" fill="#FFFFFF" letter-spacing="2">AVMLABS PRESENTS</text>
+    <text x="72" y="208" font-size="68" font-weight="800" fill="#FFFFFF">Health</text>
+    <text x="72" y="282" font-size="68" font-weight="800" fill="#FFFFFF">Check-up Camp</text>
+    <rect x="74" y="306" width="96" height="6" rx="3" fill="#E02029"/>
+    <text x="72" y="354" font-size="24" font-weight="500" fill="#DCD8FF">Hormones  •  Vitamins  •  Wellness</text>
+    <g font-size="17" font-weight="600" fill="#FFFFFF">
+      <rect x="72" y="388" width="206" height="44" rx="22" fill="#FFFFFF" fill-opacity=".12" stroke="#FFFFFF" stroke-opacity=".3"/>
+      <circle cx="96" cy="410" r="7" fill="#E02029"/>
+      <text x="112" y="416">Blood tests on site</text>
+      <rect x="290" y="388" width="212" height="44" rx="22" fill="#FFFFFF" fill-opacity=".12" stroke="#FFFFFF" stroke-opacity=".3"/>
+      <circle cx="314" cy="410" r="7" fill="#E02029"/>
+      <text x="330" y="416">Special camp rates</text>
+      <rect x="72" y="444" width="170" height="44" rx="22" fill="#FFFFFF" fill-opacity=".12" stroke="#FFFFFF" stroke-opacity=".3"/>
+      <circle cx="96" cy="466" r="7" fill="#E02029"/>
+      <text x="112" y="472">Digital reports</text>
+      <rect x="254" y="444" width="224" height="44" rx="22" fill="#FFFFFF" fill-opacity=".12" stroke="#FFFFFF" stroke-opacity=".3"/>
+      <circle cx="278" cy="466" r="7" fill="#E02029"/>
+      <text x="294" y="472">Expert phlebotomists</text>
+    </g>
+  </g>
+
+  <!-- ====== Queue (left of tent) ====== -->
+  <g>
+    <!-- person 1 (back) -->
+    <use href="#stand" x="700" y="330" width="56" height="178" color="#6E63D9"/>
+    <circle cx="728" cy="350" r="17" fill="#8D5A3E"/>
+    <path d="M711 347 Q712 330 728 330 Q745 330 745 347 Q737 338 728 339 Q719 339 711 347Z" fill="#1B154F"/>
+    <!-- person 2 -->
+    <use href="#stand" x="760" y="318" width="60" height="190" color="#F2F0FF"/>
+    <circle cx="790" cy="338" r="18" fill="#C68B6A"/>
+    <path d="M771 336 Q770 316 790 316 Q810 316 809 336 Q808 352 812 362 Q800 350 790 330 Q780 350 768 362 Q772 350 771 336Z" fill="#2B1B12"/>
+    <!-- person 3 (front, with token slip) -->
+    <use href="#stand" x="822" y="326" width="58" height="184" color="#E8505A"/>
+    <circle cx="851" cy="346" r="17" fill="#A86F4F"/>
+    <path d="M834 343 Q835 327 851 327 Q868 327 868 343 Q860 334 851 335 Q842 335 834 343Z" fill="#3A2A20"/>
+    <rect x="866" y="408" width="16" height="22" rx="2" fill="#FFFFFF"/>
+    <rect x="869" y="413" width="10" height="2" fill="#352999"/>
+    <rect x="869" y="418" width="7" height="2" fill="#352999"/>
+  </g>
+
+  <!-- ====== Canopy ====== -->
+  <g>
+    <!-- poles -->
+    <rect x="872" y="226" width="10" height="296" rx="3" fill="#E7E5F7"/>
+    <rect x="1438" y="226" width="10" height="296" rx="3" fill="#E7E5F7"/>
+    <!-- roof -->
+    <path d="M930 150 H1390 L1460 232 H860 Z" fill="#E02029"/>
+    <g clip-path="url(#roofClip)" fill="#FFFFFF">
+      <path d="M948 150 h36 l-34 82 h-40z"/>
+      <path d="M1040 150 h36 l-20 82 h-40z"/>
+      <path d="M1132 150 h36 l-6 82 h-40z"/>
+      <path d="M1224 150 h36 l8 82 h-40z"/>
+      <path d="M1316 150 h36 l22 82 h-40z"/>
+    </g>
+    <path d="M930 150 H1390" stroke="#B8141C" stroke-width="4"/>
+    <!-- valance scallops -->
+    <g>
+      <path d="M860 232 h600 v14 H860z" fill="#B8141C"/>
+      <path d="M860 246 a25 18 0 0 0 50 0z M960 246 a25 18 0 0 0 50 0z M1060 246 a25 18 0 0 0 50 0z M1160 246 a25 18 0 0 0 50 0z M1260 246 a25 18 0 0 0 50 0z M1360 246 a25 18 0 0 0 50 0z" fill="#E02029"/>
+      <path d="M910 246 a25 18 0 0 0 50 0z M1010 246 a25 18 0 0 0 50 0z M1110 246 a25 18 0 0 0 50 0z M1210 246 a25 18 0 0 0 50 0z M1310 246 a25 18 0 0 0 50 0z M1410 246 a25 18 0 0 0 50 0z" fill="#FFFFFF"/>
+    </g>
+    <!-- roof sign -->
+    <rect x="1086" y="104" width="148" height="44" rx="8" fill="#FFFFFF" stroke="#352999" stroke-width="3"/>
+    <rect x="1156" y="148" width="8" height="6" fill="#FFFFFF"/>
+    <text x="1160" y="134" text-anchor="middle" font-family="'Plus Jakarta Sans','Segoe UI',Arial,sans-serif" font-size="22" font-weight="800" fill="#352999">AVM<tspan fill="#E02029">Labs</tspan></text>
+    <!-- back drop banner -->
+    <rect x="980" y="270" width="360" height="40" rx="6" fill="#FFFFFF"/>
+    <rect x="980" y="270" width="10" height="40" rx="3" fill="#E02029"/>
+    <text x="1165" y="297" text-anchor="middle" font-family="'Plus Jakarta Sans','Segoe UI',Arial,sans-serif" font-size="18" font-weight="800" fill="#352999" letter-spacing="1.5">HEALTH CHECK-UP CAMP</text>
+    <line x1="922" y1="262" x2="980" y2="282" stroke="#E7E5F7" stroke-width="2"/>
+    <line x1="1398" y1="262" x2="1340" y2="282" stroke="#E7E5F7" stroke-width="2"/>
+  </g>
+
+  <!-- ====== Phlebotomist (behind table) ====== -->
+  <g>
+    <rect x="1120" y="395" width="74" height="30" fill="#FFFFFF"/>
+    <path d="M1118 400 Q1116 372 1138 368 H1176 Q1198 372 1196 400 L1198 424 H1116 Z" fill="#FFFFFF"/>
+    <path d="M1148 368 L1157 392 L1166 368" fill="none" stroke="#352999" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M1138 374 Q1134 402 1150 404" fill="none" stroke="#352999" stroke-width="3"/>
+    <circle cx="1151" cy="405" r="4" fill="#352999"/>
+    <circle cx="1157" cy="344" r="20" fill="#C68B6A"/>
+    <path d="M1136 340 Q1138 318 1157 318 Q1178 318 1178 340 Q1166 330 1157 331 Q1146 331 1136 340Z" fill="#352999"/>
+    <rect x="1140" y="348" width="34" height="14" rx="5" fill="#BDE3F5"/>
+    <!-- arms reaching to the participant's arm -->
+    <path d="M1122 386 Q1100 400 1090 410" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" fill="none"/>
+    <circle cx="1088" cy="410" r="7" fill="#C68B6A"/>
+    <path d="M1190 388 Q1180 404 1110 408" stroke="#FFFFFF" stroke-width="13" stroke-linecap="round" fill="none"/>
+    <circle cx="1108" cy="408" r="6.5" fill="#C68B6A"/>
+  </g>
+
+  <!-- ====== Table ====== -->
+  <rect x="990" y="418" width="330" height="14" rx="4" fill="#FFFFFF"/>
+  <path d="M998 432 H1312 V516 H998Z" fill="#EEECFA"/>
+  <rect x="998" y="452" width="314" height="10" fill="#E02029"/>
+  <text x="1155" y="496" text-anchor="middle" font-family="'Plus Jakarta Sans','Segoe UI',Arial,sans-serif" font-size="18" font-weight="800" fill="#352999">Sample Collection</text>
+
+  <!-- tube rack -->
+  <g>
+    <rect x="1212" y="404" width="78" height="16" rx="3" fill="#352999"/>
+    <rect x="1218" y="376" width="9" height="32" rx="4" fill="#E9F1FF" stroke="#C9CDE8"/>
+    <rect x="1218" y="372" width="9" height="8" rx="2" fill="#E02029"/>
+    <rect x="1233" y="376" width="9" height="32" rx="4" fill="#E9F1FF" stroke="#C9CDE8"/>
+    <rect x="1233" y="372" width="9" height="8" rx="2" fill="#7B3FC4"/>
+    <rect x="1248" y="376" width="9" height="32" rx="4" fill="#E9F1FF" stroke="#C9CDE8"/>
+    <rect x="1248" y="372" width="9" height="8" rx="2" fill="#8D93A8"/>
+    <rect x="1263" y="376" width="9" height="32" rx="4" fill="#E9F1FF" stroke="#C9CDE8"/>
+    <rect x="1263" y="372" width="9" height="8" rx="2" fill="#F2C318"/>
+    <rect x="1278" y="376" width="9" height="32" rx="4" fill="#E9F1FF" stroke="#C9CDE8"/>
+    <rect x="1278" y="372" width="9" height="8" rx="2" fill="#E02029"/>
+  </g>
+  <!-- clipboard -->
+  <rect x="1028" y="402" width="26" height="18" rx="2" fill="#FFFFFF" stroke="#352999" stroke-width="2" transform="rotate(-8 1041 411)"/>
+
+  <!-- ====== Seated participant ====== -->
+  <g>
+    <!-- chair -->
+    <rect x="924" y="446" width="66" height="10" rx="4" fill="#9E97E8"/>
+    <rect x="928" y="380" width="10" height="76" rx="4" fill="#9E97E8"/>
+    <rect x="930" y="456" width="7" height="62" fill="#9E97E8"/>
+    <rect x="980" y="456" width="7" height="62" fill="#9E97E8"/>
+    <!-- legs -->
+    <path d="M948 446 H1004 V508" stroke="#1B154F" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M960 444 H1014 V508" stroke="#241C66" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <rect x="996" y="506" width="26" height="9" rx="4" fill="#0F0B33"/>
+    <!-- torso -->
+    <path d="M944 448 Q940 398 952 384 Q964 372 980 376 Q994 382 994 404 L990 450 Z" fill="#F4B63F"/>
+    <!-- arm extended to the table -->
+    <path d="M982 396 Q1020 410 1080 412" stroke="#F4B63F" stroke-width="15" stroke-linecap="round" fill="none"/>
+    <path d="M1040 411 L1084 412" stroke="#A86F4F" stroke-width="12" stroke-linecap="round"/>
+    <rect x="1034" y="404" width="7" height="15" rx="2" fill="#4A63E0"/>
+    <!-- head -->
+    <circle cx="972" cy="356" r="19" fill="#A86F4F"/>
+    <path d="M952 354 Q950 334 972 334 Q994 334 992 352 Q982 344 972 345 Q960 345 952 354Z" fill="#1A1210"/>
+  </g>
+
+  <!-- ====== Cool box & roll-up standee ====== -->
+  <g>
+    <rect x="1336" y="460" width="78" height="56" rx="7" fill="#FFFFFF"/>
+    <rect x="1336" y="460" width="78" height="14" rx="6" fill="#E02029"/>
+    <rect x="1362" y="452" width="26" height="10" rx="4" fill="none" stroke="#FFFFFF" stroke-width="4"/>
+    <path d="M1375 484 v20 M1365 494 h20" stroke="#352999" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="1478" y="300" width="86" height="216" rx="4" fill="#FFFFFF"/>
+    <rect x="1478" y="300" width="86" height="40" rx="4" fill="#E02029"/>
+        <path d="M1521 308 v24 M1509 320 h24" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round"/>
+    <g font-family="'Plus Jakarta Sans','Segoe UI',Arial,sans-serif" font-weight="800" fill="#352999" text-anchor="middle">
+      <text x="1521" y="378" font-size="15">HEALTH</text>
+      <text x="1521" y="400" font-size="15">CAMP</text>
+      <text x="1521" y="426" font-size="13" fill="#E02029">TODAY</text>
+    </g>
+    <rect x="1494" y="446" width="54" height="5" rx="2" fill="#E02029"/>
+    <rect x="1494" y="458" width="40" height="5" rx="2" fill="#C9C4F2"/>
+    <rect x="1494" y="470" width="48" height="5" rx="2" fill="#C9C4F2"/>
+    <rect x="1472" y="512" width="98" height="10" rx="4" fill="#C9C4F2"/>
+  </g>
+
+  <!-- floating icons -->
+  <g opacity=".9">
+    <g transform="translate(640 150)">
+      <path d="M0 -22 C14 -4 18 6 18 12 A18 18 0 0 1 -18 12 C-18 6 -14 -4 0 -22Z" fill="#E02029"/>
+      <path d="M-7 10 A8 8 0 0 0 1 18" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+    <g transform="translate(600 470)">
+      <circle r="24" fill="#FFFFFF" fill-opacity=".12"/>
+      <path d="M-12 0 h7 l4 -9 l6 18 l4 -9 h7" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

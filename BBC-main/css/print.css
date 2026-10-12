@@ -1,0 +1,299 @@
+/* AVMLabs print-profile page — standalone, loaded only by pages/print-profile.html */
+
+/* Kept as its own standalone token set (not @import-ing variables.css) so
+   the print page never depends on the main site's 4-file import chain —
+   but the values themselves should still match the current brand tokens.
+   Sync these by hand against css/variables.css if the brand palette ever
+   changes; --line/--paper/--profit-bg had drifted from it before. */
+:root{
+  --navy:#0E2238;
+  --navy-2:#173A5A;
+  --amber:#DB8A34;
+  --ink:#101C27;
+  --ink-soft:#39474F;
+  --ink-faint:#5B6971;
+  --line:#D2D5D9;
+  --paper:#EFF0F2;
+  --profit:#1B5FA8;
+  --profit-bg:#E2ECF7;
+  --zebra:#F6F7F8;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  font-family:'Poppins', Arial, sans-serif;
+  color:var(--ink);
+  background:var(--paper);
+  margin:0;
+  padding:28px 16px 60px;
+}
+
+/* ================= ON-SCREEN SHEET CHROME ================= */
+.sheet{
+  position:relative;
+  max-width:860px;
+  margin:0 auto;
+  background:#fff;
+  padding:0 44px 32px;
+  border-radius:10px;
+  box-shadow:0 20px 50px -24px rgba(14,34,56,.35);
+  /* Clips the accent bar's square bottom edge to the sheet's own rounded
+     top corners, instead of it sitting as a visible square-cornered strip
+     on top of a rounded card. */
+  overflow:hidden;
+}
+/* Brand accent bar — the one spot of color before the customer reads a
+   single word, so the page reads as branded stationery, not a plain
+   printout. Bleeds edge-to-edge via a negative margin matched to the
+   sheet's own 44px side padding (see the print override below, where
+   that padding is reset to 0 and this margin is reset to match). */
+.sheet::before{
+  content:"";
+  display:block;
+  height:5px;
+  margin:0 -44px;
+  background:linear-gradient(90deg, var(--navy) 0%, var(--navy-2) 55%, var(--amber) 100%);
+}
+
+/* ================= LETTERHEAD ================= */
+.letterhead{
+  display:flex; align-items:flex-start; justify-content:space-between;
+  gap:20px; padding-top:26px; padding-bottom:18px; margin-bottom:18px;
+  border-bottom:2.5px solid var(--navy);
+}
+.letterhead__brand{ display:flex; align-items:center; gap:18px; }
+.letterhead__logo{ height:72px; max-width:240px; width:auto; object-fit:contain; display:block; }
+.letterhead__logo-fallback{
+  width:64px; height:64px; border-radius:50%; background:var(--navy); color:#fff;
+  display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:700; flex:none;
+  box-shadow:0 0 0 3px var(--profit-bg);
+}
+.letterhead__name{ margin:0; font-size:19px; font-weight:700; color:var(--navy); letter-spacing:-0.01em; }
+.letterhead__tag{ margin:5px 0 0; font-size:11px; color:var(--ink-faint); }
+.letterhead__tag-line{ display:flex; align-items:center; gap:5px; }
+.letterhead__tag-line + .letterhead__tag-line{ margin-top:3px; }
+.letterhead__doc{ text-align:right; }
+.letterhead__title{ margin:0; font-size:16px; font-weight:700; color:var(--navy); }
+.letterhead__meta{ margin:5px 0 0; font-size:11px; color:var(--ink-faint); }
+.letterhead__meta b{ color:var(--ink-soft); font-weight:600; }
+
+/* ================= FASTING ADVISORY ================= */
+/* Only shown when at least one test in the profile actually needs it (see
+   print.js) — an amber callout so it reads as a heads-up, not just another
+   line of body text. Sits below the priced table and its total, as the
+   last thing before the footer's own collection note. */
+.fasting-note{
+  display:flex; align-items:center; gap:10px;
+  margin:18px 0 0; padding:10px 14px; border-radius:8px;
+  background:#FBF0E1; border:1px solid #F0CC98;
+}
+/* Same `display` vs `[hidden]` precedence gotcha as .total-card__line
+   above — without this, the banner stays visible even while `hidden`. */
+.fasting-note[hidden]{ display:none !important; }
+.fasting-note__icon{
+  flex:none; width:26px; height:26px; border-radius:50%;
+  background:var(--amber); color:#fff;
+  display:flex; align-items:center; justify-content:center; font-size:13px;
+}
+.fasting-note__text{ color:#7A4B12; font-size:12.5px; font-weight:700; }
+
+/* ================= TABLE ================= */
+/* table-layout:fixed makes column widths purely a function of the
+   <colgroup> below, never of cell content. */
+/* border-bottom closes the table off now that there's no tfoot totals row
+   (removed — the summary cards below are the one place totals show). */
+table{ width:100%; border-collapse:collapse; table-layout:fixed; border-bottom:2px solid var(--navy); }
+colgroup .c-sr{ width:6%; }
+colgroup .c-name{ width:70%; }
+colgroup .c-price{ width:24%; }
+
+thead th{
+  text-align:left; font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;
+  color:#fff; background:var(--navy); padding:10px 8px;
+}
+thead th:first-child{ border-radius:6px 0 0 0; }
+thead th:last-child{ border-radius:0 6px 0 0; }
+thead th.num{ text-align:right; }
+
+tbody td{ padding:9px 8px; border-bottom:1px solid var(--line); font-size:12.5px; vertical-align:top; }
+tbody tr:nth-child(even){ background:var(--zebra); }
+tbody tr{ break-inside:avoid; }
+
+.sr{ color:var(--ink-faint); font-variant-numeric:tabular-nums; }
+.name{ font-weight:500; color:var(--ink); }
+.num{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+/* Scoped to body cells only — thead th.num shares the .num class purely
+   for its text-align:right, and must keep the header's own white/bold
+   styling rather than picking up navy-on-navy from this. */
+tbody .num{ font-weight:600; color:var(--navy); }
+
+/* Common-panel block — one per group from groupCartItems (see print.js):
+   a bordered card with a "Panel Name · Price" heading bar over a plain
+   line listing every test (and calculated extra) it includes, rather
+   than a full priced row per test — the panel price already covers all
+   of them. The flex layout lives on inner divs, not the <td> itself — a
+   <td> with display:flex doesn't reliably fill its column span. The
+   heading's colspan is set in JS to match the table's column count (see
+   print.js). break-after:avoid is a best-effort nudge to keep the block
+   from splitting across a page break. */
+.row-group-head{ break-inside:avoid; break-after:avoid; }
+.row-group-head td{ padding:7px 6px; border-bottom:1px solid var(--line); }
+.group-card{
+  border:1px solid var(--line); border-radius:8px;
+  overflow:hidden; /* clips both children to the card's own rounded corners */
+}
+.group-head{
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  background:var(--profit-bg); padding:10px 12px;
+}
+.group-head__name{ font-weight:700; font-size:12.5px; color:var(--navy); }
+.group-head__price{ font-weight:700; font-size:13px; color:var(--profit); font-variant-numeric:tabular-nums; }
+.group-head__tests{ margin:0; padding:9px 12px; font-size:11.5px; color:var(--ink-soft); line-height:1.6; background:#fff; }
+.group-head__dot{ font-weight:700; color:var(--profit); margin:0 4px; font-size:17px; vertical-align:middle; line-height:0; display:inline-block; }
+/* A literal "*" inside a calculated parameter's own label (e.g. "eGFR
+   (For Adults*)") — a caveat marker, colored to stand out. This page
+   doesn't load components.css (its own standalone print.css only), so
+   it needs its own copy of this rule — see AVM.utils.formatters.
+   highlightAsterisk, which every render path (including this one)
+   wraps a calculatedParam's own "*" with. */
+.calc-star{ color:var(--amber); font-weight:800; }
+
+/* AVM Profile A/B/C and AVM Anemia A (see data.js's per-package `groups`)
+   break the flat .group-head__tests line above into one sub-block per
+   named panel they're built from — same breakdown the site's own
+   Profiles view shows (panels-table.js), so the printed/customer copy
+   matches what the person building the profile already saw on screen.
+   The outer wrapper carries the same 9px/12px inset .group-head__tests
+   has on its own above; the nested copy of that class drops its own
+   padding since the wrapper already provides it. */
+.group-head__groups{ padding:9px 12px 4px; background:#fff; }
+.group-head__group{ margin-top:8px; padding-left:10px; border-left:2px solid var(--line); }
+.group-head__group:first-child{ margin-top:0; }
+.group-head__group-label{ display:block; font-weight:700; font-size:11px; color:var(--navy); margin-bottom:1px; }
+.group-head__group .group-head__tests{ padding:0; margin-top:1px; }
+
+/* ================= TOTAL CARD ================= */
+/* The one figure a customer actually needs to walk away with — a single
+   dark hero card rather than a row of equal-weight boxes, so it reads as
+   the page's clear endpoint instead of one stat among several. */
+.total-card{
+  margin-top:20px; padding:14px 18px; border-radius:10px;
+  background:linear-gradient(135deg, var(--navy), var(--navy-2));
+  break-inside:avoid; /* keeps a page break from slicing through it */
+}
+.total-card__line{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+/* .total-card__line's own `display:flex` is author CSS, which beats the
+   UA stylesheet's `[hidden]{display:none}` regardless of specificity or
+   source order (see the same gotcha called out in print-profile.html's
+   own setVisible()) — without this, sumDiscountedCard stays visible even
+   while `hidden`. */
+.total-card__line[hidden]{ display:none !important; }
+.total-card__line + .total-card__line{ margin-top:8px; padding-top:8px; border-top:1px solid rgba(255,255,255,.2); }
+.total-card__line span{
+  font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; font-weight:700;
+  color:rgba(255,255,255,.65);
+}
+.total-card__line b{ font-size:20px; font-weight:700; color:#fff; font-variant-numeric:tabular-nums; }
+/* The discounted-price line (see print.js) is the one that should catch
+   the eye once it's showing — amber against the navy card, and a size
+   step up from the (now secondary) original-price line above it. */
+.total-card__line--highlight b{ color:#FFC876; font-size:23px; }
+/* Original price once a customer-copy discount is entered (see print.js)
+   — struck through and dimmed rather than fully hidden, so the customer
+   can still see what it would otherwise have cost. */
+.total-card__value--struck{ text-decoration:line-through; color:rgba(255,255,255,.55) !important; font-size:15px !important; font-weight:600 !important; }
+
+/* ================= EMPTY STATE ================= */
+.empty{ text-align:center; padding:60px 20px; color:var(--ink-soft); }
+.empty h2{ font-size:17px; color:var(--navy); margin:0 0 6px; }
+.empty p{ font-size:13px; margin:0; }
+
+/* ================= FOOTER NOTE ================= */
+.foot{ margin-top:26px; padding-top:14px; border-top:1px solid var(--line); }
+.foot p{ margin:0; font-size:10px; color:var(--ink-faint); line-height:1.5; }
+.foot p + p{ margin-top:5px; }
+.foot__icon{ color:var(--ink-faint); }
+.foot__brand{ font-weight:600; color:var(--ink-soft) !important; }
+
+/* ================= SCREEN-ONLY TOOLBAR ================= */
+.toolbar{
+  position:sticky; bottom:0; left:0; right:0;
+  max-width:860px; margin:18px auto 0;
+  display:flex; align-items:center; justify-content:flex-end; gap:14px;
+  background:#fff; padding:10px 14px; border-radius:8px; box-shadow:0 10px 30px -18px rgba(14,34,56,.35);
+}
+.toolbar__note{
+  margin-right:auto;
+  font-family:inherit; font-size:13px; font-weight:600; color:var(--ink-soft);
+}
+.toolbar button{
+  font-family:inherit; font-size:13px; font-weight:600; cursor:pointer;
+  padding:10px 18px; border-radius:8px; border:1.5px solid var(--line);
+  background:#fff; color:var(--ink-soft);
+}
+.toolbar button.primary{ background:var(--navy); border-color:var(--navy); color:#fff; }
+.toolbar button:hover{ opacity:.9; }
+.toolbar button:disabled{ opacity:.55; cursor:wait; }
+
+/* ================= BRANDING EDITOR (screen-only) ================= */
+.branding-overlay{
+  position:fixed; inset:0; background:rgba(14,34,56,.45); backdrop-filter:blur(2px);
+  opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:200;
+}
+.branding-overlay.open{ opacity:1; pointer-events:auto; }
+
+.branding-modal{
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:min(440px,92vw); max-height:88vh; overflow-y:auto;
+  background:#fff; border-radius:12px; box-shadow:0 30px 70px -20px rgba(14,34,56,.5);
+  z-index:201; padding:22px 24px;
+}
+.branding-modal__head h3{ margin:0 0 4px; font-size:17px; color:var(--navy); }
+.branding-modal__head p{ margin:0 0 18px; font-size:12.5px; color:var(--ink-faint); line-height:1.5; }
+
+.branding-field{ display:block; margin-bottom:14px; }
+.branding-field span{ display:block; font-size:11.5px; font-weight:600; color:var(--ink-soft); margin-bottom:5px; }
+.branding-field input[type="text"], .branding-field textarea{
+  width:100%; font-family:inherit; font-size:13.5px; color:var(--ink); padding:9px 11px;
+  border:1.5px solid var(--line); border-radius:7px; resize:vertical;
+}
+.branding-field input[type="text"]:focus, .branding-field textarea:focus{ outline:none; border-color:var(--navy); }
+
+.branding-logo-row{ display:flex; align-items:center; gap:12px; }
+.branding-logo-preview{
+  width:56px; height:56px; border-radius:10px; border:1.5px dashed var(--line); flex:none;
+  background-size:cover; background-position:center; background-repeat:no-repeat;
+  display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--ink-faint); text-align:center;
+}
+.branding-logo-row input[type="file"]{ font-size:12px; max-width:220px; }
+.branding-logo-clear{
+  display:block; margin-top:6px; background:none; border:none; padding:0;
+  font-size:11.5px; color:var(--ink-faint); text-decoration:underline; cursor:pointer;
+}
+
+.branding-modal__actions{ display:flex; align-items:center; justify-content:space-between; margin-top:6px; gap:10px; flex-wrap:wrap; }
+.branding-modal__actions-right{ display:flex; gap:8px; }
+.branding-btn-text{
+  background:none; border:none; padding:0; font-size:12.5px; color:var(--ink-faint);
+  text-decoration:underline; cursor:pointer;
+}
+.branding-modal__actions button:not(.branding-btn-text){
+  font-family:inherit; font-size:13px; font-weight:600; cursor:pointer;
+  padding:9px 16px; border-radius:8px; border:1.5px solid var(--line); background:#fff; color:var(--ink-soft);
+}
+.branding-modal__actions button.primary{ background:var(--navy); border-color:var(--navy); color:#fff; }
+
+/* ================= PRINT ================= */
+@media print{
+  @page{ size:A4; margin:14mm 12mm; }
+  body{ background:#fff; padding:0; }
+  .sheet{ box-shadow:none; border-radius:0; padding:0; max-width:none; }
+  /* .sheet's own side padding (what the -44px bleed above is matched to)
+     is zeroed for print, so the bar already spans full width on its own
+     — the negative margin would now just push it 44px past each edge. */
+  .sheet::before{ margin:0; }
+  .no-print{ display:none !important; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+}

@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #0E294B;
+  --color-navy-2: #163C66;
+  --color-navy-soft: #245285;
+  --color-paper: #EFF2F6;
+  --color-paper-2: #E4E8EE;
+  --color-card: #FFFFFF;
+  --color-amber: #F59E0B;
+  --color-amber-dark: #D97706;
+  --color-amber-bg: #FEF3C7;
+  --color-teal: #0284C7;
+  --color-teal-dark: #0369A1;
+  --color-teal-bg: #E0F2FE;
+  --color-emerald: #059669;
+  --color-emerald-dark: #047857;
+  --color-emerald-bg: #D1FAE5;
+  --color-cyan: #00D9FF;
+  --color-cyan-dark: #00B8D4;
+  --color-ink: #0F172A;
+  --color-ink-soft: #334155;
+  --color-ink-faint: #64748B;
+  --color-line: #CBD5E1;
+  --color-line-dark: #1E3A5F;
+  --color-profit: #059669;
+  --color-profit-bg: #ECFDF5;
+  --color-mono-chip: #E2E8F0;
+  --color-violet: #7C4FE0;
+  --color-violet-dark: #5E35B1;
+  --color-violet-bg: #F0EBFB;
+
+  --font-display: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'Poppins', monospace, system-ui, sans-serif;
+
+  --radius-xs: 8px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  --shadow-xs: 0 2px 6px -2px rgba(14, 34, 56, 0.15);
+  --shadow-sm: 0 8px 20px -12px rgba(14, 34, 56, 0.25);
+  --shadow-md: 0 18px 40px -22px rgba(14, 34, 56, 0.35);
+  --shadow-lg: 0 30px 60px -20px rgba(14, 34, 56, 0.4);
+}
+
+:root {
+  --navy: #0E294B;
+  --navy-2: #163C66;
+  --navy-soft: #245285;
+  --paper: #EFF2F6;
+  --paper-2: #E4E8EE;
+  --card: #FFFFFF;
+  --amber: #F59E0B;
+  --amber-dark: #D97706;
+  --amber-bg: #FEF3C7;
+  --teal: #0284C7;
+  --teal-dark: #0369A1;
+  --teal-bg: #E0F2FE;
+  --emerald: #059669;
+  --emerald-dark: #047857;
+  --emerald-bg: #D1FAE5;
+  --cyan: #00D9FF;
+  --cyan-dark: #00B8D4;
+  --ink: #0F172A;
+  --ink-soft: #334155;
+  --ink-faint: #64748B;
+  --line: #CBD5E1;
+  --line-dark: #1E3A5F;
+  --profit: #059669;
+  --profit-bg: #ECFDF5;
+  --mono-chip: #E2E8F0;
+  --violet: #7C4FE0;
+  --violet-dark: #5E35B1;
+  --violet-bg: #F0EBFB;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+@utility rl-table-grid {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1.7fr) 140px 72px 84px 104px 92px 96px 54px;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+@utility fr-table-grid {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1.8fr) 110px 130px 110px 54px;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+@utility glass-card {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+}
+
+@utility glass-dark {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0 !important;
+  }
+  body {
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+

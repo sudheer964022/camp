@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# Next.js build output and cache
+.next/
+dist/
+out/
+build/
+
+# misc
+.DS_Store
+Thumbs.db
+*.log
+scratch/
+.vercel
+.env*
+.env*.local
