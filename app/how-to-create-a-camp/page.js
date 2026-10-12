@@ -4,6 +4,13 @@ import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import CartDrawer from '../../components/CartDrawer';
+import TestDetailDrawer from '../../components/TestDetailDrawer';
+import catalogData from '../../lib/catalog.json';
+import {
+  packageOwning,
+  sanitizeStoredPackages
+} from '../../lib/profileGroups';
 
 const CHECKLIST_KEY = 'avm_camp_checklist';
 
@@ -85,6 +92,85 @@ const CHECKLIST_GROUPS = [
 ];
 
 export default function HowToCreateACamp() {
+  const [cart, setCart] = useState(new Map());
+  const [cartPackages, setCartPackages] = useState(new Set());
+  const [cartOpen, setCartOpen] = useState(false);
+  const [customerView, setCustomerView] = useState(false);
+  const [selectedTestDetail, setSelectedTestDetail] = useState(null);
+
+  const packageById = useMemo(() => {
+    return Object.fromEntries((catalogData.packages || []).map((p) => [p.id, p]));
+  }, []);
+
+  const catalogTestsByCode = useMemo(() => {
+    return Object.fromEntries((catalogData.tests || []).map((t) => [t.code, t]));
+  }, []);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('avm_profile');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          const map = new Map();
+          parsed.forEach((code) => {
+            const test = catalogData.tests.find((t) => t.code === code);
+            if (test) map.set(code, test);
+          });
+          setCart(map);
+        } else if (parsed && typeof parsed === 'object') {
+          const rawPackages = parsed.packages || [];
+          const sanitizedPkgs = sanitizeStoredPackages(rawPackages, catalogData.packages);
+
+          const map = new Map();
+          (parsed.codes || []).forEach((code) => {
+            const test = catalogData.tests.find((t) => t.code === code);
+            const isOwned = packageOwning(code, sanitizedPkgs, packageById, catalogTestsByCode);
+            if (test && !isOwned) map.set(code, test);
+          });
+
+          setCart(map);
+          setCartPackages(sanitizedPkgs);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to restore cart:', e);
+    }
+  }, [packageById, catalogTestsByCode]);
+
+  const saveState = (nextCart, nextPackages) => {
+    setCart(nextCart);
+    setCartPackages(nextPackages);
+    try {
+      localStorage.setItem('avm_profile', JSON.stringify({
+        codes: Array.from(nextCart.keys()),
+        packages: Array.from(nextPackages)
+      }));
+    } catch (e) {
+      console.error('Failed to save cart:', e);
+    }
+  };
+
+  const handleRemoveItem = (code) => {
+    const next = new Map(cart);
+    next.delete(code);
+    saveState(next, cartPackages);
+  };
+
+  const handleRemovePackage = (pkgId) => {
+    const nextPkgs = new Set(cartPackages);
+    nextPkgs.delete(pkgId);
+    saveState(cart, nextPkgs);
+  };
+
+  const handleClearCart = () => {
+    saveState(new Map(), new Set());
+  };
+
+  const cartItems = Array.from(cart.values());
+  const bundlePkgs = Array.from(cartPackages).map((id) => packageById[id]).filter(Boolean);
+  const totalCartCount = cart.size + cartPackages.size;
+
   const steps = [
     {
       num: '01',
@@ -254,7 +340,10 @@ export default function HowToCreateACamp() {
 
   return (
     <main className="min-h-screen bg-[#F8F9FA] text-[#141B38] flex flex-col">
-      <Header />
+      <Header
+        cartCount={totalCartCount}
+        onOpenCart={() => setCartOpen(true)}
+      />
 
       <div className="flex-1 max-w-[1180px] w-full mx-auto px-4 sm:px-7 py-8 sm:py-12">
         {/* HERO SECTION */}
@@ -733,7 +822,43 @@ export default function HowToCreateACamp() {
         </section>
       </div>
 
-      <Footer />
+      <Footer onOpenCart={() => setCartOpen(true)} />
+
+      <CartDrawer
+        isOpen={cartOpen}
+        onClose={() => setCartOpen(false)}
+        cartItems={cartItems}
+        bundlePkgs={bundlePkgs}
+        onRemoveItem={handleRemoveItem}
+        onRemovePackage={handleRemovePackage}
+        onClearCart={handleClearCart}
+        customerView={customerView}
+        setCustomerView={setCustomerView}
+        onOpenTestDetail={(code) => {
+          const test = catalogData.tests.find((t) => t.code === code);
+          if (test) setSelectedTestDetail(test);
+        }}
+      />
+
+      <TestDetailDrawer
+        test={selectedTestDetail}
+        isOpen={!!selectedTestDetail}
+        onClose={() => setSelectedTestDetail(null)}
+        isAdded={selectedTestDetail ? cart.has(selectedTestDetail.code) : false}
+        onToggleTest={(code) => {
+          if (cart.has(code)) {
+            handleRemoveItem(code);
+          } else {
+            const t = catalogData.tests.find((item) => item.code === code);
+            if (t) {
+              const next = new Map(cart);
+              next.set(code, t);
+              saveState(next, cartPackages);
+            }
+          }
+        }}
+        customerView={customerView}
+      />
     </main>
   );
 }
