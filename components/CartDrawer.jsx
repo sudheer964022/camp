@@ -109,7 +109,13 @@ export default function CartDrawer({
     } catch (e) {
       console.error(e);
     }
-    const win = window.open('/print-profile', '_blank');
+    const searchParams = new URLSearchParams();
+    if (cartItems.length) searchParams.set('codes', cartItems.map((t) => t.code).join(','));
+    if (bundlePkgs.length) searchParams.set('packages', bundlePkgs.map((p) => p.id).join(','));
+    if (pp.isDiscounted) searchParams.set('disc', pp.price.toString());
+    const query = searchParams.toString();
+    const targetUrl = query ? `/print-profile?${query}` : '/print-profile';
+    const win = window.open(targetUrl, '_blank');
     if (!win) {
       showToast('Pop-up blocked — allow pop-ups to open the print view');
     }
