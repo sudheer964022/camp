@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import { money } from '../lib/formatters';
-import { cartTotals, patientPrice } from '../lib/calculations';
+import { cartTotals, patientPrice, getCampRate, getCatalogueRate } from '../lib/calculations';
 import { cleanProfileName, getProfileTestCount } from '../lib/profileGroups';
 
 export default function CartDrawer({
@@ -36,7 +36,7 @@ export default function CartDrawer({
   // BBC-style pricing: system discount always applies, manual only takes effect below system price.
   const manualVal = discountedPrice !== '' ? Number(discountedPrice) : null;
   const pp = patientPrice(calc.b2c, manualVal);
-  const finalMargin = pp.price - calc.netB2b;
+  const finalMargin = pp.isDiscounted ? pp.price - calc.campRate : calc.margin;
 
   const totalBundleTests = bundlePkgs.reduce((acc, p) => acc + getProfileTestCount(p), 0);
   const totalItemCount = cartItems.length + totalBundleTests;
@@ -51,12 +51,12 @@ export default function CartDrawer({
     const lines = [
       `AVMLabs Profile Summary`,
       `Total Tests & Profiles: ${bundlePkgs.length + cartItems.length}`,
-      ...bundlePkgs.map(p => `- [Profile] ${cleanProfileName(p.name)} (${getProfileTestCount(p)} tests) | Price: ₹${p.pricing?.b2c}`),
-      ...cartItems.map(t => `- ${t.name} (${t.code}) | Price: ₹${t.b2c}`),
-      customerView ? '' : `Camp Rate: ₹${calc.netB2b}`,
+      ...bundlePkgs.map(p => `- [Profile] ${cleanProfileName(p.name)} (${getProfileTestCount(p)} tests) | Camp Rate: ₹${getCampRate(p)} | Catalogue: ₹${getCatalogueRate(p)}`),
+      ...cartItems.map(t => `- ${t.name} (${t.code}) | Camp Rate: ₹${getCampRate(t)} | Catalogue: ₹${getCatalogueRate(t)}`),
+      `Camp Rate: ₹${calc.campRate}`,
       `Catalogue Rate: ₹${calc.b2c}`,
       pp.isDiscounted ? `Discounted Price: ₹${pp.price}` : '',
-      customerView ? '' : `PCCLM: ₹${finalMargin}`
+      `PCCLM: ₹${calc.margin}`
     ].filter(Boolean).join('\n');
 
     navigator.clipboard.writeText(lines);
@@ -72,9 +72,9 @@ export default function CartDrawer({
       'Technology': 'Bundle Profile',
       'Sample': 'Serum / Mixed',
       'Processed At': p.processedAt || 'LPL',
-      ...(customerView ? {} : { 'Camp Rate (₹)': p.pricing?.b2b || 0 }),
-      'Catalogue Rate (₹)': p.pricing?.b2c || 0,
-      ...(customerView ? {} : { 'PCCLM (₹)': (p.pricing?.b2c || 0) - (p.pricing?.b2b || 0) })
+      'Camp Rate (₹)': getCampRate(p),
+      'Catalogue Rate (₹)': getCatalogueRate(p),
+      'PCCLM (₹)': getCatalogueRate(p) - getCampRate(p)
     }));
 
     const itemRows = cartItems.map((t, idx) => ({
@@ -84,9 +84,9 @@ export default function CartDrawer({
       'Technology': t.tech,
       'Sample': t.sample,
       'Processed At': t.processedAt,
-      ...(customerView ? {} : { 'Camp Rate (₹)': t.b2b }),
-      'Catalogue Rate (₹)': t.b2c,
-      ...(customerView ? {} : { 'PCCLM (₹)': t.b2c - t.b2b })
+      'Camp Rate (₹)': getCampRate(t),
+      'Catalogue Rate (₹)': getCatalogueRate(t),
+      'PCCLM (₹)': getCatalogueRate(t) - getCampRate(t)
     }));
 
     const data = [...bundleRows, ...itemRows];
@@ -196,8 +196,6 @@ export default function CartDrawer({
                   <ul className="space-y-2">
                     {bundlePkgs.map((pkg) => {
                       const pkgTestCount = getProfileTestCount(pkg);
-                      const b2b = pkg.pricing?.b2b || 0;
-                      const b2c = pkg.pricing?.b2c || 0;
                       return (
                         <li key={pkg.id} className="p-3 bg-sky-50/30 rounded-xl border border-[#93C5FD]/40 flex items-center justify-between gap-3">
                           <div className="min-w-0 flex-1">
@@ -209,9 +207,9 @@ export default function CartDrawer({
                             </div>
                           </div>
                           <div className="text-right flex-none">
-                            <div className="text-sm font-bold text-navy">{money(b2c)}</div>
+                            <div className="text-sm font-bold text-navy">{money(getCampRate(pkg))}</div>
                             {!customerView && (
-                              <div className="text-xs text-profit font-semibold">+{money(b2c - b2b)}</div>
+                              <div className="text-xs text-profit font-semibold">+{money(getCatalogueRate(pkg) - getCampRate(pkg))}</div>
                             )}
                           </div>
                           <button
@@ -260,9 +258,9 @@ export default function CartDrawer({
                           </div>
                         </div>
                         <div className="text-right flex-none">
-                          <div className="text-sm font-bold text-navy">{money(item.b2c)}</div>
+                          <div className="text-sm font-bold text-navy">{money(getCampRate(item))}</div>
                           {!customerView && (
-                            <div className="text-xs text-profit font-semibold">+{money(item.b2c - item.b2b)}</div>
+                            <div className="text-xs text-profit font-semibold">+{money(getCatalogueRate(item) - getCampRate(item))}</div>
                           )}
                         </div>
                         <button
@@ -289,17 +287,10 @@ export default function CartDrawer({
 
             {/* Processing Cost (internal only) */}
             {!customerView && (
-              <>
-                <div className="flex justify-between text-ink-soft font-medium">
-                  <span>Camp Rate</span>
-                  <span className="font-bold text-navy">{money(calc.netB2b)}</span>
-                </div>
-                {mpbDiff > 0 && (
-                  <p className="text-[11px] text-amber-dark/90 leading-snug">
-                    ⚠ Includes ₹{mpbDiff} Min. Patient Billing floor (Serum sample).
-                  </p>
-                )}
-              </>
+              <div className="flex justify-between text-ink-soft font-medium">
+                <span>Camp Rate</span>
+                <span className="font-bold text-navy">{money(calc.campRate)}</span>
+              </div>
             )}
 
             {/* Profile Price — struck once discounted */}

@@ -199,7 +199,8 @@ for (let r = 1; r < lplRows.length; r++) {
   const cprt = row[5] !== undefined && row[5] !== null ? Number(Number(row[5]).toFixed(2)) : 0;
   const b2b = row[6] !== undefined && row[6] !== null ? Math.round(Number(row[6])) : 0;
   const rawB2c = row[7] !== undefined && row[7] !== null ? Math.round(Number(row[7])) : 0;
-  const b2c = Math.round(rawB2c * 0.5);
+  const b2c = rawB2c;
+  const campRate = Math.round(rawB2c * 0.5);
   const analyzer = row[8] ? String(row[8]).trim() : null;
 
   let fasting = null;
@@ -252,6 +253,7 @@ for (let r = 1; r < lplRows.length; r++) {
     sampleId: sampleMap[sampleRaw] || 'serum',
     b2b,
     b2c,
+    campRate,
     cprt,
     categoryId: 'general-biochemistry',
     departmentId: 'biochemistry',
@@ -283,6 +285,7 @@ for (let r = 1; r < crlRows.length; r++) {
   const cprt = row[6] !== undefined && row[6] !== null ? Number(Number(row[6]).toFixed(2)) : 0;
   const b2b = row[7] !== undefined && row[7] !== null ? Math.round(Number(row[7])) : 0;
   const b2c = row[8] !== undefined && row[8] !== null ? Math.round(Number(row[8])) : 0;
+  const campRate = Math.round(b2c * 0.5);
   const analyzer = row[9] ? String(row[9]).trim() : null;
 
   let code = rawCode;
@@ -319,6 +322,7 @@ for (let r = 1; r < crlRows.length; r++) {
     sampleId: sampleMap[sampleRaw] || 'serum',
     b2b,
     b2c,
+    campRate,
     cprt,
     categoryId: catId,
     departmentId: deptId,
@@ -381,7 +385,8 @@ for (let r = 1; r < lplP.length; r++) {
   const cprt = row[3] !== undefined ? Number(Number(row[3]).toFixed(2)) : 0;
   const b2b = Math.round(Number(row[4]));
   const rawB2c = Math.round(Number(row[5]));
-  const b2c = Math.round(rawB2c * 0.5);
+  const b2c = rawB2c;
+  const campRate = Math.round(rawB2c * 0.5);
 
   const pId = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   let resolvedCodes = tokenize(contents).map(resolveCode).filter(c => allByCode[c.toUpperCase()]);
@@ -404,7 +409,7 @@ for (let r = 1; r < lplP.length; r++) {
     processedAt: "LPL",
     category: "LPL",
     cprt,
-    pricing: { b2b, b2c },
+    pricing: { b2b, b2c, campRate },
     codes: resolvedCodes,
     contentsText: contents,
     active: true
@@ -468,7 +473,7 @@ for (let r = 1; r < crlP.length; r++) {
     category: "CRL",
     sample,
     cprt,
-    pricing: { b2b, b2c },
+    pricing: { b2b, b2c, campRate: Math.round(b2c * 0.5) },
     codes: resolvedCodes,
     calculatedParams,
     contentsText: contents,
@@ -501,7 +506,7 @@ for (let r = 1; r < spP.length; r++) {
     processedAt: "CRL",
     category: "Speciality",
     cprt,
-    pricing: { b2b: roundB2b, b2c: roundB2c },
+    pricing: { b2b: roundB2b, b2c: roundB2c, campRate: Math.round(roundB2c * 0.5) },
     rawPricing: { b2b: rawB2b, b2c: rawB2c },
     codes: resolvedCodes,
     contentsText: contents,

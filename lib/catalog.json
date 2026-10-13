@@ -12,7 +12,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 10,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -44,7 +45,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 0.75,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -76,7 +78,8 @@
       "techId": "photometry",
       "sampleId": "fluoride",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 0.75,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -108,7 +111,8 @@
       "techId": "photometry",
       "sampleId": "fluoride",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 0.75,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -140,7 +144,8 @@
       "techId": "photometry",
       "sampleId": "fluoride",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 0.75,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -172,7 +177,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 1.4,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -204,7 +210,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 2.75,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -236,7 +243,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 2.75,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -268,7 +276,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 2.75,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -300,7 +309,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 2.75,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -332,7 +342,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 2.75,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -364,7 +375,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 2.75,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -396,7 +408,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 2.75,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -428,7 +441,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 2.75,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -460,7 +474,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 2.75,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -492,7 +507,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 2.75,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -524,7 +540,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 2.97,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -556,7 +573,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 3,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -588,7 +606,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 3,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -620,7 +639,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 10,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 3,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -652,7 +672,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 20,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 10,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -684,7 +705,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 20,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 10,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -716,7 +738,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 20,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 3.4,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -748,7 +771,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 20,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 4,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -780,7 +804,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 20,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 4.5,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -812,7 +837,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 20,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 5,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -844,7 +870,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 20,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 5,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -876,7 +903,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 20,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 5.4,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -908,7 +936,8 @@
       "techId": "ise",
       "sampleId": "serum",
       "b2b": 25,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 6.5,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -940,7 +969,8 @@
       "techId": "ise",
       "sampleId": "serum",
       "b2b": 25,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 6.5,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -972,7 +1002,8 @@
       "techId": "ise",
       "sampleId": "serum",
       "b2b": 25,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 6.5,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1004,7 +1035,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 30,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 10,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1036,7 +1068,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 30,
-      "b2c": 50,
+      "b2c": 100,
+      "campRate": 50,
       "cprt": 10,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1068,7 +1101,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 35,
-      "b2c": 100,
+      "b2c": 200,
+      "campRate": 100,
       "cprt": 8.82,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1100,7 +1134,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 35,
-      "b2c": 100,
+      "b2c": 200,
+      "campRate": 100,
       "cprt": 9.49,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1132,7 +1167,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 40,
-      "b2c": 100,
+      "b2c": 200,
+      "campRate": 100,
       "cprt": 13,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1164,7 +1200,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 45,
-      "b2c": 100,
+      "b2c": 200,
+      "campRate": 100,
       "cprt": 15,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1196,7 +1233,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 45,
-      "b2c": 100,
+      "b2c": 200,
+      "campRate": 100,
       "cprt": 15,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1228,7 +1266,8 @@
       "techId": "hplc",
       "sampleId": "edta",
       "b2b": 50,
-      "b2c": 150,
+      "b2c": 300,
+      "campRate": 150,
       "cprt": 20,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1260,7 +1299,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 50,
-      "b2c": 100,
+      "b2c": 200,
+      "campRate": 100,
       "cprt": 13.2,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1292,7 +1332,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 50,
-      "b2c": 100,
+      "b2c": 200,
+      "campRate": 100,
       "cprt": 17.2,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1324,7 +1365,8 @@
       "techId": "hematology",
       "sampleId": "serum",
       "b2b": 60,
-      "b2c": 150,
+      "b2c": 300,
+      "campRate": 150,
       "cprt": 20,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1356,7 +1398,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 60,
-      "b2c": 100,
+      "b2c": 200,
+      "campRate": 100,
       "cprt": 15.87,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1388,7 +1431,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 65,
-      "b2c": 150,
+      "b2c": 300,
+      "campRate": 150,
       "cprt": 22.96,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1420,7 +1464,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 70,
-      "b2c": 100,
+      "b2c": 200,
+      "campRate": 100,
       "cprt": 21.11,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1452,7 +1497,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 75,
-      "b2c": 100,
+      "b2c": 200,
+      "campRate": 100,
       "cprt": 16.6,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1484,7 +1530,8 @@
       "techId": "microscopy",
       "sampleId": "urine",
       "b2b": 80,
-      "b2c": 150,
+      "b2c": 300,
+      "campRate": 150,
       "cprt": 45,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1516,7 +1563,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 80,
-      "b2c": 200,
+      "b2c": 400,
+      "campRate": 200,
       "cprt": 33,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1548,7 +1596,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 80,
-      "b2c": 125,
+      "b2c": 250,
+      "campRate": 125,
       "cprt": 19.44,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1580,7 +1629,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 80,
-      "b2c": 125,
+      "b2c": 250,
+      "campRate": 125,
       "cprt": 19.44,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1612,7 +1662,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 80,
-      "b2c": 125,
+      "b2c": 250,
+      "campRate": 125,
       "cprt": 19.44,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1644,7 +1695,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 85,
-      "b2c": 150,
+      "b2c": 300,
+      "campRate": 150,
       "cprt": 21,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1676,7 +1728,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 90,
-      "b2c": 150,
+      "b2c": 300,
+      "campRate": 150,
       "cprt": 40,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1708,7 +1761,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 90,
-      "b2c": 150,
+      "b2c": 300,
+      "campRate": 150,
       "cprt": 22,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1740,7 +1794,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 90,
-      "b2c": 150,
+      "b2c": 300,
+      "campRate": 150,
       "cprt": 29.17,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1772,7 +1827,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 95,
-      "b2c": 200,
+      "b2c": 400,
+      "campRate": 200,
       "cprt": 30,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1804,7 +1860,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 100,
-      "b2c": 200,
+      "b2c": 400,
+      "campRate": 200,
       "cprt": 48,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1836,7 +1893,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 100,
-      "b2c": 150,
+      "b2c": 300,
+      "campRate": 150,
       "cprt": 39,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1868,7 +1926,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 105,
-      "b2c": 300,
+      "b2c": 600,
+      "campRate": 300,
       "cprt": 47,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1900,7 +1959,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 105,
-      "b2c": 150,
+      "b2c": 300,
+      "campRate": 150,
       "cprt": 35,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1932,7 +1992,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 115,
-      "b2c": 275,
+      "b2c": 550,
+      "campRate": 275,
       "cprt": 42,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1964,7 +2025,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 115,
-      "b2c": 275,
+      "b2c": 550,
+      "campRate": 275,
       "cprt": 42,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -1996,7 +2058,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 115,
-      "b2c": 150,
+      "b2c": 300,
+      "campRate": 150,
       "cprt": 42,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2028,7 +2091,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 120,
-      "b2c": 150,
+      "b2c": 300,
+      "campRate": 150,
       "cprt": 44,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2060,7 +2124,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 130,
-      "b2c": 250,
+      "b2c": 500,
+      "campRate": 250,
       "cprt": 52,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2092,7 +2157,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 130,
-      "b2c": 250,
+      "b2c": 500,
+      "campRate": 250,
       "cprt": 52,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2124,7 +2190,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 130,
-      "b2c": 225,
+      "b2c": 450,
+      "campRate": 225,
       "cprt": 50,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2156,7 +2223,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 145,
-      "b2c": 150,
+      "b2c": 300,
+      "campRate": 150,
       "cprt": 54.45,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2188,7 +2256,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 150,
-      "b2c": 300,
+      "b2c": 600,
+      "campRate": 300,
       "cprt": 65,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2220,7 +2289,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 155,
-      "b2c": 225,
+      "b2c": 450,
+      "campRate": 225,
       "cprt": 69,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2252,7 +2322,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 160,
-      "b2c": 225,
+      "b2c": 450,
+      "campRate": 225,
       "cprt": 67,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2284,7 +2355,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 160,
-      "b2c": 225,
+      "b2c": 450,
+      "campRate": 225,
       "cprt": 67,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2316,7 +2388,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 180,
-      "b2c": 250,
+      "b2c": 500,
+      "campRate": 250,
       "cprt": 83,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2348,7 +2421,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 180,
-      "b2c": 250,
+      "b2c": 500,
+      "campRate": 250,
       "cprt": 83,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2380,7 +2454,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 190,
-      "b2c": 300,
+      "b2c": 600,
+      "campRate": 300,
       "cprt": 92,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2412,7 +2487,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 205,
-      "b2c": 325,
+      "b2c": 650,
+      "campRate": 325,
       "cprt": 102,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2444,7 +2520,8 @@
       "techId": "photometry",
       "sampleId": "serum",
       "b2b": 205,
-      "b2c": 250,
+      "b2c": 500,
+      "campRate": 250,
       "cprt": 81.51,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2476,7 +2553,8 @@
       "techId": "clia",
       "sampleId": "serum",
       "b2b": 250,
-      "b2c": 375,
+      "b2c": 750,
+      "campRate": 375,
       "cprt": 156,
       "categoryId": "general-biochemistry",
       "departmentId": "biochemistry",
@@ -2510,6 +2588,7 @@
       "sampleId": "serum",
       "b2b": 100,
       "b2c": 300,
+      "campRate": 150,
       "cprt": 29,
       "categoryId": "torch-panel",
       "departmentId": "immunoassay",
@@ -2542,6 +2621,7 @@
       "sampleId": "serum",
       "b2b": 100,
       "b2c": 300,
+      "campRate": 150,
       "cprt": 29,
       "categoryId": "torch-panel",
       "departmentId": "immunoassay",
@@ -2574,6 +2654,7 @@
       "sampleId": "serum",
       "b2b": 100,
       "b2c": 300,
+      "campRate": 150,
       "cprt": 29,
       "categoryId": "torch-panel",
       "departmentId": "immunoassay",
@@ -2606,6 +2687,7 @@
       "sampleId": "serum",
       "b2b": 100,
       "b2c": 300,
+      "campRate": 150,
       "cprt": 29,
       "categoryId": "torch-panel",
       "departmentId": "immunoassay",
@@ -2638,6 +2720,7 @@
       "sampleId": "serum",
       "b2b": 100,
       "b2c": 300,
+      "campRate": 150,
       "cprt": 29,
       "categoryId": "torch-panel",
       "departmentId": "immunoassay",
@@ -2670,6 +2753,7 @@
       "sampleId": "serum",
       "b2b": 100,
       "b2c": 300,
+      "campRate": 150,
       "cprt": 29,
       "categoryId": "torch-panel",
       "departmentId": "immunoassay",
@@ -2702,6 +2786,7 @@
       "sampleId": "serum",
       "b2b": 100,
       "b2c": 300,
+      "campRate": 150,
       "cprt": 29,
       "categoryId": "torch-panel",
       "departmentId": "immunoassay",
@@ -2734,6 +2819,7 @@
       "sampleId": "serum",
       "b2b": 100,
       "b2c": 300,
+      "campRate": 150,
       "cprt": 29,
       "categoryId": "torch-panel",
       "departmentId": "immunoassay",
@@ -2766,6 +2852,7 @@
       "sampleId": "serum",
       "b2b": 100,
       "b2c": 300,
+      "campRate": 150,
       "cprt": 29,
       "categoryId": "torch-panel",
       "departmentId": "immunoassay",
@@ -2798,6 +2885,7 @@
       "sampleId": "serum",
       "b2b": 100,
       "b2c": 300,
+      "campRate": 150,
       "cprt": 29,
       "categoryId": "torch-panel",
       "departmentId": "immunoassay",
@@ -2830,6 +2918,7 @@
       "sampleId": "serum",
       "b2b": 100,
       "b2c": 300,
+      "campRate": 150,
       "cprt": 29,
       "categoryId": "torch-panel",
       "departmentId": "immunoassay",
@@ -2862,6 +2951,7 @@
       "sampleId": "serum",
       "b2b": 100,
       "b2c": 300,
+      "campRate": 150,
       "cprt": 29,
       "categoryId": "torch-panel",
       "departmentId": "immunoassay",
@@ -2894,6 +2984,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 41.7,
       "categoryId": "tumor-markers",
       "departmentId": "immunoassay",
@@ -2926,6 +3017,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 59,
       "categoryId": "reproductive-hormones",
       "departmentId": "immunoassay",
@@ -2959,6 +3051,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 52.1,
       "categoryId": "tumor-markers",
       "departmentId": "immunoassay",
@@ -2991,6 +3084,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 33,
       "categoryId": "reproductive-hormones",
       "departmentId": "immunoassay",
@@ -3023,6 +3117,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 29,
       "categoryId": "reproductive-hormones",
       "departmentId": "immunoassay",
@@ -3055,6 +3150,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 55,
       "categoryId": "bone-metabolism",
       "departmentId": "immunoassay",
@@ -3087,6 +3183,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 55,
       "categoryId": "reproductive-hormones",
       "departmentId": "immunoassay",
@@ -3119,6 +3216,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 55,
       "categoryId": "thyroid",
       "departmentId": "immunoassay",
@@ -3151,6 +3249,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 52,
       "categoryId": "tumor-markers",
       "departmentId": "immunoassay",
@@ -3183,6 +3282,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 60,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -3215,6 +3315,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 41.7,
       "categoryId": "tumor-markers",
       "departmentId": "immunoassay",
@@ -3247,6 +3348,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 55,
       "categoryId": "thyroid",
       "departmentId": "immunoassay",
@@ -3279,6 +3381,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 60,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -3311,6 +3414,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 41.8,
       "categoryId": "torch-panel",
       "departmentId": "immunoassay",
@@ -3343,6 +3447,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 60,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -3375,6 +3480,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 33,
       "categoryId": "reproductive-hormones",
       "departmentId": "immunoassay",
@@ -3407,6 +3513,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 55,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -3439,6 +3546,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 60,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -3471,6 +3579,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 62,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -3503,6 +3612,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 43.3,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -3535,6 +3645,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 44,
       "categoryId": "tdm",
       "departmentId": "immunoassay",
@@ -3567,6 +3678,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 8.53,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -3599,6 +3711,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 9.03,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -3631,6 +3744,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 11.23,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -3663,6 +3777,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 13.58,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -3695,6 +3810,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 15.42,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -3727,6 +3843,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 17.11,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -3759,6 +3876,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 20.37,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -3791,6 +3909,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 23.3,
       "categoryId": "cardiac",
       "departmentId": "immunoassay",
@@ -3823,6 +3942,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 24,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -3855,6 +3975,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 600,
+      "campRate": 300,
       "cprt": 66,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -3887,6 +4008,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 45,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -3919,6 +4041,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 27.5,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -3951,6 +4074,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 29.92,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -3983,6 +4107,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 400,
+      "campRate": 200,
       "cprt": 39.61,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -4015,6 +4140,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 43.62,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -4047,6 +4173,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 49.79,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -4079,6 +4206,7 @@
       "sampleId": "serum",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 55.69,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -4111,6 +4239,7 @@
       "sampleId": "urine",
       "b2b": 200,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 65,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -4143,6 +4272,7 @@
       "sampleId": "serum",
       "b2b": 250,
       "b2c": 600,
+      "campRate": 300,
       "cprt": 68,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -4175,6 +4305,7 @@
       "sampleId": "serum",
       "b2b": 250,
       "b2c": 600,
+      "campRate": 300,
       "cprt": 68,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -4207,6 +4338,7 @@
       "sampleId": "serum",
       "b2b": 250,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 79.1,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -4239,6 +4371,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4271,6 +4404,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4303,6 +4437,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4335,6 +4470,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4367,6 +4503,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4399,6 +4536,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4431,6 +4569,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4463,6 +4602,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4495,6 +4635,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4527,6 +4668,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4559,6 +4701,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4591,6 +4734,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4623,6 +4767,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4655,6 +4800,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4687,6 +4833,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4719,6 +4866,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4751,6 +4899,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4783,6 +4932,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4815,6 +4965,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4847,6 +4998,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4879,6 +5031,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4911,6 +5064,7 @@
       "sampleId": "edta",
       "b2b": 250,
       "b2c": 500,
+      "campRate": 250,
       "cprt": 25,
       "categoryId": "toxic-elements",
       "departmentId": "biochemistry",
@@ -4943,6 +5097,7 @@
       "sampleId": "serum",
       "b2b": 250,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 77.14,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -4975,6 +5130,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 750,
+      "campRate": 375,
       "cprt": 93.7,
       "categoryId": "reproductive-hormones",
       "departmentId": "immunoassay",
@@ -5007,6 +5163,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 750,
+      "campRate": 375,
       "cprt": 93.7,
       "categoryId": "bone-metabolism",
       "departmentId": "immunoassay",
@@ -5039,6 +5196,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 85,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5071,6 +5229,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 85,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5103,6 +5262,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 600,
+      "campRate": 300,
       "cprt": 87,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5135,6 +5295,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 87,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5167,6 +5328,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 87,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5199,6 +5361,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 87,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5231,6 +5394,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 800,
+      "campRate": 400,
       "cprt": 99.8,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5263,6 +5427,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 800,
+      "campRate": 400,
       "cprt": 99.8,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5295,6 +5460,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 800,
+      "campRate": 400,
       "cprt": 99.8,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5327,6 +5493,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 800,
+      "campRate": 400,
       "cprt": 99.8,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5359,6 +5526,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 800,
+      "campRate": 400,
       "cprt": 99.8,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5391,6 +5559,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 800,
+      "campRate": 400,
       "cprt": 99.8,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5423,6 +5592,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 800,
+      "campRate": 400,
       "cprt": 99.8,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5455,6 +5625,7 @@
       "sampleId": "serum",
       "b2b": 300,
       "b2c": 800,
+      "campRate": 400,
       "cprt": 97.94,
       "categoryId": "cardiac",
       "departmentId": "immunoassay",
@@ -5487,6 +5658,7 @@
       "sampleId": "serum",
       "b2b": 350,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 104.1,
       "categoryId": "thyroid",
       "departmentId": "immunoassay",
@@ -5519,6 +5691,7 @@
       "sampleId": "serum",
       "b2b": 350,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 102,
       "categoryId": "autoimmune",
       "departmentId": "immunoassay",
@@ -5551,6 +5724,7 @@
       "sampleId": "serum",
       "b2b": 350,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 105.75,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5583,6 +5757,7 @@
       "sampleId": "serum",
       "b2b": 350,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 115.9,
       "categoryId": "reproductive-hormones",
       "departmentId": "immunoassay",
@@ -5615,6 +5790,7 @@
       "sampleId": "serum",
       "b2b": 350,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 106,
       "categoryId": "autoimmune",
       "departmentId": "immunoassay",
@@ -5647,6 +5823,7 @@
       "sampleId": "serum",
       "b2b": 350,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 103,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5679,6 +5856,7 @@
       "sampleId": "serum",
       "b2b": 350,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 103,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5711,6 +5889,7 @@
       "sampleId": "serum",
       "b2b": 350,
       "b2c": 700,
+      "campRate": 350,
       "cprt": 113,
       "categoryId": "autoimmune",
       "departmentId": "immunoassay",
@@ -5743,6 +5922,7 @@
       "sampleId": "serum",
       "b2b": 400,
       "b2c": 800,
+      "campRate": 400,
       "cprt": 119.1,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -5775,6 +5955,7 @@
       "sampleId": "serum",
       "b2b": 400,
       "b2c": 800,
+      "campRate": 400,
       "cprt": 125,
       "categoryId": "tumor-markers",
       "departmentId": "immunoassay",
@@ -5807,6 +5988,7 @@
       "sampleId": "serum",
       "b2b": 400,
       "b2c": 800,
+      "campRate": 400,
       "cprt": 125,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -5839,6 +6021,7 @@
       "sampleId": "serum",
       "b2b": 400,
       "b2c": 800,
+      "campRate": 400,
       "cprt": 121,
       "categoryId": "bone-metabolism",
       "departmentId": "immunoassay",
@@ -5871,6 +6054,7 @@
       "sampleId": "serum",
       "b2b": 450,
       "b2c": 900,
+      "campRate": 450,
       "cprt": 140.7,
       "categoryId": "reproductive-hormones",
       "departmentId": "immunoassay",
@@ -5903,6 +6087,7 @@
       "sampleId": "serum",
       "b2b": 450,
       "b2c": 900,
+      "campRate": 450,
       "cprt": 146.8,
       "categoryId": "reproductive-hormones",
       "departmentId": "immunoassay",
@@ -5935,6 +6120,7 @@
       "sampleId": "serum",
       "b2b": 450,
       "b2c": 900,
+      "campRate": 450,
       "cprt": 146.8,
       "categoryId": "autoimmune",
       "departmentId": "immunoassay",
@@ -5967,6 +6153,7 @@
       "sampleId": "serum",
       "b2b": 450,
       "b2c": 900,
+      "campRate": 450,
       "cprt": 146.8,
       "categoryId": "reproductive-hormones",
       "departmentId": "immunoassay",
@@ -5999,6 +6186,7 @@
       "sampleId": "serum",
       "b2b": 450,
       "b2c": 900,
+      "campRate": 450,
       "cprt": 142.5,
       "categoryId": "autoimmune",
       "departmentId": "immunoassay",
@@ -6031,6 +6219,7 @@
       "sampleId": "serum",
       "b2b": 450,
       "b2c": 900,
+      "campRate": 450,
       "cprt": 141.8,
       "categoryId": "autoimmune",
       "departmentId": "immunoassay",
@@ -6063,6 +6252,7 @@
       "sampleId": "serum",
       "b2b": 450,
       "b2c": 900,
+      "campRate": 450,
       "cprt": 136,
       "categoryId": "tumor-markers",
       "departmentId": "immunoassay",
@@ -6095,6 +6285,7 @@
       "sampleId": "serum",
       "b2b": 450,
       "b2c": 900,
+      "campRate": 450,
       "cprt": 135.7,
       "categoryId": "tumor-markers",
       "departmentId": "immunoassay",
@@ -6127,6 +6318,7 @@
       "sampleId": "serum",
       "b2b": 500,
       "b2c": 1000,
+      "campRate": 500,
       "cprt": 25,
       "categoryId": "vitamins",
       "departmentId": "biochemistry",
@@ -6159,6 +6351,7 @@
       "sampleId": "serum",
       "b2b": 500,
       "b2c": 1000,
+      "campRate": 500,
       "cprt": 163.5,
       "categoryId": "bone-metabolism",
       "departmentId": "immunoassay",
@@ -6191,6 +6384,7 @@
       "sampleId": "serum",
       "b2b": 500,
       "b2c": 1000,
+      "campRate": 500,
       "cprt": 160,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -6223,6 +6417,7 @@
       "sampleId": "serum",
       "b2b": 500,
       "b2c": 1000,
+      "campRate": 500,
       "cprt": 156.1,
       "categoryId": "reproductive-hormones",
       "departmentId": "immunoassay",
@@ -6255,6 +6450,7 @@
       "sampleId": "serum",
       "b2b": 500,
       "b2c": 1000,
+      "campRate": 500,
       "cprt": 163.5,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -6287,6 +6483,7 @@
       "sampleId": "serum",
       "b2b": 500,
       "b2c": 1000,
+      "campRate": 500,
       "cprt": 162.3,
       "categoryId": "autoimmune",
       "departmentId": "immunoassay",
@@ -6319,6 +6516,7 @@
       "sampleId": "serum",
       "b2b": 500,
       "b2c": 1000,
+      "campRate": 500,
       "cprt": 162,
       "categoryId": "cardiac",
       "departmentId": "immunoassay",
@@ -6351,6 +6549,7 @@
       "sampleId": "serum",
       "b2b": 500,
       "b2c": 1000,
+      "campRate": 500,
       "cprt": 157,
       "categoryId": "bone-metabolism",
       "departmentId": "immunoassay",
@@ -6383,6 +6582,7 @@
       "sampleId": "serum",
       "b2b": 500,
       "b2c": 1000,
+      "campRate": 500,
       "cprt": 156.9,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -6415,6 +6615,7 @@
       "sampleId": "serum",
       "b2b": 500,
       "b2c": 1000,
+      "campRate": 500,
       "cprt": 151.5,
       "categoryId": "bone-metabolism",
       "departmentId": "immunoassay",
@@ -6447,6 +6648,7 @@
       "sampleId": "serum",
       "b2b": 550,
       "b2c": 1100,
+      "campRate": 550,
       "cprt": 180.2,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -6479,6 +6681,7 @@
       "sampleId": "serum",
       "b2b": 550,
       "b2c": 1100,
+      "campRate": 550,
       "cprt": 180.2,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -6511,6 +6714,7 @@
       "sampleId": "serum",
       "b2b": 550,
       "b2c": 1100,
+      "campRate": 550,
       "cprt": 180.2,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -6543,6 +6747,7 @@
       "sampleId": "serum",
       "b2b": 550,
       "b2c": 1100,
+      "campRate": 550,
       "cprt": 180,
       "categoryId": "tumor-markers",
       "departmentId": "immunoassay",
@@ -6575,6 +6780,7 @@
       "sampleId": "serum",
       "b2b": 550,
       "b2c": 1100,
+      "campRate": 550,
       "cprt": 180,
       "categoryId": "autoimmune",
       "departmentId": "immunoassay",
@@ -6607,6 +6813,7 @@
       "sampleId": "serum",
       "b2b": 600,
       "b2c": 1200,
+      "campRate": 600,
       "cprt": 187,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -6639,6 +6846,7 @@
       "sampleId": "serum",
       "b2b": 600,
       "b2c": 1200,
+      "campRate": 600,
       "cprt": 200,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -6671,6 +6879,7 @@
       "sampleId": "serum",
       "b2b": 650,
       "b2c": 1300,
+      "campRate": 650,
       "cprt": 216.4,
       "categoryId": "tdm",
       "departmentId": "immunoassay",
@@ -6703,6 +6912,7 @@
       "sampleId": "serum",
       "b2b": 650,
       "b2c": 1300,
+      "campRate": 650,
       "cprt": 208.1,
       "categoryId": "tdm",
       "departmentId": "immunoassay",
@@ -6735,6 +6945,7 @@
       "sampleId": "serum",
       "b2b": 700,
       "b2c": 1400,
+      "campRate": 700,
       "cprt": 232.12,
       "categoryId": "special-chemistry",
       "departmentId": "biochemistry",
@@ -6767,6 +6978,7 @@
       "sampleId": "serum",
       "b2b": 800,
       "b2c": 1600,
+      "campRate": 800,
       "cprt": 265.65,
       "categoryId": "infectious-disease",
       "departmentId": "immunoassay",
@@ -6799,6 +7011,7 @@
       "sampleId": "serum",
       "b2b": 850,
       "b2c": 1700,
+      "campRate": 850,
       "cprt": 281.3,
       "categoryId": "tumor-markers",
       "departmentId": "immunoassay",
@@ -6831,6 +7044,7 @@
       "sampleId": "serum",
       "b2b": 1000,
       "b2c": 2000,
+      "campRate": 1000,
       "cprt": 175,
       "categoryId": "vitamins",
       "departmentId": "biochemistry",
@@ -6863,6 +7077,7 @@
       "sampleId": "serum",
       "b2b": 1000,
       "b2c": 2000,
+      "campRate": 1000,
       "cprt": 175,
       "categoryId": "vitamins",
       "departmentId": "biochemistry",
@@ -6895,6 +7110,7 @@
       "sampleId": "serum",
       "b2b": 1000,
       "b2c": 2000,
+      "campRate": 1000,
       "cprt": 175,
       "categoryId": "vitamins",
       "departmentId": "biochemistry",
@@ -6927,6 +7143,7 @@
       "sampleId": "serum",
       "b2b": 1000,
       "b2c": 2000,
+      "campRate": 1000,
       "cprt": 175,
       "categoryId": "vitamins",
       "departmentId": "biochemistry",
@@ -6959,6 +7176,7 @@
       "sampleId": "serum",
       "b2b": 1000,
       "b2c": 2000,
+      "campRate": 1000,
       "cprt": 175,
       "categoryId": "vitamins",
       "departmentId": "biochemistry",
@@ -6991,6 +7209,7 @@
       "sampleId": "serum",
       "b2b": 1000,
       "b2c": 2000,
+      "campRate": 1000,
       "cprt": 175,
       "categoryId": "vitamins",
       "departmentId": "biochemistry",
@@ -7023,6 +7242,7 @@
       "sampleId": "serum",
       "b2b": 1000,
       "b2c": 2000,
+      "campRate": 1000,
       "cprt": 175,
       "categoryId": "vitamins",
       "departmentId": "biochemistry",
@@ -7055,6 +7275,7 @@
       "sampleId": "serum",
       "b2b": 1000,
       "b2c": 2000,
+      "campRate": 1000,
       "cprt": 120,
       "categoryId": "vitamins",
       "departmentId": "biochemistry",
@@ -7087,6 +7308,7 @@
       "sampleId": "serum",
       "b2b": 1000,
       "b2c": 2000,
+      "campRate": 1000,
       "cprt": 120,
       "categoryId": "vitamins",
       "departmentId": "biochemistry",
@@ -7119,6 +7341,7 @@
       "sampleId": "serum",
       "b2b": 1000,
       "b2c": 2000,
+      "campRate": 1000,
       "cprt": 120,
       "categoryId": "vitamins",
       "departmentId": "biochemistry",
@@ -7151,6 +7374,7 @@
       "sampleId": "serum",
       "b2b": 1000,
       "b2c": 1600,
+      "campRate": 800,
       "cprt": 318.21,
       "categoryId": "maternal-fetal",
       "departmentId": "immunoassay",
@@ -7183,6 +7407,7 @@
       "sampleId": "serum",
       "b2b": 1200,
       "b2c": 2000,
+      "campRate": 1000,
       "cprt": 391.7,
       "categoryId": "tumor-markers",
       "departmentId": "immunoassay",
@@ -7214,7 +7439,8 @@
       "cprt": 81,
       "pricing": {
         "b2b": 250,
-        "b2c": 400
+        "b2c": 800,
+        "campRate": 400
       },
       "codes": [
         "UTSH",
@@ -7236,7 +7462,8 @@
       "cprt": 152,
       "pricing": {
         "b2b": 500,
-        "b2c": 750
+        "b2c": 1500,
+        "campRate": 750
       },
       "codes": [
         "AMYL",
@@ -7258,7 +7485,8 @@
       "cprt": 307,
       "pricing": {
         "b2b": 900,
-        "b2c": 1500
+        "b2c": 3000,
+        "campRate": 1500
       },
       "codes": [
         "VITB",
@@ -7282,7 +7510,8 @@
       "cprt": 364,
       "pricing": {
         "b2b": 1100,
-        "b2c": 1800
+        "b2c": 3600,
+        "campRate": 1800
       },
       "codes": [
         "APOA",
@@ -7303,7 +7532,8 @@
       "cprt": 619,
       "pricing": {
         "b2b": 1600,
-        "b2c": 3000
+        "b2c": 6000,
+        "campRate": 3000
       },
       "codes": [
         "HOMO",
@@ -7326,7 +7556,8 @@
       "cprt": 12,
       "pricing": {
         "b2b": 40,
-        "b2c": 125
+        "b2c": 250,
+        "campRate": 125
       },
       "codes": [
         "CHOL",
@@ -7348,7 +7579,8 @@
       "cprt": 22,
       "pricing": {
         "b2b": 70,
-        "b2c": 150
+        "b2c": 300,
+        "campRate": 150
       },
       "codes": [
         "PROT",
@@ -7374,7 +7606,8 @@
       "cprt": 13,
       "pricing": {
         "b2b": 40,
-        "b2c": 125
+        "b2c": 250,
+        "campRate": 125
       },
       "codes": [
         "BUN",
@@ -7397,7 +7630,8 @@
       "cprt": 18,
       "pricing": {
         "b2b": 60,
-        "b2c": 150
+        "b2c": 300,
+        "campRate": 150
       },
       "codes": [
         "IRON",
@@ -7417,7 +7651,8 @@
       "cprt": 22,
       "pricing": {
         "b2b": 100,
-        "b2c": 250
+        "b2c": 500,
+        "campRate": 250
       },
       "codes": [
         "AMYL",
@@ -7437,7 +7672,8 @@
       "cprt": 30,
       "pricing": {
         "b2b": 50,
-        "b2c": 150
+        "b2c": 300,
+        "campRate": 150
       },
       "codes": [
         "TT3",
@@ -7458,7 +7694,8 @@
       "cprt": 81,
       "pricing": {
         "b2b": 180,
-        "b2c": 400
+        "b2c": 800,
+        "campRate": 400
       },
       "codes": [
         "VITDC",
@@ -7478,7 +7715,8 @@
       "cprt": 50,
       "pricing": {
         "b2b": 90,
-        "b2c": 250
+        "b2c": 500,
+        "campRate": 250
       },
       "codes": [
         "TT3",
@@ -7503,7 +7741,8 @@
       "cprt": 25,
       "pricing": {
         "b2b": 250,
-        "b2c": 500
+        "b2c": 500,
+        "campRate": 250
       },
       "codes": [
         "BTEAG",
@@ -7546,7 +7785,8 @@
       "cprt": 50,
       "pricing": {
         "b2b": 500,
-        "b2c": 1000
+        "b2c": 1000,
+        "campRate": 500
       },
       "codes": [
         "VITDC",
@@ -7571,7 +7811,8 @@
       "cprt": 200,
       "pricing": {
         "b2b": 1000,
-        "b2c": 2000
+        "b2c": 2000,
+        "campRate": 1000
       },
       "codes": [
         "VITA",
@@ -7599,7 +7840,8 @@
       "cprt": 400,
       "pricing": {
         "b2b": 1200,
-        "b2c": 2500
+        "b2c": 2500,
+        "campRate": 1250
       },
       "codes": [
         "VITB1",
@@ -7628,7 +7870,8 @@
       "cprt": 1000,
       "pricing": {
         "b2b": 1500,
-        "b2c": 3000
+        "b2c": 3000,
+        "campRate": 1500
       },
       "codes": [],
       "calculatedParams": [],
@@ -7648,7 +7891,8 @@
       "cprt": 450,
       "pricing": {
         "b2b": 1500,
-        "b2c": 3000
+        "b2c": 3000,
+        "campRate": 1500
       },
       "codes": [],
       "calculatedParams": [],
@@ -7668,7 +7912,8 @@
       "cprt": 600,
       "pricing": {
         "b2b": 1600,
-        "b2c": 3200
+        "b2c": 3200,
+        "campRate": 1600
       },
       "codes": [
         "VITA",
@@ -7704,7 +7949,8 @@
       "cprt": 1500,
       "pricing": {
         "b2b": 3000,
-        "b2c": 5000
+        "b2c": 5000,
+        "campRate": 2500
       },
       "codes": [],
       "calculatedParams": [],
@@ -7724,7 +7970,8 @@
       "cprt": 4000,
       "pricing": {
         "b2b": 5000,
-        "b2c": 8000
+        "b2c": 8000,
+        "campRate": 4000
       },
       "codes": [],
       "calculatedParams": [],
@@ -7744,7 +7991,8 @@
       "cprt": 133,
       "pricing": {
         "b2b": 400,
-        "b2c": 800
+        "b2c": 800,
+        "campRate": 400
       },
       "codes": [
         "TT3",
@@ -7771,7 +8019,8 @@
       "cprt": 322,
       "pricing": {
         "b2b": 1000,
-        "b2c": 1700
+        "b2c": 1700,
+        "campRate": 850
       },
       "codes": [
         "AFP",
@@ -7800,7 +8049,8 @@
       "cprt": 292,
       "pricing": {
         "b2b": 900,
-        "b2c": 1500
+        "b2c": 1500,
+        "campRate": 750
       },
       "codes": [
         "AFP",
@@ -7829,7 +8079,8 @@
       "cprt": 263,
       "pricing": {
         "b2b": 800,
-        "b2c": 1600
+        "b2c": 1600,
+        "campRate": 800
       },
       "codes": [
         "LH",
@@ -7857,7 +8108,8 @@
       "cprt": 134,
       "pricing": {
         "b2b": 600,
-        "b2c": 1000
+        "b2c": 1000,
+        "campRate": 500
       },
       "codes": [
         "FBHCG",
@@ -7880,7 +8132,8 @@
       "cprt": 97,
       "pricing": {
         "b2b": 550,
-        "b2c": 1000
+        "b2c": 1000,
+        "campRate": 500
       },
       "codes": [
         "BHCG",
@@ -7904,7 +8157,8 @@
       "cprt": 415,
       "pricing": {
         "b2b": 1000,
-        "b2c": 1500
+        "b2c": 1500,
+        "campRate": 750
       },
       "codes": [
         "BHCG",
@@ -7927,7 +8181,8 @@
       "cprt": 107,
       "pricing": {
         "b2b": 400,
-        "b2c": 700
+        "b2c": 700,
+        "campRate": 350
       },
       "rawPricing": {
         "b2b": 321,
@@ -7967,7 +8222,8 @@
       "cprt": 380,
       "pricing": {
         "b2b": 1200,
-        "b2c": 1900
+        "b2c": 1900,
+        "campRate": 950
       },
       "rawPricing": {
         "b2b": 1140,
@@ -8006,7 +8262,8 @@
       "cprt": 527,
       "pricing": {
         "b2b": 1600,
-        "b2c": 2700
+        "b2c": 2700,
+        "campRate": 1350
       },
       "rawPricing": {
         "b2b": 1581,
@@ -8033,7 +8290,8 @@
       "cprt": 294,
       "pricing": {
         "b2b": 900,
-        "b2c": 1500
+        "b2c": 1500,
+        "campRate": 750
       },
       "rawPricing": {
         "b2b": 882,
@@ -8059,7 +8317,8 @@
       "cprt": 1019,
       "pricing": {
         "b2b": 3100,
-        "b2c": 4100
+        "b2c": 4100,
+        "campRate": 2050
       },
       "rawPricing": {
         "b2b": 3057,
@@ -8082,7 +8341,8 @@
       "cprt": 1191,
       "pricing": {
         "b2b": 3600,
-        "b2c": 4800
+        "b2c": 4800,
+        "campRate": 2400
       },
       "rawPricing": {
         "b2b": 3573,
@@ -8105,7 +8365,8 @@
       "cprt": 433,
       "pricing": {
         "b2b": 1300,
-        "b2c": 2200
+        "b2c": 2200,
+        "campRate": 1100
       },
       "rawPricing": {
         "b2b": 1299,
@@ -8133,7 +8394,8 @@
       "cprt": 1224,
       "pricing": {
         "b2b": 3700,
-        "b2c": 4900
+        "b2c": 4900,
+        "campRate": 2450
       },
       "rawPricing": {
         "b2b": 3672,
@@ -8158,7 +8420,8 @@
       "cprt": 1397,
       "pricing": {
         "b2b": 4200,
-        "b2c": 5600
+        "b2c": 5600,
+        "campRate": 2800
       },
       "rawPricing": {
         "b2b": 4191,
@@ -8183,7 +8446,8 @@
       "cprt": 415,
       "pricing": {
         "b2b": 1300,
-        "b2c": 2100
+        "b2c": 2100,
+        "campRate": 1050
       },
       "rawPricing": {
         "b2b": 1245,
@@ -8214,7 +8478,8 @@
       "cprt": 1207,
       "pricing": {
         "b2b": 3700,
-        "b2c": 4900
+        "b2c": 4900,
+        "campRate": 2450
       },
       "rawPricing": {
         "b2b": 3621,
@@ -8243,7 +8508,8 @@
       "cprt": 1323,
       "pricing": {
         "b2b": 4000,
-        "b2c": 5300
+        "b2c": 5300,
+        "campRate": 2650
       },
       "rawPricing": {
         "b2b": 3969,
@@ -8269,7 +8535,8 @@
       "cprt": 436,
       "pricing": {
         "b2b": 1400,
-        "b2c": 2200
+        "b2c": 2200,
+        "campRate": 1100
       },
       "rawPricing": {
         "b2b": 1308,
@@ -8298,7 +8565,8 @@
       "cprt": 1158,
       "pricing": {
         "b2b": 3500,
-        "b2c": 4700
+        "b2c": 4700,
+        "campRate": 2350
       },
       "rawPricing": {
         "b2b": 3474,
@@ -8324,7 +8592,8 @@
       "cprt": 1319,
       "pricing": {
         "b2b": 4000,
-        "b2c": 5300
+        "b2c": 5300,
+        "campRate": 2650
       },
       "rawPricing": {
         "b2b": 3957,
@@ -8350,7 +8619,8 @@
       "cprt": 327,
       "pricing": {
         "b2b": 1000,
-        "b2c": 1700
+        "b2c": 1700,
+        "campRate": 850
       },
       "rawPricing": {
         "b2b": 981,
@@ -8379,7 +8649,8 @@
       "cprt": 1019,
       "pricing": {
         "b2b": 3100,
-        "b2c": 4100
+        "b2c": 4100,
+        "campRate": 2050
       },
       "rawPricing": {
         "b2b": 3057,
@@ -8402,7 +8673,8 @@
       "cprt": 1180,
       "pricing": {
         "b2b": 3600,
-        "b2c": 4800
+        "b2c": 4800,
+        "campRate": 2400
       },
       "rawPricing": {
         "b2b": 3540,
@@ -8425,7 +8697,8 @@
       "cprt": 306,
       "pricing": {
         "b2b": 1000,
-        "b2c": 1600
+        "b2c": 1600,
+        "campRate": 800
       },
       "rawPricing": {
         "b2b": 918,
@@ -8455,7 +8728,8 @@
       "cprt": 1064,
       "pricing": {
         "b2b": 3200,
-        "b2c": 4300
+        "b2c": 4300,
+        "campRate": 2150
       },
       "rawPricing": {
         "b2b": 3192,
@@ -8479,7 +8753,8 @@
       "cprt": 1225,
       "pricing": {
         "b2b": 3700,
-        "b2c": 4900
+        "b2c": 4900,
+        "campRate": 2450
       },
       "rawPricing": {
         "b2b": 3675,
@@ -8503,7 +8778,8 @@
       "cprt": 614,
       "pricing": {
         "b2b": 1900,
-        "b2c": 2500
+        "b2c": 2500,
+        "campRate": 1250
       },
       "rawPricing": {
         "b2b": 1842,
@@ -8535,7 +8811,8 @@
       "cprt": 1488,
       "pricing": {
         "b2b": 4500,
-        "b2c": 6000
+        "b2c": 6000,
+        "campRate": 3000
       },
       "rawPricing": {
         "b2b": 4464,
@@ -8567,7 +8844,8 @@
       "cprt": 1649,
       "pricing": {
         "b2b": 5000,
-        "b2c": 6600
+        "b2c": 6600,
+        "campRate": 3300
       },
       "rawPricing": {
         "b2b": 4947,
@@ -8599,7 +8877,8 @@
       "cprt": 1192,
       "pricing": {
         "b2b": 3600,
-        "b2c": 4800
+        "b2c": 4800,
+        "campRate": 2400
       },
       "rawPricing": {
         "b2b": 3576,
@@ -8638,7 +8917,8 @@
       "cprt": 1916,
       "pricing": {
         "b2b": 5800,
-        "b2c": 8000
+        "b2c": 8000,
+        "campRate": 4000
       },
       "rawPricing": {
         "b2b": 5748,
@@ -8674,7 +8954,8 @@
       "cprt": 2077,
       "pricing": {
         "b2b": 6300,
-        "b2c": 9000
+        "b2c": 9000,
+        "campRate": 4500
       },
       "rawPricing": {
         "b2b": 6231,
@@ -8710,7 +8991,8 @@
       "cprt": 567,
       "pricing": {
         "b2b": 1800,
-        "b2c": 2300
+        "b2c": 2300,
+        "campRate": 1150
       },
       "rawPricing": {
         "b2b": 1701,
@@ -8741,7 +9023,8 @@
       "cprt": 1292,
       "pricing": {
         "b2b": 3900,
-        "b2c": 5200
+        "b2c": 5200,
+        "campRate": 2600
       },
       "rawPricing": {
         "b2b": 3876,
@@ -8769,7 +9052,8 @@
       "cprt": 1453,
       "pricing": {
         "b2b": 4400,
-        "b2c": 5900
+        "b2c": 5900,
+        "campRate": 2950
       },
       "rawPricing": {
         "b2b": 4359,
@@ -8797,7 +9081,8 @@
       "cprt": 531,
       "pricing": {
         "b2b": 1600,
-        "b2c": 2200
+        "b2c": 2200,
+        "campRate": 1100
       },
       "rawPricing": {
         "b2b": 1593,
@@ -8829,7 +9114,8 @@
       "cprt": 1255,
       "pricing": {
         "b2b": 3800,
-        "b2c": 5100
+        "b2c": 5100,
+        "campRate": 2550
       },
       "rawPricing": {
         "b2b": 3765,
@@ -8858,7 +9144,8 @@
       "cprt": 1416,
       "pricing": {
         "b2b": 4300,
-        "b2c": 5700
+        "b2c": 5700,
+        "campRate": 2850
       },
       "rawPricing": {
         "b2b": 4248,
@@ -8887,7 +9174,8 @@
       "cprt": 850,
       "pricing": {
         "b2b": 2600,
-        "b2c": 3400
+        "b2c": 3400,
+        "campRate": 1700
       },
       "rawPricing": {
         "b2b": 2550,
@@ -8920,7 +9208,8 @@
       "cprt": 1573,
       "pricing": {
         "b2b": 4800,
-        "b2c": 6300
+        "b2c": 6300,
+        "campRate": 3150
       },
       "rawPricing": {
         "b2b": 4719,
@@ -8950,7 +9239,8 @@
       "cprt": 1734,
       "pricing": {
         "b2b": 5300,
-        "b2c": 7000
+        "b2c": 7000,
+        "campRate": 3500
       },
       "rawPricing": {
         "b2b": 5202,
@@ -8980,7 +9270,8 @@
       "cprt": 350,
       "pricing": {
         "b2b": 1100,
-        "b2c": 1800
+        "b2c": 1800,
+        "campRate": 900
       },
       "rawPricing": {
         "b2b": 1050,
@@ -9009,7 +9300,8 @@
       "cprt": 1224,
       "pricing": {
         "b2b": 3700,
-        "b2c": 5000
+        "b2c": 5000,
+        "campRate": 2500
       },
       "rawPricing": {
         "b2b": 3672,
@@ -9037,7 +9329,8 @@
       "cprt": 1507,
       "pricing": {
         "b2b": 4600,
-        "b2c": 6000
+        "b2c": 6000,
+        "campRate": 3000
       },
       "rawPricing": {
         "b2b": 4521,

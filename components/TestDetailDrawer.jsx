@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { money } from '../lib/formatters';
+import { getCampRate, getCatalogueRate } from '../lib/calculations';
 import { cleanProfileName } from '../lib/profileGroups';
 import parametersData from '../data/parameters.json';
 import testParametersData from '../data/test-parameters.json';
@@ -119,24 +120,20 @@ export default function TestDetailDrawer({
           </div>
 
           <div className="p-4 bg-white border border-line rounded-xl space-y-2.5 shadow-xs">
-            {!customerView && (
-              <div className="flex justify-between text-sm">
-                <span className="text-ink-soft">Camp Rate</span>
-                <span className="font-bold text-navy">{money(test.b2b)}</span>
-              </div>
-            )}
+            <div className="flex justify-between text-sm">
+              <span className="text-ink-soft">Camp Rate</span>
+              <span className="font-bold text-navy">{money(getCampRate(test))}</span>
+            </div>
             <div className="flex justify-between text-sm">
               <span className="text-ink-soft">Catalogue Rate</span>
-              <span className="font-bold text-navy text-base">{money(test.b2c)}</span>
+              <span className="font-bold text-navy text-base">{money(getCatalogueRate(test))}</span>
             </div>
-            {!customerView && (
-              <div className="flex justify-between text-sm pt-2 border-t border-line">
-                <span className="text-profit font-semibold" title="Includes Promotion, Collection, Consumables, Logistics & Margin">
-                  PCCLM Margin
-                </span>
-                <span className="text-profit font-bold">+{money(test.b2c - test.b2b)}</span>
-              </div>
-            )}
+            <div className="flex justify-between text-sm pt-2 border-t border-line">
+              <span className="text-profit font-semibold" title="Includes Promotion, Collection, Consumables, Logistics & Margin">
+                PCCLM Margin
+              </span>
+              <span className="text-profit font-bold">+{money(getCatalogueRate(test) - getCampRate(test))}</span>
+            </div>
           </div>
 
           {hasParameters && (

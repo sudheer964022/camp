@@ -140,8 +140,8 @@ export default function PrintProfilePage() {
   }, [packageById, catalogTestsByCode]);
 
   const totalB2C =
-    items.reduce((sum, item) => sum + (item.b2c || 0), 0) +
-    bundlePkgs.reduce((sum, pkg) => sum + (pkg.pricing?.b2c || 0), 0);
+    items.reduce((sum, item) => sum + (item.campRate ?? Math.round((item.b2c || 0) * 0.5)), 0) +
+    bundlePkgs.reduce((sum, pkg) => sum + (pkg.pricing?.campRate ?? Math.round((pkg.pricing?.b2c || 0) * 0.5)), 0);
 
   const allResolvedTests = [
     ...items,
@@ -587,7 +587,7 @@ export default function PrintProfilePage() {
                   {bundlePkgs.map((pkg, bIdx) => {
                     const groups = getProfileGroups(pkg, catalogTestsByCode);
                     const testCount = getProfileTestCount(pkg, catalogTestsByCode);
-                    const pkgPrice = pkg.pricing?.b2c || 0;
+                    const pkgPrice = pkg.pricing?.campRate ?? Math.round((pkg.pricing?.b2c || 0) * 0.5);
 
                     return (
                       <tr key={pkg.id || bIdx} className="border-b border-line package-row break-inside-auto">
@@ -648,7 +648,7 @@ export default function PrintProfilePage() {
                         )}
                       </td>
                       <td className="py-2.5 px-3 sm:px-4 text-right font-semibold text-navy">
-                        {formatRupees(t.b2c || 0)}
+                        {formatRupees(t.campRate ?? Math.round((t.b2c || 0) * 0.5))}
                       </td>
                     </tr>
                   ))}

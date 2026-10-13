@@ -120,7 +120,7 @@ export default function HowToCreateACamp() {
           setCart(map);
         } else if (parsed && typeof parsed === 'object') {
           const rawPackages = parsed.packages || [];
-          const sanitizedPkgs = sanitizeStoredPackages(rawPackages, catalogData.packages);
+          const sanitizedPkgs = sanitizeStoredPackages(rawPackages, catalogData.packages, catalogTestsByCode);
 
           const map = new Map();
           (parsed.codes || []).forEach((code) => {

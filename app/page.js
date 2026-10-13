@@ -6,11 +6,15 @@ import {
   cleanProfileName,
   getProfileTestCount,
   coveringPackage,
+  blockingPackage,
+  getOverlappingPackages,
   packageOwning,
   isBiggerThan,
   getProfileAllCodes,
   sanitizeStoredPackages,
-  isProfileIncludedIn
+  isProfileIncludedIn,
+  AVM_TIER_ORDER,
+  doProfilesOverlap
 } from '../lib/profileGroups';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
@@ -50,7 +54,7 @@ export default function Home() {
           setCart(map);
         } else if (parsed && typeof parsed === 'object') {
           const rawPackages = parsed.packages || [];
-          const sanitizedPkgs = sanitizeStoredPackages(rawPackages, catalogData.packages);
+          const sanitizedPkgs = sanitizeStoredPackages(rawPackages, catalogData.packages, catalogTestsByCode);
 
           const map = new Map();
           (parsed.codes || []).forEach(code => {
@@ -116,33 +120,42 @@ export default function Home() {
       return;
     }
 
-    const covering = coveringPackage(pkg, cartPackages, packageById, catalogTestsByCode);
-    if (covering) {
-      const coveringName = cleanProfileName(covering.name);
-
-      if (isBiggerThan(pkg, covering, catalogTestsByCode)) {
-        // Upgrade / Replace smaller covering profile with pkg
-        nextPkgs.delete(covering.id);
-        nextPkgs.add(pkg.id);
-
-        // Remove any individual tests from cart that belong to pkg
-        const pkgCodes = getProfileAllCodes(pkg, catalogTestsByCode);
-        const nextCart = new Map(cart);
-        pkgCodes.forEach(c => nextCart.delete(c));
-
-        saveState(nextCart, nextPkgs);
-        setToastMessage(`${coveringName} was replaced by ${pkgName}`);
-        return;
-      }
-
-      // Blocked because pkg is already inside covering or overlaps
-      const isSubset = isProfileIncludedIn(pkg, covering, catalogTestsByCode);
+    const blocker = blockingPackage(pkg, cartPackages, packageById, catalogTestsByCode);
+    if (blocker) {
+      const blockerName = cleanProfileName(blocker.name);
+      const isSubset = isProfileIncludedIn(pkg, blocker, catalogTestsByCode);
       const msg = isSubset
-        ? `${pkgName} is already included in ${coveringName}`
-        : `${pkgName} overlaps with ${coveringName} already in your profile — remove that first to add ${pkgName} separately`;
+        ? `${pkgName} is already included in ${blockerName}`
+        : `${pkgName} overlaps with ${blockerName} already in your profile — remove that first to add ${pkgName} separately`;
       setToastMessage(msg);
       return;
     }
+
+    // Find all active packages that overlap with or are included in pkg
+    const overlapping = getOverlappingPackages(pkg, cartPackages, packageById, catalogTestsByCode);
+    const replacedNames = [];
+
+    // Remove all overlapping smaller profiles
+    for (const active of overlapping) {
+      nextPkgs.delete(active.id);
+      replacedNames.push(cleanProfileName(active.name));
+    }
+
+    // Safety sweep: Also remove any active package that is included in pkg or is a lower AVM tier
+    for (const activeId of Array.from(nextPkgs)) {
+      const active = packageById[activeId];
+      if (active && (
+        isProfileIncludedIn(active, pkg, catalogTestsByCode) ||
+        (AVM_TIER_ORDER[active.id] && AVM_TIER_ORDER[pkg.id] && AVM_TIER_ORDER[active.id] < AVM_TIER_ORDER[pkg.id]) ||
+        (isBiggerThan(pkg, active, catalogTestsByCode) && doProfilesOverlap(pkg, active, catalogTestsByCode))
+      )) {
+        nextPkgs.delete(activeId);
+        replacedNames.push(cleanProfileName(active.name));
+      }
+    }
+
+    // Add selected package
+    nextPkgs.add(pkg.id);
 
     // Roll any individual tests already in cart into the package
     const pkgCodes = getProfileAllCodes(pkg, catalogTestsByCode);
@@ -155,10 +168,13 @@ export default function Home() {
       }
     });
 
-    nextPkgs.add(pkg.id);
     saveState(nextCart, nextPkgs);
 
-    if (rolled.length > 0) {
+    if (replacedNames.length > 0) {
+      const uniqueReplaced = Array.from(new Set(replacedNames));
+      const listStr = uniqueReplaced.slice(0, 2).join(', ') + (uniqueReplaced.length > 2 ? ` (+${uniqueReplaced.length - 2} more)` : '');
+      setToastMessage(`${pkgName} added — replaced ${listStr}`);
+    } else if (rolled.length > 0) {
       setToastMessage(`${rolled.slice(0, 3).join(', ')}${rolled.length > 3 ? ` (+${rolled.length - 3} more)` : ''} rolled into ${pkgName}`);
     } else {
       setToastMessage(`Added ${pkgName} to your profile`);
@@ -198,9 +214,9 @@ export default function Home() {
 
   const lplTestsCount = useMemo(() => (catalogData.tests || []).filter(t => t.processedAt === 'LPL').length, []);
   const lplProfilesCount = useMemo(() => (catalogData.packages || []).filter(p => !p.processedAt || p.processedAt === 'LPL').length, []);
-  const minCatalogueRate = useMemo(() => {
-    const lplT = (catalogData.tests || []).filter(t => t.processedAt === 'LPL').map(t => t.b2c || 9999);
-    const lplP = (catalogData.packages || []).filter(p => !p.processedAt || p.processedAt === 'LPL').map(p => p.pricing?.b2c || 9999);
+  const minCampRate = useMemo(() => {
+    const lplT = (catalogData.tests || []).filter(t => t.processedAt === 'LPL').map(t => t.campRate ?? Math.round((t.b2c || 9999) * 0.5));
+    const lplP = (catalogData.packages || []).filter(p => !p.processedAt || p.processedAt === 'LPL').map(p => p.pricing?.campRate ?? Math.round((p.pricing?.b2c || 9999) * 0.5));
     return Math.min(...lplT, ...lplP);
   }, []);
 
@@ -224,7 +240,7 @@ export default function Home() {
       <Hero
         testCount={lplTestsCount}
         profileCount={lplProfilesCount}
-        minRate={minCatalogueRate}
+        minRate={minCampRate}
       />
 
       <RateListSection

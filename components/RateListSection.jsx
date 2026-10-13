@@ -3,8 +3,8 @@
 import { useState, useMemo } from 'react';
 import * as XLSX from 'xlsx';
 import { money } from '../lib/formatters';
-import { margin } from '../lib/calculations';
-import { cleanProfileName, getProfileTestCount, getProfileGroups, coveringPackage, packageOwning, isBiggerThan } from '../lib/profileGroups';
+import { margin, getCampRate, getCatalogueRate } from '../lib/calculations';
+import { cleanProfileName, getProfileTestCount, getProfileGroups, coveringPackage, blockingPackage, getOverlappingPackages, packageOwning, isBiggerThan } from '../lib/profileGroups';
 
 function PlusIcon({ className = "w-4 h-4" }) {
   return (
@@ -58,10 +58,10 @@ export default function RateListSection({
   }, [catalog.technologies]);
 
   const lplPriceBands = useMemo(() => [
-    { id: 'under-25', label: 'Under ₹25', max: 24 },
-    { id: '25-50', label: '₹25 – ₹50', min: 25, max: 50 },
-    { id: '50-100', label: '₹50 – ₹100', min: 51, max: 100 },
-    { id: 'above-100', label: 'Above ₹100', min: 101 },
+    { id: 'under-50', label: 'Under ₹50', max: 49 },
+    { id: '50-100', label: '₹50 – ₹100', min: 50, max: 100 },
+    { id: '100-250', label: '₹100 – ₹250', min: 101, max: 250 },
+    { id: 'above-250', label: 'Above ₹250', min: 251 },
   ], []);
 
   const lplTests = useMemo(() => (catalog.tests || []).filter(t => t.processedAt === 'LPL'), [catalog.tests]);
@@ -98,15 +98,13 @@ export default function RateListSection({
     return Object.fromEntries((catalog.tests || []).map(t => [t.code, t]));
   }, [catalog.tests]);
 
-  // Mirrors BBC App's blockingPackage()/isBiggerThan() logic:
-  // A profile overlapping with an active cart profile is only BLOCKED (⊘)
-  // when the active profile is BIGGER — if the new one is bigger it would
-  // auto-replace (upgrade) the smaller one, so it stays as a normal + button.
   const getBlockingPackage = (pkg) => {
-    const covering = coveringPackage(pkg, cartPackages, packageById, catalogTestsByCode);
-    if (!covering) return null;
-    // If pkg is strictly bigger than the covering, it's an upgrade — not blocked.
-    return isBiggerThan(pkg, covering, catalogTestsByCode) ? null : covering;
+    return blockingPackage(pkg, cartPackages, packageById, catalogTestsByCode);
+  };
+
+  const getUpgradePackages = (pkg) => {
+    if (blockingPackage(pkg, cartPackages, packageById, catalogTestsByCode)) return [];
+    return getOverlappingPackages(pkg, cartPackages, packageById, catalogTestsByCode);
   };
 
   const clearAllFilters = () => {
@@ -127,8 +125,9 @@ export default function RateListSection({
         const matchesBand = Array.from(selectedPriceBands).some(bandId => {
           const band = lplPriceBands.find(b => b.id === bandId) || (catalog.priceBands || []).find(b => b.id === bandId);
           if (!band) return false;
-          if (band.min != null && t.b2b < band.min) return false;
-          if (band.max != null && t.b2b > band.max) return false;
+          const testRate = getCampRate(t);
+          if (band.min != null && testRate < band.min) return false;
+          if (band.max != null && testRate > band.max) return false;
           return true;
         });
         if (!matchesBand) return false;
@@ -142,17 +141,23 @@ export default function RateListSection({
     }).sort((a, b) => {
       const aName = a.name || '';
       const bName = b.name || '';
+      const aCamp = getCampRate(a);
+      const bCamp = getCampRate(b);
+      const aCat = getCatalogueRate(a);
+      const bCat = getCatalogueRate(b);
+      const aMargin = aCat - aCamp;
+      const bMargin = bCat - bCamp;
       if (sortMode === 'name') return aName.localeCompare(bName, undefined, { numeric: true, sensitivity: 'base' });
       if (sortMode === 'name-desc') return bName.localeCompare(aName, undefined, { numeric: true, sensitivity: 'base' });
-      if (sortMode === 'b2b-asc') return (a.b2b - b.b2b) || (a.b2c - b.b2c) || aName.localeCompare(bName);
-      if (sortMode === 'b2b-desc') return (b.b2b - a.b2b) || (b.b2c - a.b2c) || aName.localeCompare(bName);
-      if (sortMode === 'b2c-asc') return (a.b2c - b.b2c) || (a.b2b - b.b2b) || aName.localeCompare(bName);
-      if (sortMode === 'b2c-desc') return (b.b2c - a.b2c) || (b.b2b - a.b2b) || aName.localeCompare(bName);
-      if (sortMode === 'margin-desc') return (margin(b) - margin(a)) || aName.localeCompare(bName);
-      if (sortMode === 'margin-asc') return (margin(a) - margin(b)) || aName.localeCompare(bName);
-      return (a.b2b - b.b2b) || aName.localeCompare(bName);
+      if (sortMode === 'b2b-asc') return (aCamp - bCamp) || (aCat - bCat) || aName.localeCompare(bName);
+      if (sortMode === 'b2b-desc') return (bCamp - aCamp) || (bCat - aCat) || aName.localeCompare(bName);
+      if (sortMode === 'b2c-asc') return (aCat - bCat) || (aCamp - bCamp) || aName.localeCompare(bName);
+      if (sortMode === 'b2c-desc') return (bCat - aCat) || (bCamp - aCamp) || aName.localeCompare(bName);
+      if (sortMode === 'margin-desc') return (bMargin - aMargin) || aName.localeCompare(bName);
+      if (sortMode === 'margin-asc') return (aMargin - bMargin) || aName.localeCompare(bName);
+      return (aCamp - bCamp) || aName.localeCompare(bName);
     });
-  }, [catalog.tests, catalog.priceBands, selectedTechs, selectedSamples, selectedPriceBands, searchTerm, sortMode]);
+  }, [catalog.tests, catalog.priceBands, selectedTechs, selectedSamples, selectedPriceBands, searchTerm, sortMode, lplPriceBands]);
 
   const filteredPackages = useMemo(() => {
     return catalog.packages.filter(p => {
@@ -164,20 +169,23 @@ export default function RateListSection({
       }
       return true;
     }).sort((a, b) => {
-      const aB2b = p => p.pricing?.b2b || 0;
-      const aB2c = p => p.pricing?.b2c || 0;
-      const aMargin = p => (p.pricing?.b2c || 0) - (p.pricing?.b2b || 0);
+      const aCamp = getCampRate(a);
+      const bCamp = getCampRate(b);
+      const aCat = getCatalogueRate(a);
+      const bCat = getCatalogueRate(b);
+      const aMargin = aCat - aCamp;
+      const bMargin = bCat - bCamp;
       const aName = cleanProfileName(a.name);
       const bName = cleanProfileName(b.name);
       if (sortMode === 'name') return aName.localeCompare(bName, undefined, { numeric: true, sensitivity: 'base' });
       if (sortMode === 'name-desc') return bName.localeCompare(aName, undefined, { numeric: true, sensitivity: 'base' });
-      if (sortMode === 'b2b-asc') return (aB2b(a) - aB2b(b)) || (aB2c(a) - aB2c(b)) || aName.localeCompare(bName);
-      if (sortMode === 'b2b-desc') return (aB2b(b) - aB2b(a)) || (aB2c(b) - aB2c(a)) || aName.localeCompare(bName);
-      if (sortMode === 'b2c-asc') return (aB2c(a) - aB2c(b)) || (aB2b(a) - aB2b(b)) || aName.localeCompare(bName);
-      if (sortMode === 'b2c-desc') return (aB2c(b) - aB2c(a)) || (aB2b(b) - aB2b(a)) || aName.localeCompare(bName);
-      if (sortMode === 'margin-desc') return (aMargin(b) - aMargin(a)) || aName.localeCompare(bName);
-      if (sortMode === 'margin-asc') return (aMargin(a) - aMargin(b)) || aName.localeCompare(bName);
-      return (aB2b(a) - aB2b(b)) || aName.localeCompare(bName);
+      if (sortMode === 'b2b-asc') return (aCamp - bCamp) || (aCat - bCat) || aName.localeCompare(bName);
+      if (sortMode === 'b2b-desc') return (bCamp - aCamp) || (bCat - aCat) || aName.localeCompare(bName);
+      if (sortMode === 'b2c-asc') return (aCat - bCat) || (aCamp - bCamp) || aName.localeCompare(bName);
+      if (sortMode === 'b2c-desc') return (bCat - aCat) || (bCamp - aCamp) || aName.localeCompare(bName);
+      if (sortMode === 'margin-desc') return (bMargin - aMargin) || aName.localeCompare(bName);
+      if (sortMode === 'margin-asc') return (aMargin - bMargin) || aName.localeCompare(bName);
+      return (aCamp - bCamp) || aName.localeCompare(bName);
     });
   }, [catalog.packages, searchTerm, sortMode]);
 
@@ -232,32 +240,36 @@ export default function RateListSection({
 
   const handleExportTable = () => {
     try {
-      const testsData = lplTests.map((item, idx) => ({
-        'S.No': idx + 1,
-        'Test Code': item.code,
-        'Test Name': item.name,
-        'Technology': item.tech || '—',
-        'Sample': item.sample || '—',
-        'Processed At': item.processedAt || 'LPL',
-        ...(customerView ? {} : { 'Camp Rate (₹)': item.b2b }),
-        'Catalogue Rate (₹)': item.b2c,
-        'PCCLM Margin (₹)': margin(item)
-      }));
+      const testsData = lplTests.map((item, idx) => {
+        const camp = getCampRate(item);
+        const cat = getCatalogueRate(item);
+        return {
+          'S.No': idx + 1,
+          'Test Code': item.code,
+          'Test Name': item.name,
+          'Technology': item.tech || '—',
+          'Sample': item.sample || '—',
+          'Processed At': item.processedAt || 'LPL',
+          'Camp Rate (₹)': camp,
+          'Catalogue Rate (₹)': cat,
+          'PCCLM Margin (₹)': cat - camp
+        };
+      });
 
       const profilesData = lplPackages.map((item, idx) => {
         const groups = getProfileGroups(item, catalogTestsByCode);
         const testsIncluded = groups.map(g => g.label + (g.parameters?.length ? `: ${g.parameters.join(', ')}` : '')).join('; ') || item.contentsText || '';
-        const b2b = item.pricing?.b2b || 0;
-        const b2c = item.pricing?.b2c || 0;
+        const camp = getCampRate(item);
+        const cat = getCatalogueRate(item);
         const testCount = getProfileTestCount(item, catalogTestsByCode);
         return {
           'S.No': idx + 1,
           'Profile Name': `${cleanProfileName(item.name)}${testCount > 0 ? ` (${testCount})` : ''}`,
           'Tests Included': testsIncluded,
           'Processed At': item.processedAt || 'LPL',
-          ...(customerView ? {} : { 'Camp Rate (₹)': b2b }),
-          'Catalogue Rate (₹)': b2c,
-          'PCCLM Margin (₹)': b2c - b2b
+          'Camp Rate (₹)': camp,
+          'Catalogue Rate (₹)': cat,
+          'PCCLM Margin (₹)': cat - camp
         };
       });
 
@@ -714,13 +726,13 @@ export default function RateListSection({
                       </div>
                       <div className="text-xs text-ink-soft">{test.sample}</div>
                       <div className="text-right font-bold text-navy text-sm sm:text-base">
-                        {customerView ? '—' : money(test.b2b)}
+                        {money(getCampRate(test))}
                       </div>
                       <div className="text-right font-bold text-navy text-sm sm:text-base">
-                        {money(test.b2c)}
+                        {money(getCatalogueRate(test))}
                       </div>
                       <div className="text-right font-bold text-[#059669] text-sm sm:text-base">
-                        +{money(margin(test))}
+                        +{money(getCatalogueRate(test) - getCampRate(test))}
                       </div>
                       <div className="flex justify-center">
                         {owner ? (
@@ -803,14 +815,9 @@ export default function RateListSection({
                 {paginatedItems.map(pkg => {
                   const isAdded = cartPackages.has(pkg.id);
                   const blockingPkg = !isAdded ? getBlockingPackage(pkg) : null;
-                  // Detect upgrade case: overlapping but pkg is bigger → show + (not ⊘)
-                  const coveringPkg = !isAdded && !blockingPkg
-                    ? coveringPackage(pkg, cartPackages, packageById, catalogTestsByCode)
-                    : null;
-                  const isUpgrade = !!coveringPkg; // covering exists but wasn't blocking → upgrade
+                  const upgradePkgs = !isAdded && !blockingPkg ? getUpgradePackages(pkg) : [];
+                  const isUpgrade = upgradePkgs.length > 0;
                   const isExpanded = expandedProfiles.has(pkg.id);
-                  const b2b = pkg.pricing?.b2b || 0;
-                  const b2c = pkg.pricing?.b2c || 0;
                   const testCount = getProfileTestCount(pkg, catalogTestsByCode);
                   const groups = getProfileGroups(pkg, catalogTestsByCode);
 
@@ -839,15 +846,15 @@ export default function RateListSection({
                         </div>
 
                         <div className="text-right font-bold text-navy text-sm sm:text-base">
-                          {customerView ? '—' : money(b2b)}
+                          {money(getCampRate(pkg))}
                         </div>
 
                         <div className="text-right font-bold text-navy text-sm sm:text-base">
-                          {money(b2c)}
+                          {money(getCatalogueRate(pkg))}
                         </div>
 
                         <div className="text-right font-bold text-[#059669] text-sm sm:text-base">
-                          +{money(b2c - b2b)}
+                          +{money(getCatalogueRate(pkg) - getCampRate(pkg))}
                         </div>
 
                         <div className="flex justify-center">
@@ -874,13 +881,13 @@ export default function RateListSection({
                               <CheckIcon className="w-4 h-4 text-white" />
                             </button>
                           ) : (
-                            // Add (or upgrade-replace a smaller profile)
+                            // Add (or upgrade-replace smaller profiles)
                             <button
                               type="button"
                               onClick={() => onTogglePackage(pkg)}
                               className="w-8 h-8 rounded-full border border-slate-300 bg-white text-slate-700 hover:border-[#1E63B4] hover:bg-[#1E63B4] hover:text-white flex items-center justify-center transition-all cursor-pointer select-none shadow-2xs hover:shadow-xs active:scale-95"
-                              aria-label={isUpgrade ? `Replace ${cleanProfileName(coveringPkg.name)} with ${cleanProfileName(pkg.name)}` : `Add ${pkg.name}`}
-                              title={isUpgrade ? `Replaces ${cleanProfileName(coveringPkg.name)} (upgrade)` : 'Add to profile'}
+                              aria-label={isUpgrade ? `Replace ${upgradePkgs.map(p => cleanProfileName(p.name)).join(', ')} with ${cleanProfileName(pkg.name)}` : `Add ${pkg.name}`}
+                              title={isUpgrade ? `Replaces ${upgradePkgs.map(p => cleanProfileName(p.name)).join(', ')} (upgrade)` : 'Add to profile'}
                             >
                               <PlusIcon className="w-4 h-4" />
                             </button>
@@ -971,7 +978,7 @@ export default function RateListSection({
                         Camp Rate
                       </div>
                       <div className="font-extrabold text-navy text-xs sm:text-sm mt-0.5">
-                        {customerView ? '—' : money(test.b2b)}
+                        {money(getCampRate(test))}
                       </div>
                     </div>
                     <div>
@@ -979,7 +986,7 @@ export default function RateListSection({
                         Catalogue Rate
                       </div>
                       <div className="font-extrabold text-navy text-xs sm:text-sm mt-0.5">
-                        {money(test.b2c)}
+                        {money(getCatalogueRate(test))}
                       </div>
                     </div>
                     <div>
@@ -987,7 +994,7 @@ export default function RateListSection({
                         PCCLM
                       </div>
                       <div className="font-extrabold text-[#059669] text-xs sm:text-sm mt-0.5">
-                        +{money(margin(test))}
+                        +{money(getCatalogueRate(test) - getCampRate(test))}
                       </div>
                     </div>
                   </div>
@@ -1030,9 +1037,9 @@ export default function RateListSection({
             paginatedItems.map(pkg => {
               const isAdded = cartPackages.has(pkg.id);
               const blockingPkg = !isAdded ? getBlockingPackage(pkg) : null;
+              const upgradePkgs = !isAdded && !blockingPkg ? getUpgradePackages(pkg) : [];
+              const isUpgrade = upgradePkgs.length > 0;
               const isExpanded = expandedProfiles.has(pkg.id);
-              const b2b = pkg.pricing?.b2b || 0;
-              const b2c = pkg.pricing?.b2c || 0;
               const testCount = getProfileTestCount(pkg, catalogTestsByCode);
               const groups = getProfileGroups(pkg, catalogTestsByCode);
 
@@ -1091,7 +1098,7 @@ export default function RateListSection({
                         Camp Rate
                       </div>
                       <div className="font-extrabold text-navy text-xs sm:text-sm mt-0.5">
-                        {customerView ? '—' : money(b2b)}
+                        {money(getCampRate(pkg))}
                       </div>
                     </div>
                     <div>
@@ -1099,7 +1106,7 @@ export default function RateListSection({
                         Catalogue Rate
                       </div>
                       <div className="font-extrabold text-navy text-xs sm:text-sm mt-0.5">
-                        {money(b2c)}
+                        {money(getCatalogueRate(pkg))}
                       </div>
                     </div>
                     <div>
@@ -1107,7 +1114,7 @@ export default function RateListSection({
                         PCCLM
                       </div>
                       <div className="font-extrabold text-[#059669] text-xs sm:text-sm mt-0.5">
-                        +{money(b2c - b2b)}
+                        +{money(getCatalogueRate(pkg) - getCampRate(pkg))}
                       </div>
                     </div>
                   </div>
@@ -1134,6 +1141,11 @@ export default function RateListSection({
                         <>
                           <CheckIcon className="w-3.5 h-3.5 text-white" />
                           <span>Added to Profile</span>
+                        </>
+                      ) : isUpgrade ? (
+                        <>
+                          <PlusIcon className="w-3.5 h-3.5 text-white" />
+                          <span>Upgrade to {cleanProfileName(pkg.name)}</span>
                         </>
                       ) : (
                         <>
