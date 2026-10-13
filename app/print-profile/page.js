@@ -32,13 +32,10 @@ export default function PrintProfilePage() {
 
   useEffect(() => {
     const now = new Date();
-    setDateStr(
-      now.toLocaleDateString('en-IN', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
-      })
-    );
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    setDateStr(`${day}-${month}-${year}`);
 
     try {
       let codes = [];
