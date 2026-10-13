@@ -388,10 +388,10 @@ export default function PrintProfilePage() {
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-3 bg-emerald-bg/70 px-3 sm:px-4 py-2 sm:py-3 border-b border-line/60 rounded-none">
                               <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                                 <span className="font-bold text-xs sm:text-base text-navy">
-                                  {cleanProfileName(pkg.name)}
+                                  {cleanProfileName(pkg.name)} {testCount > 0 ? `(${testCount})` : ''}
                                 </span>
                                 <span className="text-[11px] sm:text-xs text-ink-soft font-medium">
-                                  ({testCount} tests included)
+                                  (Tests included)
                                 </span>
                               </div>
                               <span className="font-bold text-xs sm:text-base text-emerald font-mono">

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export default function Hero({ onOpenCart }) {
+export default function Hero({ onOpenCart, testCount = 78, profileCount = 13, minRate = 50 }) {
   return (
     <section className="relative overflow-hidden bg-[#F4F5EF] pt-4 sm:pt-6 pb-6 sm:pb-8" id="top">
       <div className="max-w-[1180px] mx-auto px-4 sm:px-7">
@@ -14,9 +14,9 @@ export default function Hero({ onOpenCart }) {
           />
         </div>
 
-        {/* 4 Floating Stat Cards below Banner */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 mt-3 sm:mt-5">
-          {/* Card 1: 79 LPL tests */}
+        {/* 3 Floating Stat Cards below Banner (Centered) */}
+        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-3 sm:mt-5">
+          {/* Card 1: 78 LPL tests */}
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md p-3 sm:p-4 flex items-center gap-3 transition-all">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center flex-none">
               <svg className="w-5 h-5 sm:w-5.5 sm:h-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -26,12 +26,12 @@ export default function Hero({ onOpenCart }) {
               </svg>
             </div>
             <div>
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-slate-800 leading-none">79</div>
-              <div className="text-[11px] sm:text-xs font-medium text-slate-500 mt-1">LPL tests</div>
+              <div className="text-lg sm:text-xl md:text-2xl font-bold text-slate-800 leading-none">{testCount}</div>
+              <div className="text-[11px] sm:text-xs font-medium text-slate-500 mt-1">Tests</div>
             </div>
           </div>
 
-          {/* Card 2: 13 LPL profiles */}
+          {/* Card 2: 13 profiles */}
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md p-3 sm:p-4 flex items-center gap-3 transition-all">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center flex-none">
               <svg className="w-5 h-5 sm:w-5.5 sm:h-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -41,12 +41,12 @@ export default function Hero({ onOpenCart }) {
               </svg>
             </div>
             <div>
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-slate-800 leading-none">13</div>
-              <div className="text-[11px] sm:text-xs font-medium text-slate-500 mt-1">LPL profiles</div>
+              <div className="text-lg sm:text-xl md:text-2xl font-bold text-slate-800 leading-none">{profileCount}</div>
+              <div className="text-[11px] sm:text-xs font-medium text-slate-500 mt-1">Profiles</div>
             </div>
           </div>
 
-          {/* Card 3: ₹5 Camp rates from */}
+          {/* Card 3: ₹50 Catalogue rates from */}
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md p-3 sm:p-4 flex items-center gap-3 transition-all">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center flex-none">
               <svg className="w-5 h-5 sm:w-5.5 sm:h-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -55,24 +55,8 @@ export default function Hero({ onOpenCart }) {
               </svg>
             </div>
             <div>
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-slate-800 leading-none">₹5</div>
+              <div className="text-lg sm:text-xl md:text-2xl font-bold text-slate-800 leading-none">₹{minRate}</div>
               <div className="text-[11px] sm:text-xs font-medium text-slate-500 mt-1">Camp rates from</div>
-            </div>
-          </div>
-
-          {/* Card 4: 10 Oct 2026 India menu version */}
-          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md p-3 sm:p-4 flex items-center gap-3 transition-all">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center flex-none">
-              <svg className="w-5 h-5 sm:w-5.5 sm:h-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="3" />
-                <line x1="16" y1="2" x2="16" y2="6" />
-                <line x1="8" y1="2" x2="8" y2="6" />
-                <line x1="3" y1="10" x2="21" y2="10" />
-              </svg>
-            </div>
-            <div>
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-slate-800 leading-none">10 Oct 2026</div>
-              <div className="text-[11px] sm:text-xs font-medium text-slate-500 mt-1">India menu version</div>
             </div>
           </div>
         </div>

@@ -56,9 +56,11 @@ export default function TestDetailDrawer({
               <span className="font-mono font-bold text-xs bg-paper px-2 py-0.5 rounded text-navy border border-line">
                 {test.displayCode || test.code}
               </span>
-              <span className={`text-xs font-mono uppercase tracking-wider font-bold px-2 py-0.5 rounded ${test.processedAt === 'CRL' ? 'bg-[#F0EBFB] text-[#7C4FE0]' : 'bg-teal-bg text-teal'}`}>
-                {test.processedAt || 'LPL'}
-              </span>
+              {test.processedAt && test.processedAt !== 'LPL' && (
+                <span className={`text-xs font-mono uppercase tracking-wider font-bold px-2 py-0.5 rounded ${test.processedAt === 'CRL' ? 'bg-[#F0EBFB] text-[#7C4FE0]' : 'bg-teal-bg text-teal'}`}>
+                  {test.processedAt}
+                </span>
+              )}
               {test.tech && (
                 <span className="text-xs font-medium px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
                   {test.tech}
@@ -71,9 +73,6 @@ export default function TestDetailDrawer({
                 (also known as {test.aliases.join(', ')})
               </p>
             )}
-            {test.category && (
-              <p className="text-xs text-ink-faint mt-1 font-medium">{test.category}</p>
-            )}
           </div>
 
           <div className="grid grid-cols-2 gap-3 p-4 bg-paper/60 border border-line rounded-xl text-xs">
@@ -81,10 +80,12 @@ export default function TestDetailDrawer({
               <span className="text-ink-faint block">Sample</span>
               <span className="font-semibold text-navy mt-0.5 block">{test.sample || 'Serum'}</span>
             </div>
-            <div>
-              <span className="text-ink-faint block">Processed At</span>
-              <span className="font-semibold text-navy mt-0.5 block">{test.processedAt || 'LPL'}</span>
-            </div>
+            {test.processedAt && test.processedAt !== 'LPL' && (
+              <div>
+                <span className="text-ink-faint block">Processed At</span>
+                <span className="font-semibold text-navy mt-0.5 block">{test.processedAt}</span>
+              </div>
+            )}
             {test.analyzer && (
               <div>
                 <span className="text-ink-faint block">Analyzer</span>
@@ -102,12 +103,12 @@ export default function TestDetailDrawer({
           <div className="p-4 bg-white border border-line rounded-xl space-y-2.5 shadow-xs">
             {!customerView && (
               <div className="flex justify-between text-sm">
-                <span className="text-ink-soft">Processing Cost</span>
+                <span className="text-ink-soft">Camp Rate</span>
                 <span className="font-bold text-navy">{money(test.b2b)}</span>
               </div>
             )}
             <div className="flex justify-between text-sm">
-              <span className="text-ink-soft">Test Price</span>
+              <span className="text-ink-soft">Catalogue Rate</span>
               <span className="font-bold text-navy text-base">{money(test.b2c)}</span>
             </div>
             {!customerView && (
@@ -157,22 +158,39 @@ export default function TestDetailDrawer({
             <button
               onClick={() => onToggleTest(test.code)}
               type="button"
-              className="w-full py-3 px-4 rounded-xl font-semibold text-sm transition-all shadow-sm cursor-pointer border border-slate-300 text-slate-500 bg-slate-100 hover:bg-slate-200 flex items-center justify-center gap-1.5"
+              className="w-full py-3 px-4 rounded-xl font-semibold text-sm transition-all shadow-sm cursor-pointer border border-slate-300 text-slate-500 bg-slate-100 hover:bg-slate-200 flex items-center justify-center gap-2"
             >
-              <span>⊘</span>
+              <svg className="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" />
+                <line x1="5.7" y1="5.7" x2="18.3" y2="18.3" />
+              </svg>
               <span>Included in {cleanProfileName(owner.name)}</span>
             </button>
           ) : (
             <button
               onClick={() => onToggleTest(test.code)}
               type="button"
-              className={`w-full py-3 px-4 rounded-xl font-semibold text-sm transition-all shadow-sm cursor-pointer ${
-                isAdded
-                  ? 'bg-emerald-bg border border-emerald text-emerald-dark hover:bg-red-50 hover:border-red-300 hover:text-red-700'
-                  : 'bg-navy hover:bg-navy-soft text-white'
-              }`}
+              className={`w-full py-3 px-4 rounded-xl font-semibold text-sm transition-all shadow-sm cursor-pointer flex items-center justify-center gap-2 ${isAdded
+                ? 'bg-emerald-bg border border-emerald text-emerald-dark hover:bg-red-50 hover:border-red-300 hover:text-red-700'
+                : 'bg-navy hover:bg-navy-soft text-white'
+                }`}
             >
-              {isAdded ? '✓ Added to Profile (Click to remove)' : '+ Add to Profile'}
+              {isAdded ? (
+                <>
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span>Added to Profile (Click to remove)</span>
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  <span>Add to Profile</span>
+                </>
+              )}
             </button>
           )}
         </div>

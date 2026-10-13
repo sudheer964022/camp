@@ -226,7 +226,7 @@ export default function HowToCreateACamp() {
         'Selected tests / profiles and camp discount on MRP'
       ],
       linkText: 'Register with the AVMLabs camp team →',
-      linkHref: 'https://wa.me/918113000571?text=Hello%20AVMLabs,%20I%20would%20like%20to%20register%20a%20Health%20Camp'
+      linkHref: 'https://wa.me/919600661732?text=Hello%20AVMLabs,%20I%20would%20like%20to%20register%20a%20Health%20Camp'
     },
     {
       num: '05',

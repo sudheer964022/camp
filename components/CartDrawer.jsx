@@ -44,8 +44,8 @@ export default function CartDrawer({
       `Total Tests & Profiles: ${bundlePkgs.length + cartItems.length}`,
       ...bundlePkgs.map(p => `- [Profile] ${cleanProfileName(p.name)} (${getProfileTestCount(p)} tests) | Price: ₹${p.pricing?.b2c}`),
       ...cartItems.map(t => `- ${t.name} (${t.code}) | Price: ₹${t.b2c}`),
-      customerView ? '' : `Processing Cost: ₹${calc.netB2b}`,
-      `Profile Price: ₹${calc.b2c}`,
+      customerView ? '' : `Camp Rate: ₹${calc.netB2b}`,
+      `Catalogue Rate: ₹${calc.b2c}`,
       pp.isDiscounted ? `Discounted Price: ₹${pp.price}` : '',
       customerView ? '' : `PCCLM: ₹${finalMargin}`
     ].filter(Boolean).join('\n');
@@ -63,8 +63,8 @@ export default function CartDrawer({
       'Technology': 'Bundle Profile',
       'Sample': 'Serum / Mixed',
       'Processed At': p.processedAt || 'LPL',
-      ...(customerView ? {} : { 'Processing Cost (₹)': p.pricing?.b2b || 0 }),
-      'Test Price (₹)': p.pricing?.b2c || 0,
+      ...(customerView ? {} : { 'Camp Rate (₹)': p.pricing?.b2b || 0 }),
+      'Catalogue Rate (₹)': p.pricing?.b2c || 0,
       ...(customerView ? {} : { 'PCCLM (₹)': (p.pricing?.b2c || 0) - (p.pricing?.b2b || 0) })
     }));
 
@@ -75,8 +75,8 @@ export default function CartDrawer({
       'Technology': t.tech,
       'Sample': t.sample,
       'Processed At': t.processedAt,
-      ...(customerView ? {} : { 'Processing Cost (₹)': t.b2b }),
-      'Test Price (₹)': t.b2c,
+      ...(customerView ? {} : { 'Camp Rate (₹)': t.b2b }),
+      'Catalogue Rate (₹)': t.b2c,
       ...(customerView ? {} : { 'PCCLM (₹)': t.b2c - t.b2b })
     }));
 
@@ -185,7 +185,9 @@ export default function CartDrawer({
                       return (
                         <li key={pkg.id} className="p-3 bg-sky-50/30 rounded-xl border border-[#93C5FD]/40 flex items-center justify-between gap-3">
                           <div className="min-w-0 flex-1">
-                            <div className="font-bold text-sm text-navy">{cleanProfileName(pkg.name)}</div>
+                            <div className="font-bold text-sm text-navy">
+                              {cleanProfileName(pkg.name)} {pkgTestCount > 0 ? `(${pkgTestCount})` : ''}
+                            </div>
                             <div className="text-xs text-[#1E63B4] font-semibold mt-0.5">
                               {pkgTestCount} tests included
                             </div>
@@ -273,7 +275,7 @@ export default function CartDrawer({
             {!customerView && (
               <>
                 <div className="flex justify-between text-ink-soft font-medium">
-                  <span>Processing Cost</span>
+                  <span>Camp Rate</span>
                   <span className="font-bold text-navy">{money(calc.netB2b)}</span>
                 </div>
                 {mpbDiff > 0 && (
@@ -286,10 +288,9 @@ export default function CartDrawer({
 
             {/* Profile Price — struck once discounted */}
             <div className="flex justify-between text-ink-soft font-medium">
-              <span>Profile Price</span>
-              <span className={`font-bold ${
-                pp.isDiscounted ? 'line-through text-ink-faint font-normal' : 'text-navy'
-              }`}>
+              <span>Catalogue Rate</span>
+              <span className={`font-bold ${pp.isDiscounted ? 'line-through text-ink-faint font-normal' : 'text-navy'
+                }`}>
                 {money(calc.b2c)}
               </span>
             </div>
@@ -361,14 +362,13 @@ export default function CartDrawer({
               {/* Right: YOUR PCCLM highlighted box */}
               <div className="flex-1 rounded-xl border-2 border-[#1E63B4]/40 bg-[#EFF6FF] px-3 py-2.5 flex flex-col justify-center">
                 <div className="flex items-center gap-1 mb-1">
-                  <span className="w-2 h-2 rounded-full bg-[#1E63B4] flex-none"/>
+                  <span className="w-2 h-2 rounded-full bg-[#1E63B4] flex-none" />
                   <span className="text-[10px] font-bold font-mono uppercase tracking-widest text-[#1E63B4] leading-tight">
                     Your PCCLM{pp.isDiscounted ? ' (After Discount)' : ''}
                   </span>
                 </div>
-                <span className={`text-xl font-extrabold ${
-                  finalMargin < 0 ? 'text-red-600' : 'text-[#1E63B4]'
-                }`}>
+                <span className={`text-xl font-extrabold ${finalMargin < 0 ? 'text-red-600' : 'text-[#1E63B4]'
+                  }`}>
                   {money(finalMargin)}
                 </span>
               </div>

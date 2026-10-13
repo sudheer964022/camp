@@ -21,8 +21,8 @@ import Footer from '../components/Footer';
 import Toast from '../components/Toast';
 
 export default function Home() {
-  const [cart, setCart] = useState(new Map()); 
-  const [cartPackages, setCartPackages] = useState(new Set()); 
+  const [cart, setCart] = useState(new Map());
+  const [cartPackages, setCartPackages] = useState(new Set());
   const [cartOpen, setCartOpen] = useState(false);
   const [customerView, setCustomerView] = useState(false);
   const [selectedTestDetail, setSelectedTestDetail] = useState(null);
@@ -196,6 +196,14 @@ export default function Home() {
   const bundlePkgs = Array.from(cartPackages).map(id => packageById[id]).filter(Boolean);
   const totalCartCount = cart.size + cartPackages.size;
 
+  const lplTestsCount = useMemo(() => (catalogData.tests || []).filter(t => t.processedAt === 'LPL').length, []);
+  const lplProfilesCount = useMemo(() => (catalogData.packages || []).filter(p => !p.processedAt || p.processedAt === 'LPL').length, []);
+  const minCatalogueRate = useMemo(() => {
+    const lplT = (catalogData.tests || []).filter(t => t.processedAt === 'LPL').map(t => t.b2c || 9999);
+    const lplP = (catalogData.packages || []).filter(p => !p.processedAt || p.processedAt === 'LPL').map(p => p.pricing?.b2c || 9999);
+    return Math.min(...lplT, ...lplP);
+  }, []);
+
   return (
     <main className="min-h-screen bg-paper text-ink flex flex-col">
       <Header
@@ -205,6 +213,9 @@ export default function Home() {
 
       <Hero
         onOpenCart={() => setCartOpen(true)}
+        testCount={lplTestsCount}
+        profileCount={lplProfilesCount}
+        minRate={minCatalogueRate}
       />
 
       <RateListSection

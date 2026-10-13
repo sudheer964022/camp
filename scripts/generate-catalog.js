@@ -85,18 +85,42 @@ const sampleMap = {
   'SEBL': 'sebl'
 };
 
+const acronyms = new Set([
+  'IGG', 'IGM', 'IGA', 'AFP', 'CEA', 'PSA', 'TPSA', 'FPSA', 'NSE', 'HE4', 'DHEA-S', 'DHEAS', 'DHEA',
+  'ACTH', 'PTH', 'HGH', 'AMH', 'FSH', 'LH', 'PRL', 'TSH', 'FT3', 'FT4', 'TT3', 'TT4',
+  'T3', 'T4', 'FBHCG', 'PAPPA', 'BHCG', 'HCG', 'UE3', 'E3', 'CK-MB', 'CKMB', 'CPK', 'BNP', 'PROBNP',
+  'P1NP', 'IL-6', 'PCT', 'TB', 'EBV', 'HAV', 'HEV', 'HBEAG', 'HBSAG',
+  'ADA', 'LCMS-MS', 'ICP-MS', 'EDTA', 'DBS', 'CBC', 'CUA', 'HBA1C', 'FBS', 'PPBS',
+  'RBS', 'LDH', 'GGT', 'SGOT', 'SGPT', 'AST', 'ALT', 'TIBC', 'UIBC', 'EGFR', 'BUN',
+  'HDL', 'LDL', 'VLDL', 'AMA', 'SHBG', 'RF', 'CRP', 'HSCRP', 'HSCPRP', 'A', 'B', 'DIFF', 'ACCP',
+  'HIV', 'HCV', 'AHCV', 'SAG', 'HBV', 'CHE', 'ACE', 'SAA', 'IGF-1', 'EPO', 'IGRA', 'PIVKA', 'NAG'
+]);
+
 function formatTitle(s) {
   if (!s) return '';
-  const acronyms = new Set(['IGG', 'IGM', 'IGA', 'AFP', 'CEA', 'PSA', 'FPSA', 'NSE', 'HE4', 'DHEA-S', 'DHEA',
-    'ACTH', 'PTH', 'HGH', 'AMH', 'FSH', 'LH', 'PRL', 'TSH', 'FT3', 'FT4', 'TT3', 'TT4',
-    'T3', 'T4', 'FBHCG', 'PAPPA', 'BHCG', 'UE3', 'E3', 'CK-MB', 'CPK', 'BNP', 'PROBNP',
-    'P1NP', 'IL-6', 'PCT', 'TB', 'EBV', 'HAV', 'HEV', 'HBEAG', 'HBSAG',
-    'ADA', 'LCMS-MS', 'ICP-MS', 'EDTA', 'DBS', 'CBC', 'CUA', 'HBA1C', 'FBS', 'PPBS',
-    'RBS', 'LDH', 'GGT', 'SGOT', 'SGPT', 'AST', 'ALT', 'TIBC', 'UIBC', 'EGFR', 'BUN']);
   const words = String(s).trim().split(/\s+/);
   return words.map(w => {
+    const parenMatch = w.match(/^(\()([^)]+)(\))$/);
+    if (parenMatch) {
+      const inner = parenMatch[2];
+      const cleanInner = inner.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+      if (acronyms.has(cleanInner) || acronyms.has(inner.toUpperCase()) || inner.length <= 6) {
+        return '(' + inner.toUpperCase() + ')';
+      }
+    }
     const clean = w.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
-    if (acronyms.has(clean)) return w;
+    if (acronyms.has(clean) || acronyms.has(w.toUpperCase())) {
+      if (w.startsWith('(') && w.endsWith(')')) return '(' + clean + ')';
+      return clean;
+    }
+    if (w.includes('-')) {
+      return w.split('-').map(part => {
+        const cPart = part.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+        if (acronyms.has(cPart)) return cPart;
+        if (part.length > 1 && part === part.toUpperCase()) return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
+        return part;
+      }).join('-');
+    }
     if (w.length > 1 && w === w.toUpperCase()) return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
     return w;
   }).join(' ');
@@ -172,8 +196,10 @@ for (let r = 1; r < lplRows.length; r++) {
   const desc = String(row[2] || '').trim();
   const techRaw = String(row[3] || 'PHOTOMETRY').trim().toUpperCase();
   const sampleRaw = String(row[4] || 'SERUM').trim().toUpperCase();
-  const b2c = row[7] !== undefined && row[7] !== null ? Math.round(Number(row[7])) : 0;
-  const b2b = Math.round(b2c * 0.5);
+  const cprt = row[5] !== undefined && row[5] !== null ? Number(Number(row[5]).toFixed(2)) : 0;
+  const b2b = row[6] !== undefined && row[6] !== null ? Math.round(Number(row[6])) : 0;
+  const rawB2c = row[7] !== undefined && row[7] !== null ? Math.round(Number(row[7])) : 0;
+  const b2c = Math.round(rawB2c * 0.5);
   const analyzer = row[8] ? String(row[8]).trim() : null;
 
   let fasting = null;
@@ -194,6 +220,28 @@ for (let r = 1; r < lplRows.length; r++) {
   else if (uCode === 'TT4') name = "Total Thyroxine (T4)";
   else if (uCode === 'FT3') name = "Free Triiodothyronine (FT3)";
   else if (uCode === 'FT4') name = "Free Thyroxine (FT4)";
+  else if (uCode === 'A1C') name = "HbA1c (Glycated Hemoglobin)";
+  else if (uCode === 'BHCG') name = "Total β-hCG";
+  else if (uCode === 'FBHCG') name = "Free β-hCG";
+  else if (uCode === 'PAPPA') name = "PAPP-A";
+  else if (uCode === 'HIV') name = "HIV Ab/Ag Combo";
+  else if (uCode === 'CA125') name = "CA-125";
+  else if (uCode === 'CA199' || uCode === 'CA199_CRL') name = "CA 19.9";
+  else if (uCode === 'TIGE') name = "Total IgE";
+  else if (uCode === 'TPSA') name = "Total PSA";
+  else if (uCode === 'HSCPRP') name = "High-Sensitivity C-Reactive Protein (HS-CRP)";
+  else if (uCode === 'SAG') name = "Hepatitis B Surface Antigen (HBSAG)";
+  else if (uCode === 'AHCV') name = "Anti-HCV Total";
+  else if (uCode === 'CBC') name = "Hemogram - 6 Part (DIFF)";
+  else if (uCode === 'LPA') name = "Lipoprotein (A)";
+  else if (uCode === 'RFAC') name = "Rheumatoid Factor (RF)";
+  else if (uCode === 'SHBG') name = "Sex Hormone-Binding Globulin (SHBG)";
+  else if (uCode === 'AMA') name = "Anti Microsomal Antibody (AMA)";
+  else if (uCode === 'AMH') name = "Anti-Müllerian Hormone (AMH)";
+  else if (uCode === 'DHEAS') name = "Dehydroepiandrosterone Sulfate (DHEA-S)";
+  else if (uCode === 'CRP') name = "C-Reactive Protein (CRP)";
+  else if (uCode === 'HCHO') name = "HDL Cholesterol - Direct";
+  else if (uCode === 'LDL') name = "LDL Cholesterol - Direct";
 
   lplTests.push({
     sr,
@@ -252,6 +300,11 @@ for (let r = 1; r < crlRows.length; r++) {
   if (rawCode.toUpperCase().startsWith('BTE')) {
     cleanName = desc.charAt(0).toUpperCase() + desc.slice(1).toLowerCase();
   }
+  const uRaw = rawCode.toUpperCase();
+  if (uRaw === 'ITRL6') cleanName = "Interleukin-6 (IL-6)";
+  else if (uRaw === 'AIA2') cleanName = "Anti-Islet Antigen-2 Autoantibody (ANTI-IA2)";
+  else if (uRaw === 'BCTX') cleanName = "Beta-Crosslaps (β-CTX)";
+  else if (uRaw === 'TNFA') cleanName = "Tumor Necrosis Factor-Alpha (TNF-ALPHA)";
 
   const aliases = [cleanName, desc, rawCode];
   if (displayCode !== code) aliases.push(code);
@@ -325,8 +378,10 @@ for (let r = 1; r < lplP.length; r++) {
   if (!row || !row[1] || row[4] === undefined) continue;
   const name = String(row[1]).trim();
   const contents = String(row[2] || '').trim();
-  const b2c = Math.round(Number(row[5]));
-  const b2b = Math.round(b2c * 0.5);
+  const cprt = row[3] !== undefined ? Number(Number(row[3]).toFixed(2)) : 0;
+  const b2b = Math.round(Number(row[4]));
+  const rawB2c = Math.round(Number(row[5]));
+  const b2c = Math.round(rawB2c * 0.5);
 
   const pId = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   let resolvedCodes = tokenize(contents).map(resolveCode).filter(c => allByCode[c.toUpperCase()]);

@@ -50,7 +50,7 @@ export default function Header({ cartCount = 0, onOpenCart }) {
             )}
 
             <a
-              href="https://wa.me/918113000571?text=Hello%20AVMLabs,%20I%20would%20like%20to%20register/organize%20a%20Health%20Check-up%20Camp"
+              href="https://wa.me/919600661732?text=Hello%20AVMLabs,%20I%20would%20like%20to%20register/organize%20a%20Health%20Check-up%20Camp"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#E02029] hover:bg-[#c91821] text-white text-xs sm:text-sm font-bold py-2 px-4 sm:px-5 rounded-full shadow-xs hover:shadow transition-all whitespace-nowrap"
