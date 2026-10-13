@@ -547,11 +547,7 @@ export default function PrintProfilePage() {
             </div>
           ) : (
             <div className="flex items-center gap-3">
-              <img src="/assets/images/avm-logo.png" alt="AVMLabs" className="h-9 sm:h-10 object-contain rounded-none" />
-              <div>
-                <p className="text-base sm:text-lg font-bold text-navy">AVMLabs</p>
-                <p className="text-[11px] sm:text-xs text-ink-soft">Automated Diagnostics</p>
-              </div>
+              <img src="/assets/images/avm-logo.png" alt="AVMLabs" className="h-10 sm:h-12 object-contain rounded-none" />
             </div>
           )}
 

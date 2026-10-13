@@ -160,15 +160,30 @@ export default function CartDrawer({
               </p>
             </div>
             <label
-              className="inline-flex items-center gap-2 cursor-pointer text-xs font-semibold text-ink-soft select-none"
-              title="Hide Processing Cost & PCCLM everywhere below"
+              className={`inline-flex items-center gap-2 cursor-pointer text-xs font-semibold select-none px-2.5 py-1 rounded-full border transition-all ${
+                customerView
+                  ? 'bg-teal/10 border-teal/40 text-teal-dark shadow-2xs'
+                  : 'bg-white border-line text-ink-soft hover:border-slate-400'
+              }`}
+              title="Toggle Customer Copy (Hides processing costs & PCCLM)"
             >
               <input
                 type="checkbox"
                 checked={customerView}
                 onChange={(e) => setCustomerView(e.target.checked)}
-                className="w-4 h-4 rounded text-teal focus:ring-teal cursor-pointer"
+                className="sr-only"
               />
+              <span
+                className={`relative inline-flex h-4.5 w-8 shrink-0 items-center rounded-full transition-colors duration-200 ease-in-out p-0.5 ${
+                  customerView ? 'bg-teal' : 'bg-slate-300'
+                }`}
+              >
+                <span
+                  className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow-xs transition-transform duration-200 ease-in-out ${
+                    customerView ? 'translate-x-3.5' : 'translate-x-0'
+                  }`}
+                />
+              </span>
               <span>Customer copy</span>
             </label>
           </div>

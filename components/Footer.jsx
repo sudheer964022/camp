@@ -7,8 +7,10 @@ export default function Footer({ onOpenCart }) {
         <div className="max-w-[1180px] mx-auto px-4 sm:px-7">
           <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr] gap-10 pb-10 border-b border-white/10">
             <div className="space-y-3">
-              <img className="block bg-white rounded-none h-[53px] w-auto" src="/assets/images/avm-logo.png" alt="AVMLabs" height={53} />
-              <p className="text-sm text-[#CFE2F2] max-w-sm">Automated diagnostics, one transparent rate card</p>
+              <div className="inline-block bg-white p-1.5 sm:p-1.5 shadow-xs">
+                <img className="block h-[50px] sm:h-[52px] w-auto object-contain" src="/assets/images/avm-logo.png" alt="AVMLabs" height={46} />
+              </div>
+              <p className="text-sm text-[#CFE2F2] max-w-sm">Your trusted partner in diagnostics. Accurate results, advanced technology, and compassionate care for across India.</p>
             </div>
             <div>
               <ul className="space-y-2.5 text-sm text-[#CFE2F2] md:pt-8">
@@ -23,7 +25,7 @@ export default function Footer({ onOpenCart }) {
                 <li>
                   <a
                     className="inline-flex items-center gap-2 text-emerald-bg hover:text-emerald font-semibold transition-colors"
-                    href="https://wa.me/919600661732?text=Interested%20in%20B2B%20Collaboration"
+                    href="https://wa.me/919600661732?text=Interested%20in%20B2C%20Collaboration"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

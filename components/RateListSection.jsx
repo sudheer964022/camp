@@ -472,20 +472,6 @@ export default function RateListSection({
                     </svg>
                     <span>Excel</span>
                   </button>
-
-                  <button
-                    type="button"
-                    onClick={() => window.print()}
-                    className="inline-flex items-center justify-center gap-1.5 text-xs md:text-sm font-semibold border rounded-lg md:rounded-xl px-3 h-10 transition-all text-slate-700 bg-white hover:bg-slate-50 border-slate-200 cursor-pointer shadow-2xs"
-                    title="Print rate list"
-                  >
-                    <svg className="w-3.5 h-3.5 text-slate-600 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="6 9 6 2 18 2 18 9" />
-                      <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-                      <rect x="6" y="14" width="12" height="8" />
-                    </svg>
-                    <span>Print</span>
-                  </button>
                 </div>
               </div>
 
@@ -1166,7 +1152,7 @@ export default function RateListSection({
             <button
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="px-3.5 py-2 text-xs font-semibold rounded-xl border border-line bg-white hover:bg-paper disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed shadow-xs"
+              className="px-3.5 py-2 text-xs font-semibold border border-line bg-white hover:bg-paper disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed shadow-xs"
             >
               Previous
             </button>
@@ -1176,16 +1162,13 @@ export default function RateListSection({
             <button
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="px-3.5 py-2 text-xs font-semibold rounded-xl border border-line bg-white hover:bg-paper disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed shadow-xs"
+              className="px-3.5 py-2 text-xs font-semibold border border-line bg-white hover:bg-paper disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed shadow-xs"
             >
               Next
             </button>
           </div>
         )}
 
-        <p className="mt-4 text-center text-xs font-mono text-ink-faint">
-          Sample collection and reporting timelines vary by test and location.
-        </p>
       </div>
     </section>
   );
