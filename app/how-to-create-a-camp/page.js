@@ -338,11 +338,19 @@ export default function HowToCreateACamp() {
     }
   ];
 
+  const handleOpenCart = () => {
+    if (totalCartCount === 0) {
+      window.location.href = '/#ratelist';
+      return;
+    }
+    setCartOpen(true);
+  };
+
   return (
     <main className="min-h-screen bg-[#F8F9FA] text-[#141B38] flex flex-col">
       <Header
         cartCount={totalCartCount}
-        onOpenCart={() => setCartOpen(true)}
+        onOpenCart={handleOpenCart}
       />
 
       <div className="flex-1 max-w-[1180px] w-full mx-auto px-4 sm:px-7 py-8 sm:py-12">
@@ -822,7 +830,7 @@ export default function HowToCreateACamp() {
         </section>
       </div>
 
-      <Footer onOpenCart={() => setCartOpen(true)} />
+      <Footer onOpenCart={handleOpenCart} />
 
       <CartDrawer
         isOpen={cartOpen}

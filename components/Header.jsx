@@ -63,8 +63,14 @@ export default function Header({ cartCount = 0, onOpenCart }) {
             onClick={onOpenCart}
             type="button"
             className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#241A7A] hover:bg-[#1B154F] text-white text-xs sm:text-sm font-bold py-1.5 sm:py-2 px-3 sm:px-4 rounded-full shadow-xs transition-all cursor-pointer flex-none"
-            aria-label="My Profile"
+            aria-label={`My Profile (${cartCount} items)`}
+            title={cartCount > 0 ? `View ${cartCount} selected items` : 'Your profile is empty — select tests from the list below'}
           >
+            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/90 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+              <rect x="9" y="3" width="6" height="4" rx="1" />
+              <path d="M9 14l2 2 4-4" />
+            </svg>
             <span>My Profile</span>
             <span className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-[#E02029] text-white font-black text-[11px]">
               {cartCount}

@@ -204,15 +204,24 @@ export default function Home() {
     return Math.min(...lplT, ...lplP);
   }, []);
 
+  const handleOpenCart = () => {
+    if (totalCartCount === 0) {
+      setToastMessage("Your profile is empty. Add tests or profiles from the rate list below.");
+      const el = document.getElementById('ratelist');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    setCartOpen(true);
+  };
+
   return (
     <main className="min-h-screen bg-paper text-ink flex flex-col">
       <Header
         cartCount={totalCartCount}
-        onOpenCart={() => setCartOpen(true)}
+        onOpenCart={handleOpenCart}
       />
 
       <Hero
-        onOpenCart={() => setCartOpen(true)}
         testCount={lplTestsCount}
         profileCount={lplProfilesCount}
         minRate={minCatalogueRate}
@@ -229,7 +238,7 @@ export default function Home() {
       />
 
       <Footer
-        onOpenCart={() => setCartOpen(true)}
+        onOpenCart={handleOpenCart}
       />
 
       <CartDrawer

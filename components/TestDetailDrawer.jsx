@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { money } from '../lib/formatters';
 import { cleanProfileName } from '../lib/profileGroups';
 import parametersData from '../data/parameters.json';
@@ -17,7 +17,16 @@ export default function TestDetailDrawer({
 }) {
   const [paramsExpanded, setParamsExpanded] = useState(false);
 
-  if (!isOpen || !test) return null;
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
+  if (!test) return null;
 
   const paramIds = testParametersData.testParameters?.[test.code] || [];
   const paramList = paramIds
@@ -27,13 +36,22 @@ export default function TestDetailDrawer({
   const hasParameters = paramList.length > 0;
 
   return (
-    <>
+    <div
+      className={`fixed inset-0 z-50 transition-[visibility] duration-300 ${
+        isOpen ? 'visible' : 'invisible pointer-events-none'
+      }`}
+      aria-hidden={!isOpen}
+    >
       <div
-        className="fixed inset-0 z-50 bg-navy/40 backdrop-blur-xs transition-opacity"
+        className={`fixed inset-0 bg-navy/40 backdrop-blur-xs transition-opacity duration-300 ease-in-out ${
+          isOpen ? 'opacity-100' : 'opacity-0'
+        }`}
         onClick={onClose}
       />
       <aside
-        className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-[480px] bg-white shadow-2xl flex flex-col"
+        className={`fixed top-0 right-0 bottom-0 w-full max-w-[480px] bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-in-out ${
+          isOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
         role="dialog"
         aria-label="Test details"
       >
@@ -195,6 +213,6 @@ export default function TestDetailDrawer({
           )}
         </div>
       </aside>
-    </>
+    </div>
   );
 }

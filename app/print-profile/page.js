@@ -19,6 +19,8 @@ export default function PrintProfilePage() {
   const [brandingOpen, setBrandingOpen] = useState(false);
   const [brandingForm, setBrandingForm] = useState({ name: '', phone: '', address: '', logo: null });
   const [isSharing, setIsSharing] = useState(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [shareToast, setShareToast] = useState(null);
 
   const packageById = useMemo(() => {
     return Object.fromEntries((catalogData.packages || []).map((p) => [p.id, p]));
@@ -137,25 +139,6 @@ export default function PrintProfilePage() {
     }
   }, [packageById, catalogTestsByCode]);
 
-  useEffect(() => {
-    if (items.length > 0 || bundlePkgs.length > 0) {
-      const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
-      if (searchParams && searchParams.get('noprint') === '1') {
-        return;
-      }
-      const timer = setTimeout(() => {
-        if (typeof window !== 'undefined') {
-          if (document.fonts && document.fonts.ready) {
-            document.fonts.ready.then(() => window.print()).catch(() => window.print());
-          } else {
-            window.print();
-          }
-        }
-      }, 400);
-      return () => clearTimeout(timer);
-    }
-  }, [items, bundlePkgs]);
-
   const totalB2C =
     items.reduce((sum, item) => sum + (item.b2c || 0), 0) +
     bundlePkgs.reduce((sum, pkg) => sum + (pkg.pricing?.b2c || 0), 0);
@@ -173,10 +156,6 @@ export default function PrintProfilePage() {
   );
 
   const isEmpty = items.length === 0 && bundlePkgs.length === 0;
-
-  const handlePrint = () => {
-    if (typeof window !== 'undefined') window.print();
-  };
 
   const handleClose = () => {
     if (typeof window !== 'undefined') window.close();
@@ -199,6 +178,235 @@ export default function PrintProfilePage() {
     if (branding?.address) url.searchParams.set('baddr', branding.address);
     url.searchParams.set('noprint', '1');
     return url.toString();
+  };
+
+  const generatePdfDocument = async () => {
+    const sheet = document.getElementById('sheet');
+    if (!sheet) throw new Error('Sheet element not found');
+
+    const { jsPDF } = await import('jspdf');
+    const html2canvas = (await import('html2canvas-pro')).default;
+
+    // 1. High-resolution canvas capture
+    const canvas = await html2canvas(sheet, {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      backgroundColor: '#ffffff',
+      scrollX: 0,
+      scrollY: 0,
+      windowWidth: 1024,
+    });
+
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4',
+    });
+
+    // Standard A4 dimensions in mm
+    const pdfPageWidth = 210;
+    const pdfPageHeight = 297;
+    // Remove Left & Right margin completely for all pages (full 210mm width)
+    const usableWidth = pdfPageWidth; // 210 mm
+
+    // Pixels to mm conversion
+    const mmPerPx = usableWidth / canvas.width;
+
+    // 2. Collect all candidate element boundaries from #sheet DOM to prevent cutting rows
+    const sheetRect = sheet.getBoundingClientRect();
+    const candidateElements = Array.from(
+      sheet.querySelectorAll('tr, header, footer, .break-inside-avoid, .package-row, tbody > tr')
+    );
+
+    const canvasScale = canvas.height / sheetRect.height;
+    const breakPoints = [];
+
+    candidateElements.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const top = Math.round((rect.top - sheetRect.top) * canvasScale);
+      const bottom = Math.round((rect.bottom - sheetRect.top) * canvasScale);
+      if (bottom > 0 && bottom <= canvas.height) {
+        breakPoints.push({ top, bottom });
+      }
+    });
+
+    // Sort ascending by bottom position
+    breakPoints.sort((a, b) => a.bottom - b.bottom);
+
+    // 3. Slice canvas cleanly without cutting any text or row in half
+    let currentY = 0;
+    let pageIndex = 0;
+
+    while (currentY < canvas.height - 5) {
+      const remainingPx = canvas.height - currentY;
+
+      // First Page: 0 top margin. Second page onwards: 12mm top margin.
+      const currentTopMargin = pageIndex === 0 ? 0 : 12;
+      const currentBottomMargin = 12;
+      const currentUsableHeight = pdfPageHeight - currentTopMargin - currentBottomMargin;
+      const currentMaxSliceHeightPx = Math.floor(currentUsableHeight / mmPerPx);
+
+      let cutY = canvas.height;
+
+      if (remainingPx > currentMaxSliceHeightPx) {
+        const targetLimit = currentY + currentMaxSliceHeightPx;
+
+        // Find the best break point: the bottom of the last element that fits completely before targetLimit
+        let bestBreak = -1;
+        for (let i = 0; i < breakPoints.length; i++) {
+          const bp = breakPoints[i];
+          if (bp.bottom > currentY && bp.bottom <= targetLimit) {
+            bestBreak = bp.bottom;
+          }
+          if (bp.top >= targetLimit) {
+            break;
+          }
+        }
+
+        // If a clean boundary was found and it utilizes at least 45% of the page
+        if (bestBreak > currentY + (currentMaxSliceHeightPx * 0.45)) {
+          cutY = bestBreak;
+        } else {
+          // If element crosses targetLimit, cut right above it so it stays intact on the next page
+          const crossing = breakPoints.find((bp) => bp.top < targetLimit && bp.bottom > targetLimit);
+          if (crossing && crossing.top > currentY + 40) {
+            cutY = crossing.top;
+          } else {
+            cutY = targetLimit;
+          }
+        }
+      }
+
+      const sliceHeight = cutY - currentY;
+      if (sliceHeight <= 0) break;
+
+      // Create an offscreen canvas for this slice
+      const pageCanvas = document.createElement('canvas');
+      pageCanvas.width = canvas.width;
+      pageCanvas.height = sliceHeight;
+
+      const ctx = pageCanvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+      ctx.drawImage(
+        canvas,
+        0, currentY, canvas.width, sliceHeight,
+        0, 0, canvas.width, sliceHeight
+      );
+
+      const pageImgData = pageCanvas.toDataURL('image/jpeg', 0.95);
+      const pageImgHeightMm = sliceHeight * mmPerPx;
+
+      if (pageIndex > 0) {
+        pdf.addPage();
+      }
+
+      pdf.addImage(
+        pageImgData,
+        'JPEG',
+        0,                 // 0 Left margin for all pages
+        currentTopMargin,  // 0 Top margin for first page, 12mm for second page onwards
+        usableWidth,       // 210mm full width (0 Right margin)
+        pageImgHeightMm,
+        undefined,
+        'FAST'
+      );
+
+      currentY = cutY;
+      pageIndex++;
+    }
+
+    // 4. Subtle page numbering at bottom footer for multi-page documents
+    const totalPages = pdf.internal.getNumberOfPages();
+    if (totalPages > 1) {
+      for (let p = 1; p <= totalPages; p++) {
+        pdf.setPage(p);
+        pdf.setFontSize(8);
+        pdf.setTextColor(148, 163, 184);
+        pdf.text(
+          `Page ${p} of ${totalPages}`,
+          pdfPageWidth - 25,
+          pdfPageHeight - 4
+        );
+      }
+    }
+
+    const brandName = branding?.name || 'AVMLabs';
+    const cleanBrand = brandName.replace(/[^a-zA-Z0-9_-]/g, '_');
+    const safeDate = (dateStr || '').replace(/[^a-zA-Z0-9_-]/g, '_');
+    const fileName = `${cleanBrand}_Health_Profile_${safeDate || 'Document'}.pdf`;
+
+    const blob = pdf.output('blob');
+    const file = new File([blob], fileName, { type: 'application/pdf' });
+
+    return { pdf, blob, file, fileName, brandName };
+  };
+
+  const handleDownloadPdf = async () => {
+    if (isGeneratingPdf) return;
+    setIsGeneratingPdf(true);
+    try {
+      const { pdf, fileName } = await generatePdfDocument();
+      pdf.save(fileName);
+      setShareToast({
+        title: 'PDF File Downloaded!',
+        message: `${fileName} has been saved to your device.`,
+      });
+      setTimeout(() => setShareToast(null), 5000);
+    } catch (err) {
+      console.error('PDF Download failed:', err);
+      handlePrint();
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
+
+  const handleSharePdf = async () => {
+    if (isGeneratingPdf) return;
+    setIsGeneratingPdf(true);
+    try {
+      const { pdf, file, fileName, brandName } = await generatePdfDocument();
+      const totalCount = items.length + bundlePkgs.length;
+      const effectiveTotal = discountedPrice != null && discountedPrice > 0 ? discountedPrice : totalB2C;
+      const shareUrl = getShareUrl() || (typeof window !== 'undefined' ? window.location.href : '');
+      const shareText = `${brandName} Health Profile (${totalCount} tests & profiles) — Total: ₹${effectiveTotal}`;
+
+      // 1. Direct Web Share with actual PDF file (WhatsApp, etc. on mobile)
+      if (typeof navigator !== 'undefined' && navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: `${brandName} — Health Profile PDF`,
+            text: `${shareText}\n${shareUrl}`,
+          });
+          setIsGeneratingPdf(false);
+          return;
+        } catch (err) {
+          if (err && err.name === 'AbortError') {
+            setIsGeneratingPdf(false);
+            return;
+          }
+        }
+      }
+
+      // 2. Desktop fallback: Save PDF file and provide WhatsApp Web link
+      pdf.save(fileName);
+      const waText = encodeURIComponent(`${shareText}\nView / Print: ${shareUrl}`);
+      const waUrl = `https://wa.me/?text=${waText}`;
+
+      setShareToast({
+        title: 'PDF File Downloaded!',
+        message: 'The PDF document has been saved. You can share it directly or open WhatsApp.',
+        whatsappUrl: waUrl,
+      });
+      setTimeout(() => setShareToast(null), 8000);
+    } catch (err) {
+      console.error('PDF Share failed:', err);
+      handlePrint();
+    } finally {
+      setIsGeneratingPdf(false);
+    }
   };
 
   const handleShare = async () => {
@@ -494,28 +702,87 @@ export default function PrintProfilePage() {
         </footer>
       </div>
 
-      <div className="print:hidden fixed bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 bg-navy text-white px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-[7px] shadow-2xl flex items-center justify-center flex-nowrap whitespace-nowrap gap-1.5 sm:gap-2.5 z-50 text-xs sm:text-sm max-w-[calc(100vw-1rem)]">
-        <span className="hidden md:inline text-white/70 mr-1">Customer copy — test name &amp; price only</span>
+      {shareToast && (
+        <div className="print:hidden fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-60 bg-navy text-white text-xs sm:text-sm px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 max-w-lg w-[calc(100%-2rem)] animate-fade-in border border-white/10">
+          <div className="flex-1 min-w-0">
+            <p className="font-bold text-white leading-tight">{shareToast.title}</p>
+            <p className="text-white/80 text-xs mt-0.5 leading-snug">{shareToast.message}</p>
+          </div>
+          {shareToast.whatsappUrl && (
+            <a
+              href={shareToast.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1.5 rounded-lg bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs shrink-0 flex items-center gap-1.5 shadow-xs"
+            >
+              <span>Open WhatsApp</span>
+            </a>
+          )}
+          <button
+            type="button"
+            onClick={() => setShareToast(null)}
+            className="w-6 h-6 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 shrink-0 cursor-pointer"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
+      <div className="print:hidden fixed bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 bg-navy text-white px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-xl shadow-2xl flex items-center justify-center flex-nowrap whitespace-nowrap gap-1.5 sm:gap-2.5 z-50 text-xs sm:text-sm max-w-[calc(100vw-1rem)] border border-white/10">
+        <span className="hidden lg:inline text-white/70 mr-1 text-xs">Customer copy — test name &amp; price only</span>
         <button
           type="button"
           onClick={() => setBrandingOpen(true)}
-          className="px-2 sm:px-3 py-1.5 rounded-[7px] bg-white/10 hover:bg-white/20 text-white font-medium shrink-0 transition-all cursor-pointer"
+          className="px-2 sm:px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium shrink-0 transition-all cursor-pointer flex items-center gap-1"
         >
-          🏷 Branding
+          <span>🏷</span>
+          <span>Branding</span>
         </button>
         <button
           type="button"
           onClick={handleClose}
-          className="px-2 sm:px-3 py-1.5 rounded-[7px] bg-white/10 hover:bg-white/20 text-white font-medium shrink-0 transition-all cursor-pointer"
+          className="px-2 sm:px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium shrink-0 transition-all cursor-pointer"
         >
           Close
         </button>
         <button
           type="button"
-          onClick={handlePrint}
-          className="px-2.5 sm:px-3.5 py-1.5 rounded-[7px] bg-amber hover:bg-amber-dark text-navy font-bold shrink-0 shadow transition-all cursor-pointer"
+          disabled={isGeneratingPdf}
+          onClick={handleDownloadPdf}
+          className="px-2.5 sm:px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium shrink-0 transition-all cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+          title="Download PDF document"
         >
-          🖨 Print
+          <svg className="w-3.5 h-3.5 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          <span>PDF</span>
+        </button>
+        <button
+          type="button"
+          disabled={isGeneratingPdf}
+          onClick={handleSharePdf}
+          className="px-3 sm:px-4 py-1.5 rounded-lg bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold shrink-0 shadow-md transition-all cursor-pointer flex items-center gap-1.5 disabled:opacity-70 active:scale-95"
+          title="Share PDF file directly"
+        >
+          {isGeneratingPdf ? (
+            <>
+              <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+              <span>Generating...</span>
+            </>
+          ) : (
+            <>
+              <svg className="w-4 h-4 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+              <span>Share PDF</span>
+            </>
+          )}
         </button>
       </div>
 
