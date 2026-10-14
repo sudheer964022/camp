@@ -321,11 +321,11 @@ export default function RateListSection({
               {/* Row 1 on Mobile: Tabs + Export + Print */}
               <div className="flex items-center justify-between gap-1.5 w-full md:w-auto flex-none">
                 {/* Segmented Tabs (Profiles / Tests) */}
-                <div className="flex bg-slate-100/90 p-0.5 sm:p-1 rounded-lg md:rounded-xl flex-1 md:flex-none">
+                <div className="flex bg-slate-100/90 p-0.5 sm:p-1 rounded-lg md:rounded-lg flex-1 md:flex-none">
                   <button
                     type="button"
                     onClick={() => { setView('profiles'); setCurrentPage(1); }}
-                    className={`flex-1 md:flex-none flex items-center justify-center gap-1.5 md:gap-2 py-1 md:py-1.5 px-2.5 md:px-3 rounded-md md:rounded-lg text-xs md:text-sm font-bold transition-all cursor-pointer ${view === 'profiles'
+                    className={`flex-1 md:flex-none flex items-center justify-center gap-1.5 md:gap-2 py-1 md:py-1.5 px-2.5 md:px-3 rounded-lg md:rounded-lg text-xs md:text-sm font-bold transition-all cursor-pointer ${view === 'profiles'
                       ? 'bg-[#241A7A] text-white shadow-xs'
                       : 'text-slate-600 hover:text-[#241A7A]'
                       }`}
