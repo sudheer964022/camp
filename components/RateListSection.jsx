@@ -58,9 +58,9 @@ export default function RateListSection({
   }, [catalog.technologies]);
 
   const lplPriceBands = useMemo(() => [
-    { id: 'under-50', label: 'Under ₹50', max: 49 },
-    { id: '50-100', label: '₹50 – ₹100', min: 50, max: 100 },
-    { id: '100-250', label: '₹100 – ₹250', min: 101, max: 250 },
+    { id: '50-or-below', label: '₹50 or Below', max: 50 },
+    { id: 'above-50-below-100', label: 'Above ₹50 – Below ₹100', min: 51, max: 99 },
+    { id: '100-250', label: '₹100 – ₹250', min: 100, max: 250 },
     { id: 'above-250', label: 'Above ₹250', min: 251 },
   ], []);
 
@@ -324,7 +324,7 @@ export default function RateListSection({
                 <div className="flex bg-slate-100/90 p-0.5 sm:p-1 rounded-lg md:rounded-lg flex-1 md:flex-none">
                   <button
                     type="button"
-                    onClick={() => { setView('profiles'); setCurrentPage(1); }}
+                    onClick={() => { setView('profiles'); setCurrentPage(1); setFiltersOpen(false); }}
                     className={`flex-1 md:flex-none flex items-center justify-center gap-1.5 md:gap-2 py-1 md:py-1.5 px-2.5 md:px-3 rounded-lg md:rounded-lg text-xs md:text-sm font-bold transition-all cursor-pointer ${view === 'profiles'
                       ? 'bg-[#241A7A] text-white shadow-xs'
                       : 'text-slate-600 hover:text-[#241A7A]'
@@ -437,25 +437,22 @@ export default function RateListSection({
                   </div>
                 </div>
 
-                {/* Filters Button */}
-                <button
-                  type="button"
-                  onClick={() => setFiltersOpen(!filtersOpen)}
-                  className={`inline-flex items-center justify-center gap-1 md:gap-1.5 text-xs md:text-sm font-semibold border rounded-lg md:rounded-xl px-2 sm:px-2.5 md:px-3 h-8.5 md:h-10 transition-all flex-none cursor-pointer ${filtersOpen ? 'bg-[#241A7A] text-white border-[#241A7A]' : 'text-slate-700 bg-white hover:bg-slate-50 border-slate-200'
-                    }`}
-                  title="Toggle filters"
-                  aria-label="Toggle filters"
-                >
-                  <svg className="w-3.5 h-3.5 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-                  </svg>
-                  <span className="hidden sm:inline">Filters</span>
-                  {activeFiltersCount > 0 && (
-                    <span className={`inline-flex items-center justify-center min-w-[16px] md:min-w-[18px] h-4 md:h-[18px] px-0.5 md:px-1 rounded-full font-bold text-[9px] md:text-[10px] leading-none ${filtersOpen ? 'bg-white text-[#241A7A]' : 'bg-[#E02029] text-white'}`}>
-                      {activeFiltersCount}
-                    </span>
-                  )}
-                </button>
+                {/* Filters Button (only displayed when Tests tab is open) */}
+                {view === 'tests' && (
+                  <button
+                    type="button"
+                    onClick={() => setFiltersOpen(!filtersOpen)}
+                    className={`inline-flex items-center justify-center gap-1 md:gap-1.5 text-xs md:text-sm font-semibold border rounded-lg md:rounded-xl px-2 sm:px-2.5 md:px-3 h-8.5 md:h-10 transition-all flex-none cursor-pointer ${filtersOpen ? 'bg-[#241A7A] text-white border-[#241A7A]' : 'text-slate-700 bg-white hover:bg-slate-50 border-slate-200'
+                      }`}
+                    title="Toggle filters"
+                    aria-label="Toggle filters"
+                  >
+                    <svg className="w-3.5 h-3.5 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                    </svg>
+                    <span className="hidden sm:inline">Filters</span>
+                  </button>
+                )}
 
                 {/* Export & Print on Laptop/Desktop only */}
                 <div className="hidden md:flex items-center gap-2 flex-none">
@@ -477,7 +474,7 @@ export default function RateListSection({
 
             </div>
 
-            {activeFiltersCount > 0 && (
+            {view === 'tests' && activeFiltersCount > 0 && (
               <div className="flex items-center flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-line/60 text-xs">
                 <span className="text-[11px] font-mono text-ink-faint font-semibold mr-1">Active filters:</span>
                 {Array.from(selectedTechs).map(tech => (
@@ -519,19 +516,31 @@ export default function RateListSection({
                 </button>
               </div>
             )}
+
+            {view === 'profiles' && searchTerm && (
+              <div className="flex items-center flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-line/60 text-xs">
+                <span className="text-[11px] font-mono text-ink-faint font-semibold mr-1">Active filters:</span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-200 text-navy shadow-xs">
+                  <span>&quot;{searchTerm}&quot;</span>
+                  <button type="button" onClick={() => setSearchTerm('')} className="hover:text-amber text-xs cursor-pointer" aria-label="Clear search">✕</button>
+                </span>
+                <button
+                  type="button"
+                  onClick={clearAllFilters}
+                  className="text-xs font-semibold text-amber-dark hover:underline ml-auto cursor-pointer"
+                >
+                  Clear all
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
-        {filtersOpen && (
+        {view === 'tests' && filtersOpen && (
           <div className="bg-white border border-line rounded-2xl p-4 md:p-6 mb-4 shadow-sm space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-line">
               <div className="flex items-center gap-2">
                 <span className="font-bold text-navy text-xs sm:text-sm uppercase tracking-wider font-mono">Filter Options</span>
-                {activeFiltersCount > 0 && (
-                  <span className="text-xs bg-amber/20 text-amber-dark font-bold px-2 py-0.5 rounded-full">
-                    {activeFiltersCount} active
-                  </span>
-                )}
               </div>
               <div className="flex items-center gap-3">
                 {activeFiltersCount > 0 && (
