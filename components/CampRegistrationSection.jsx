@@ -237,11 +237,6 @@ export default function CampRegistrationSection() {
                 onChange={(e) => handleInputChange('campDate', e.target.value)}
                 className="w-full rounded-[8px] border border-slate-200 bg-white px-3.5 py-2.5 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-[#241A7A] focus:ring-1 focus:ring-[#241A7A]/15 transition-all cursor-pointer"
               />
-              {daysToPrepare !== null && (
-                <p className="text-[11px] text-slate-500 mt-1">
-                  {daysToPrepare} days to prepare.
-                </p>
-              )}
             </div>
 
             <div>

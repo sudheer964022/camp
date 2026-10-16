@@ -255,7 +255,6 @@ export default function Home() {
         customerView={customerView}
       />
 
-      <CampRegistrationSection />
 
       <FaqSection />
 
