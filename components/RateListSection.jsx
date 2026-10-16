@@ -46,12 +46,11 @@ export default function RateListSection({
   const [sortMode, setSortMode] = useState('b2b-asc');
   const [pageSize, setPageSize] = useState(25);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filtersOpen, setFiltersOpen] = useState(false);
   const [expandedProfiles, setExpandedProfiles] = useState(new Set());
 
-  const [selectedTechs, setSelectedTechs] = useState(new Set());
-  const [selectedSamples, setSelectedSamples] = useState(new Set());
-  const [selectedPriceBands, setSelectedPriceBands] = useState(new Set());
+  const [selectedTech, setSelectedTech] = useState('');
+  const [selectedSample, setSelectedSample] = useState('');
+  const [selectedPriceBand, setSelectedPriceBand] = useState('');
 
   const techColorMap = useMemo(() => {
     return Object.fromEntries((catalog.technologies || []).map(t => [t.label, t]));
@@ -69,17 +68,7 @@ export default function RateListSection({
   const lplTestsCount = lplTests.length;
   const lplPackagesCount = lplPackages.length;
 
-  const activeFiltersCount = selectedTechs.size + selectedSamples.size + selectedPriceBands.size + (searchTerm ? 1 : 0);
-
-  const toggleSetItem = (setter, item) => {
-    setter(prev => {
-      const next = new Set(prev);
-      if (next.has(item)) next.delete(item);
-      else next.add(item);
-      return next;
-    });
-    setCurrentPage(1);
-  };
+  const activeFiltersCount = (selectedTech ? 1 : 0) + (selectedSample ? 1 : 0) + (selectedPriceBand ? 1 : 0) + (searchTerm ? 1 : 0);
 
   const toggleProfileExpanded = (pkgId) => {
     setExpandedProfiles(prev => {
@@ -108,9 +97,9 @@ export default function RateListSection({
   };
 
   const clearAllFilters = () => {
-    setSelectedTechs(new Set());
-    setSelectedSamples(new Set());
-    setSelectedPriceBands(new Set());
+    setSelectedTech('');
+    setSelectedSample('');
+    setSelectedPriceBand('');
     setSearchTerm('');
     setSortMode('b2b-asc');
     setCurrentPage(1);
@@ -119,18 +108,15 @@ export default function RateListSection({
   const filteredTests = useMemo(() => {
     return catalog.tests.filter(t => {
       if (t.processedAt !== 'LPL') return false;
-      if (selectedTechs.size && !selectedTechs.has(t.tech)) return false;
-      if (selectedSamples.size && !selectedSamples.has(t.sampleId)) return false;
-      if (selectedPriceBands.size) {
-        const matchesBand = Array.from(selectedPriceBands).some(bandId => {
-          const band = lplPriceBands.find(b => b.id === bandId) || (catalog.priceBands || []).find(b => b.id === bandId);
-          if (!band) return false;
+      if (selectedTech && t.tech !== selectedTech) return false;
+      if (selectedSample && t.sampleId !== selectedSample) return false;
+      if (selectedPriceBand) {
+        const band = lplPriceBands.find(b => b.id === selectedPriceBand);
+        if (band) {
           const testRate = getCampRate(t);
           if (band.min != null && testRate < band.min) return false;
           if (band.max != null && testRate > band.max) return false;
-          return true;
-        });
-        if (!matchesBand) return false;
+        }
       }
       if (searchTerm) {
         const s = searchTerm.toLowerCase();
@@ -157,7 +143,7 @@ export default function RateListSection({
       if (sortMode === 'margin-asc') return (aMargin - bMargin) || aName.localeCompare(bName);
       return (aCamp - bCamp) || aName.localeCompare(bName);
     });
-  }, [catalog.tests, catalog.priceBands, selectedTechs, selectedSamples, selectedPriceBands, searchTerm, sortMode, lplPriceBands]);
+  }, [catalog.tests, selectedTech, selectedSample, selectedPriceBand, searchTerm, sortMode, lplPriceBands]);
 
   const filteredPackages = useMemo(() => {
     return catalog.packages.filter(p => {
@@ -202,8 +188,6 @@ export default function RateListSection({
       setSortMode(prev => (prev === 'b2b-asc' ? 'b2b-desc' : 'b2b-asc'));
     } else if (columnKey === 'catalogue-rate') {
       setSortMode(prev => (prev === 'b2c-asc' ? 'b2c-desc' : 'b2c-asc'));
-    } else if (columnKey === 'pcclm') {
-      setSortMode(prev => (prev === 'margin-desc' ? 'margin-asc' : 'margin-desc'));
     }
   };
 
@@ -219,9 +203,6 @@ export default function RateListSection({
     } else if (columnKey === 'catalogue-rate') {
       isActive = sortMode === 'b2c-asc' || sortMode === 'b2c-desc';
       isAsc = sortMode === 'b2c-asc';
-    } else if (columnKey === 'pcclm') {
-      isActive = sortMode === 'margin-asc' || sortMode === 'margin-desc';
-      isAsc = sortMode === 'margin-asc';
     }
 
     if (isActive) {
@@ -251,8 +232,7 @@ export default function RateListSection({
           'Sample': item.sample || '—',
           'Processed At': item.processedAt || 'LPL',
           'Camp Rate (₹)': camp,
-          'Catalogue Rate (₹)': cat,
-          'PCCLM Margin (₹)': cat - camp
+          'Catalogue Rate (₹)': cat
         };
       });
 
@@ -268,8 +248,7 @@ export default function RateListSection({
           'Tests Included': testsIncluded,
           'Processed At': item.processedAt || 'LPL',
           'Camp Rate (₹)': camp,
-          'Catalogue Rate (₹)': cat,
-          'PCCLM Margin (₹)': cat - camp
+          'Catalogue Rate (₹)': cat
         };
       });
 
@@ -308,30 +287,30 @@ export default function RateListSection({
               Camp rates for tests &amp; profiles
             </h2>
             <p className="text-slate-600 text-xs sm:text-sm md:text-base leading-relaxed mt-2">
-              Camp Rate is the special discounted rate, Catalogue Rate is the standard rate. PCCLM Margin = Catalogue Rate – Camp Rate. Add tests or profiles to make your own profile, then share it on WhatsApp or print it for the customer.
+              Camp Rate is the special discounted rate, Catalogue Rate is the standard rate. Add tests or profiles to make your own profile, then share it on WhatsApp or print it for the customer.
             </p>
           </div>
         </div>
 
-        {/* Filter and Search Bar: 2 clean compact rows on mobile, 1 unified row on laptop (md+) */}
+        {/* Filter and Search Bar: Simple & Classic with consistent 8px radius */}
         <div className="sticky top-[64px] sm:top-[74px] md:top-[84px] z-30 bg-[#F8F9FA]/95 backdrop-blur-md pt-0.5 pb-2 mb-2.5">
-          <div className="bg-white border border-slate-200/90 rounded-xl p-2 sm:p-2.5 md:p-3 shadow-xs space-y-2 md:space-y-0">
+          <div className="bg-white border border-slate-200/90 rounded-[8px] p-2 sm:p-2.5 md:p-3 shadow-2xs space-y-2 md:space-y-0">
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-2.5 w-full">
 
               {/* Row 1 on Mobile: Tabs + Export + Print */}
               <div className="flex items-center justify-between gap-1.5 w-full md:w-auto flex-none">
                 {/* Segmented Tabs (Profiles / Tests) */}
-                <div className="flex bg-slate-100/90 p-0.5 sm:p-1 rounded-lg md:rounded-lg flex-1 md:flex-none">
+                <div className="flex bg-slate-100/80 p-1 rounded-[8px] flex-1 md:flex-none">
                   <button
                     type="button"
-                    onClick={() => { setView('profiles'); setCurrentPage(1); setFiltersOpen(false); }}
-                    className={`flex-1 md:flex-none flex items-center justify-center gap-1.5 md:gap-2 py-1 md:py-1.5 px-2.5 md:px-3 rounded-lg md:rounded-lg text-xs md:text-sm font-bold transition-all cursor-pointer ${view === 'profiles'
-                      ? 'bg-[#241A7A] text-white shadow-xs'
+                    onClick={() => { setView('profiles'); setCurrentPage(1); }}
+                    className={`flex-1 md:flex-none flex items-center justify-center gap-1.5 md:gap-2 py-1.5 px-3 rounded-[6px] text-xs md:text-sm font-semibold transition-all cursor-pointer ${view === 'profiles'
+                      ? 'bg-[#241A7A] text-white shadow-2xs'
                       : 'text-slate-600 hover:text-[#241A7A]'
                       }`}
                   >
                     <span>Profiles</span>
-                    <span className={`inline-flex items-center justify-center min-w-[18px] md:min-w-[20px] h-4 md:h-5 px-1 rounded-full text-[10px] md:text-xs font-black ${view === 'profiles' ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700'
+                    <span className={`inline-flex items-center justify-center min-w-[18px] md:min-w-[20px] h-4 md:h-5 px-1 rounded-full text-[10px] md:text-xs font-bold ${view === 'profiles' ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700'
                       }`}>
                       {lplPackagesCount}
                     </span>
@@ -340,25 +319,25 @@ export default function RateListSection({
                   <button
                     type="button"
                     onClick={() => { setView('tests'); setCurrentPage(1); }}
-                    className={`flex-1 md:flex-none flex items-center justify-center gap-1.5 md:gap-2 py-1 md:py-1.5 px-2.5 md:px-3 rounded-md md:rounded-lg text-xs md:text-sm font-bold transition-all cursor-pointer ${view === 'tests'
-                      ? 'bg-[#241A7A] text-white shadow-xs'
+                    className={`flex-1 md:flex-none flex items-center justify-center gap-1.5 md:gap-2 py-1.5 px-3 rounded-[6px] text-xs md:text-sm font-semibold transition-all cursor-pointer ${view === 'tests'
+                      ? 'bg-[#241A7A] text-white shadow-2xs'
                       : 'text-slate-600 hover:text-[#241A7A]'
                       }`}
                   >
                     <span>Tests</span>
-                    <span className={`inline-flex items-center justify-center min-w-[18px] md:min-w-[20px] h-4 md:h-5 px-1 rounded-full text-[10px] md:text-xs font-black ${view === 'tests' ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700'
+                    <span className={`inline-flex items-center justify-center min-w-[18px] md:min-w-[20px] h-4 md:h-5 px-1 rounded-full text-[10px] md:text-xs font-bold ${view === 'tests' ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700'
                       }`}>
                       {lplTestsCount}
                     </span>
                   </button>
                 </div>
 
-                {/* Export & Print (icon-only on mobile row 1, or right-aligned on laptop) */}
+                {/* Export & Print on Mobile */}
                 <div className="flex md:hidden items-center gap-1.5 flex-none">
                   <button
                     type="button"
                     onClick={handleExportTable}
-                    className="inline-flex items-center justify-center w-8 h-8 border rounded-lg text-slate-700 bg-white hover:bg-slate-50 border-slate-200 cursor-pointer shadow-2xs transition-all"
+                    className="inline-flex items-center justify-center w-8.5 h-8.5 border rounded-[8px] text-slate-700 bg-white hover:bg-slate-50 border-slate-200 cursor-pointer shadow-2xs transition-all"
                     title="Export complete rate list to Excel (.xlsx)"
                     aria-label="Export complete rate list to Excel"
                   >
@@ -372,7 +351,7 @@ export default function RateListSection({
                   <button
                     type="button"
                     onClick={() => window.print()}
-                    className="inline-flex items-center justify-center w-8 h-8 border rounded-lg text-slate-700 bg-white hover:bg-slate-50 border-slate-200 cursor-pointer shadow-2xs transition-all"
+                    className="inline-flex items-center justify-center w-8.5 h-8.5 border rounded-[8px] text-slate-700 bg-white hover:bg-slate-50 border-slate-200 cursor-pointer shadow-2xs transition-all"
                     title="Print rate list"
                     aria-label="Print rate list"
                   >
@@ -388,8 +367,8 @@ export default function RateListSection({
               {/* Row 2 on Mobile (or continued inline on Laptop): Search + Sort + Filters */}
               <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0 w-full">
                 {/* Search Bar */}
-                <div className="flex items-center bg-slate-50 hover:bg-white border border-slate-200 focus-within:border-[#241A7A] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#241A7A]/10 rounded-lg md:rounded-xl px-2.5 md:px-3 h-8.5 md:h-10 transition-all flex-1 min-w-0">
-                  <svg className="w-3.5 h-3.5 md:w-4 md:h-4 text-slate-400 flex-none mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <div className="flex items-center bg-slate-50/70 hover:bg-white border border-slate-200 focus-within:border-[#241A7A] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#241A7A]/15 rounded-[8px] px-2.5 md:px-3 h-9 md:h-10 transition-all flex-1 min-w-0">
+                  <svg className="w-3.5 h-3.5 md:w-4 md:h-4 text-slate-400 flex-none mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="11" cy="11" r="8" />
                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
                   </svg>
@@ -414,11 +393,11 @@ export default function RateListSection({
                 </div>
 
                 {/* Sort Dropdown */}
-                <div className="relative flex-none w-[95px] sm:w-[125px] md:w-[150px]">
+                <div className="relative flex-none w-[105px] sm:w-[135px] md:w-[160px]">
                   <select
                     value={sortMode}
                     onChange={(e) => setSortMode(e.target.value)}
-                    className="w-full h-8.5 md:h-10 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg md:rounded-xl pl-2 pr-5 md:pr-6 text-xs md:text-sm font-semibold text-slate-700 appearance-none focus:outline-none focus:border-[#241A7A] focus:ring-1 focus:ring-[#241A7A]/15 transition-all cursor-pointer truncate"
+                    className="w-full h-9 md:h-10 bg-white hover:bg-slate-50 border border-slate-200 rounded-[8px] pl-2.5 pr-6 text-xs md:text-sm font-medium text-slate-700 appearance-none focus:outline-none focus:border-[#241A7A] focus:ring-1 focus:ring-[#241A7A]/15 transition-all cursor-pointer truncate"
                     aria-label="Sort results"
                   >
                     <option value="b2b-asc">Camp Rate: Low to High</option>
@@ -427,39 +406,20 @@ export default function RateListSection({
                     <option value="b2c-desc">Catalogue Rate: High to Low</option>
                     <option value="name">A-Z</option>
                     <option value="name-desc">Z-A</option>
-                    <option value="margin-desc">PCCLM Margin: High to Low</option>
-                    <option value="margin-asc">PCCLM Margin: Low to High</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400">
-                    <svg className="w-3 h-3 md:w-3.5 md:h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                    <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>
                   </div>
                 </div>
 
-                {/* Filters Button (only displayed when Tests tab is open) */}
-                {view === 'tests' && (
-                  <button
-                    type="button"
-                    onClick={() => setFiltersOpen(!filtersOpen)}
-                    className={`inline-flex items-center justify-center gap-1 md:gap-1.5 text-xs md:text-sm font-semibold border rounded-lg md:rounded-xl px-2 sm:px-2.5 md:px-3 h-8.5 md:h-10 transition-all flex-none cursor-pointer ${filtersOpen ? 'bg-[#241A7A] text-white border-[#241A7A]' : 'text-slate-700 bg-white hover:bg-slate-50 border-slate-200'
-                      }`}
-                    title="Toggle filters"
-                    aria-label="Toggle filters"
-                  >
-                    <svg className="w-3.5 h-3.5 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-                    </svg>
-                    <span className="hidden sm:inline">Filters</span>
-                  </button>
-                )}
-
-                {/* Export & Print on Laptop/Desktop only */}
+                {/* Export on Laptop/Desktop */}
                 <div className="hidden md:flex items-center gap-2 flex-none">
                   <button
                     type="button"
                     onClick={handleExportTable}
-                    className="inline-flex items-center justify-center gap-1.5 text-xs md:text-sm font-semibold border rounded-lg md:rounded-xl px-3 h-10 transition-all text-slate-700 bg-white hover:bg-slate-50 border-slate-200 cursor-pointer shadow-2xs"
+                    className="inline-flex items-center justify-center gap-1.5 text-xs md:text-sm font-medium border rounded-[8px] px-3.5 h-10 transition-all text-slate-700 bg-white hover:bg-slate-50 border-slate-200 cursor-pointer shadow-2xs hover:shadow-xs"
                     title="Export complete rate list to Excel (.xlsx)"
                   >
                     <svg className="w-3.5 h-3.5 text-slate-600 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -474,158 +434,91 @@ export default function RateListSection({
 
             </div>
 
-            {view === 'tests' && activeFiltersCount > 0 && (
-              <div className="flex items-center flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-line/60 text-xs">
-                <span className="text-[11px] font-mono text-ink-faint font-semibold mr-1">Active filters:</span>
-                {Array.from(selectedTechs).map(tech => (
-                  <span key={tech} className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-navy text-white shadow-xs">
-                    <span>{tech}</span>
-                    <button type="button" onClick={() => toggleSetItem(setSelectedTechs, tech)} className="hover:text-amber text-xs cursor-pointer" aria-label={`Remove ${tech} filter`}>✕</button>
-                  </span>
-                ))}
-                {Array.from(selectedPriceBands).map(bandId => {
-                  const band = lplPriceBands.find(b => b.id === bandId) || (catalog.priceBands || []).find(b => b.id === bandId);
-                  return (
-                    <span key={bandId} className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-navy text-white shadow-xs">
-                      <span>{band?.label || bandId}</span>
-                      <button type="button" onClick={() => toggleSetItem(setSelectedPriceBands, bandId)} className="hover:text-amber text-xs cursor-pointer" aria-label={`Remove ${band?.label || bandId} filter`}>✕</button>
-                    </span>
-                  );
-                })}
-                {Array.from(selectedSamples).map(sampleId => {
-                  const sampleObj = (catalog.samples || []).find(s => s.id === sampleId);
-                  return (
-                    <span key={sampleId} className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-navy text-white shadow-xs">
-                      <span>{sampleObj?.label || sampleId}</span>
-                      <button type="button" onClick={() => toggleSetItem(setSelectedSamples, sampleId)} className="hover:text-amber text-xs cursor-pointer" aria-label={`Remove ${sampleObj?.label || sampleId} filter`}>✕</button>
-                    </span>
-                  );
-                })}
-                {searchTerm && (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-200 text-navy shadow-xs">
-                    <span>&quot;{searchTerm}&quot;</span>
-                    <button type="button" onClick={() => setSearchTerm('')} className="hover:text-amber text-xs cursor-pointer" aria-label="Clear search">✕</button>
-                  </span>
-                )}
-                <button
-                  type="button"
-                  onClick={clearAllFilters}
-                  className="text-xs font-semibold text-amber-dark hover:underline ml-auto cursor-pointer"
-                >
-                  Clear all
-                </button>
-              </div>
-            )}
-
-            {view === 'profiles' && searchTerm && (
-              <div className="flex items-center flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-line/60 text-xs">
-                <span className="text-[11px] font-mono text-ink-faint font-semibold mr-1">Active filters:</span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-200 text-navy shadow-xs">
-                  <span>&quot;{searchTerm}&quot;</span>
-                  <button type="button" onClick={() => setSearchTerm('')} className="hover:text-amber text-xs cursor-pointer" aria-label="Clear search">✕</button>
+            {/* Direct Filter Dropdowns when Tests tab is open - Simple, Classic & Instant */}
+            {view === 'tests' && (
+              <div className="flex flex-wrap items-center gap-2 pt-2.5 mt-2.5 border-t border-slate-100">
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider hidden sm:inline mr-0.5">
+                  Filters:
                 </span>
-                <button
-                  type="button"
-                  onClick={clearAllFilters}
-                  className="text-xs font-semibold text-amber-dark hover:underline ml-auto cursor-pointer"
-                >
-                  Clear all
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
 
-        {view === 'tests' && filtersOpen && (
-          <div className="bg-white border border-line rounded-2xl p-4 md:p-6 mb-4 shadow-sm space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-line">
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-navy text-xs sm:text-sm uppercase tracking-wider font-mono">Filter Options</span>
-              </div>
-              <div className="flex items-center gap-3">
-                {activeFiltersCount > 0 && (
+                {/* Technology Dropdown */}
+                <div className="relative flex-1 sm:flex-none min-w-[130px] sm:w-[155px]">
+                  <select
+                    value={selectedTech}
+                    onChange={(e) => { setSelectedTech(e.target.value); setCurrentPage(1); }}
+                    className={`w-full h-8.5 sm:h-9 bg-white border rounded-[8px] pl-2.5 pr-6 text-xs sm:text-sm font-medium appearance-none focus:outline-none focus:border-[#241A7A] focus:ring-1 focus:ring-[#241A7A]/15 cursor-pointer truncate transition-all ${selectedTech ? 'border-[#241A7A] text-[#241A7A] font-semibold bg-blue-50/20' : 'border-slate-200 text-slate-700 hover:bg-slate-50'}`}
+                    aria-label="Filter by technology"
+                  >
+                    <option value="">All Technologies</option>
+                    {(catalog.technologies || []).map(t => (
+                      <option key={t.id} value={t.label}>{t.label}</option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400">
+                    <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Camp Rate Dropdown */}
+                <div className="relative flex-1 sm:flex-none min-w-[130px] sm:w-[165px]">
+                  <select
+                    value={selectedPriceBand}
+                    onChange={(e) => { setSelectedPriceBand(e.target.value); setCurrentPage(1); }}
+                    className={`w-full h-8.5 sm:h-9 bg-white border rounded-[8px] pl-2.5 pr-6 text-xs sm:text-sm font-medium appearance-none focus:outline-none focus:border-[#241A7A] focus:ring-1 focus:ring-[#241A7A]/15 cursor-pointer truncate transition-all ${selectedPriceBand ? 'border-[#241A7A] text-[#241A7A] font-semibold bg-blue-50/20' : 'border-slate-200 text-slate-700 hover:bg-slate-50'}`}
+                    aria-label="Filter by camp rate"
+                  >
+                    <option value="">All Camp Rates</option>
+                    {lplPriceBands.map(b => (
+                      <option key={b.id} value={b.id}>{b.label}</option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400">
+                    <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Sample Dropdown */}
+                <div className="relative flex-1 sm:flex-none min-w-[120px] sm:w-[150px]">
+                  <select
+                    value={selectedSample}
+                    onChange={(e) => { setSelectedSample(e.target.value); setCurrentPage(1); }}
+                    className={`w-full h-8.5 sm:h-9 bg-white border rounded-[8px] pl-2.5 pr-6 text-xs sm:text-sm font-medium appearance-none focus:outline-none focus:border-[#241A7A] focus:ring-1 focus:ring-[#241A7A]/15 cursor-pointer truncate transition-all ${selectedSample ? 'border-[#241A7A] text-[#241A7A] font-semibold bg-blue-50/20' : 'border-slate-200 text-slate-700 hover:bg-slate-50'}`}
+                    aria-label="Filter by sample"
+                  >
+                    <option value="">All Samples</option>
+                    {(catalog.samples || []).map(s => (
+                      <option key={s.id} value={s.id}>{s.label}</option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1.5 text-slate-400">
+                    <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Reset Filters button */}
+                {(selectedTech || selectedPriceBand || selectedSample) && (
                   <button
                     type="button"
-                    onClick={clearAllFilters}
-                    className="text-xs font-semibold text-amber-dark hover:underline cursor-pointer"
+                    onClick={() => {
+                      setSelectedTech('');
+                      setSelectedPriceBand('');
+                      setSelectedSample('');
+                      setCurrentPage(1);
+                    }}
+                    className="text-xs font-semibold text-[#E02029] hover:underline cursor-pointer ml-auto"
                   >
-                    Reset all
+                    Reset filters
                   </button>
                 )}
-                <button
-                  type="button"
-                  onClick={() => setFiltersOpen(false)}
-                  className="text-xs text-ink-faint hover:text-navy cursor-pointer font-semibold"
-                >
-                  ✕ Close
-                </button>
               </div>
-            </div>
+            )}
 
-            <div>
-              <p className="text-xs font-mono font-bold uppercase tracking-wider text-ink-faint mb-2">Technology</p>
-              <div className="flex flex-wrap gap-2">
-                {(catalog.technologies || []).map(t => (
-                  <button
-                    key={t.id}
-                    type="button"
-                    onClick={() => toggleSetItem(setSelectedTechs, t.label)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${selectedTechs.has(t.label) ? 'bg-navy text-white border-navy' : 'bg-paper text-ink-soft border-line hover:border-navy'
-                      }`}
-                  >
-                    {t.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <p className="text-xs font-mono font-bold uppercase tracking-wider text-ink-faint mb-2">Camp Rate</p>
-              <div className="flex flex-wrap gap-2">
-                {lplPriceBands.map(b => (
-                  <button
-                    key={b.id}
-                    type="button"
-                    onClick={() => toggleSetItem(setSelectedPriceBands, b.id)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${selectedPriceBands.has(b.id) ? 'bg-navy text-white border-navy' : 'bg-paper text-ink-soft border-line hover:border-navy'
-                      }`}
-                  >
-                    {b.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <p className="text-xs font-mono font-bold uppercase tracking-wider text-ink-faint mb-2">Sample</p>
-              <div className="flex flex-wrap gap-2">
-                {(catalog.samples || []).map(s => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    onClick={() => toggleSetItem(setSelectedSamples, s.id)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${selectedSamples.has(s.id) ? 'bg-navy text-white border-navy' : 'bg-paper text-ink-soft border-line hover:border-navy'
-                      }`}
-                  >
-                    {s.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-3 sm:px-4 sm:py-3 mb-4 shadow-xs" role="note">
-          <div className="flex items-center gap-2 mb-2 sm:mb-0 sm:inline-flex sm:mr-3">
-            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#EEF0FD] text-[#241A7A] font-black text-[11px] flex-none" aria-hidden="true">i</span>
-            <span className="font-bold text-xs sm:text-sm text-[#141B38]">PCCLM Includes :</span>
-          </div>
-          <div className="flex items-center flex-wrap gap-x-3.5 gap-y-1.5 text-xs text-slate-600 sm:inline-flex">
-            <span className="inline-flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald flex-none"></span>Promotion</span>
-            <span className="inline-flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald flex-none"></span>Collection</span>
-            <span className="inline-flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald flex-none"></span>Consumables</span>
-            <span className="inline-flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald flex-none"></span>Logistics</span>
-            <span className="inline-flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald flex-none"></span>Margin</span>
           </div>
         </div>
 
@@ -637,11 +530,11 @@ export default function RateListSection({
           </p>
         </div>
 
-        <div className="hidden lg:block bg-white border border-line rounded-2xl shadow-sm overflow-hidden">
+        <div className="hidden lg:block bg-white border border-slate-200/90 rounded-[8px] shadow-2xs overflow-hidden">
           {view === 'tests' ? (
             <div>
 
-              <div className="grid grid-cols-[70px_minmax(0,1.8fr)_140px_80px_110px_100px_104px_54px] gap-3 items-center px-5 py-3.5 bg-[#f8fafc] border-b border-line text-xs font-bold uppercase tracking-wider text-ink-faint select-none">
+              <div className="grid grid-cols-[70px_minmax(0,1.8fr)_140px_80px_120px_120px_54px] gap-3 items-center px-5 py-3.5 bg-[#f8fafc] border-b border-line text-xs font-bold uppercase tracking-wider text-ink-faint select-none">
                 <span>Code</span>
                 <button
                   type="button"
@@ -672,15 +565,6 @@ export default function RateListSection({
                   <span>Catalogue Rate</span>
                   {renderSortIndicator('catalogue-rate')}
                 </button>
-                <button
-                  type="button"
-                  onClick={() => handleSortHeader('pcclm')}
-                  className="group flex items-center justify-end text-right hover:text-[#241A7A] transition-colors cursor-pointer font-bold uppercase tracking-wider"
-                  title="Sort by PCCLM Margin (Low to High / High to Low)"
-                >
-                  <span title="Includes Promotion, Collection, Consumables, Logistics & Margin">PCCLM</span>
-                  {renderSortIndicator('pcclm')}
-                </button>
                 <span></span>
               </div>
 
@@ -693,7 +577,7 @@ export default function RateListSection({
                   return (
                     <div
                       key={test.code}
-                      className={`grid grid-cols-[70px_minmax(0,1.8fr)_140px_80px_110px_100px_104px_54px] gap-3 items-center px-5 py-3 text-sm transition-colors hover:bg-paper/50 ${isAdded ? 'bg-emerald-bg/30' : owner ? 'bg-slate-50/50 opacity-80' : ''
+                      className={`grid grid-cols-[70px_minmax(0,1.8fr)_140px_80px_120px_120px_54px] gap-3 items-center px-5 py-3 text-sm transition-colors hover:bg-paper/50 ${isAdded ? 'bg-emerald-bg/30' : owner ? 'bg-slate-50/50 opacity-80' : ''
                         }`}
                     >
                       <div className="font-mono text-xs font-bold text-ink-faint">{test.displayCode || test.code}</div>
@@ -725,9 +609,6 @@ export default function RateListSection({
                       </div>
                       <div className="text-right font-bold text-navy text-sm sm:text-base">
                         {money(getCatalogueRate(test))}
-                      </div>
-                      <div className="text-right font-bold text-[#059669] text-sm sm:text-base">
-                        +{money(getCatalogueRate(test) - getCampRate(test))}
                       </div>
                       <div className="flex justify-center">
                         {owner ? (
@@ -766,7 +647,7 @@ export default function RateListSection({
           ) : (
             <div>
 
-              <div className="grid grid-cols-[minmax(0,2.8fr)_120px_120px_120px_54px] gap-3 items-center px-5 py-3.5 bg-[#f8fafc] border-b border-line text-xs font-bold uppercase tracking-wider text-ink-faint select-none">
+              <div className="grid grid-cols-[minmax(0,2.8fr)_140px_140px_54px] gap-3 items-center px-5 py-3.5 bg-[#f8fafc] border-b border-line text-xs font-bold uppercase tracking-wider text-ink-faint select-none">
                 <button
                   type="button"
                   onClick={() => handleSortHeader('profile')}
@@ -794,15 +675,6 @@ export default function RateListSection({
                   <span>Catalogue Rate</span>
                   {renderSortIndicator('catalogue-rate')}
                 </button>
-                <button
-                  type="button"
-                  onClick={() => handleSortHeader('pcclm')}
-                  className="group flex items-center justify-end text-right hover:text-[#241A7A] transition-colors cursor-pointer font-bold uppercase tracking-wider"
-                  title="Sort by PCCLM Margin (Low to High / High to Low)"
-                >
-                  <span title="Includes Promotion, Collection, Consumables, Logistics & Margin">PCCLM</span>
-                  {renderSortIndicator('pcclm')}
-                </button>
                 <div className="text-center"></div>
               </div>
 
@@ -819,7 +691,7 @@ export default function RateListSection({
                   return (
                     <div key={pkg.id} className="transition-colors">
                       <div
-                        className={`grid grid-cols-[minmax(0,2.8fr)_120px_120px_120px_54px] gap-3 items-center px-5 py-3.5 text-sm transition-colors ${isAdded
+                        className={`grid grid-cols-[minmax(0,2.8fr)_140px_140px_54px] gap-3 items-center px-5 py-3.5 text-sm transition-colors ${isAdded
                           ? 'bg-sky-50/40 hover:bg-sky-50/60'
                           : blockingPkg
                             ? 'opacity-60 hover:opacity-70'
@@ -846,10 +718,6 @@ export default function RateListSection({
 
                         <div className="text-right font-bold text-navy text-sm sm:text-base">
                           {money(getCatalogueRate(pkg))}
-                        </div>
-
-                        <div className="text-right font-bold text-[#059669] text-sm sm:text-base">
-                          +{money(getCatalogueRate(pkg) - getCampRate(pkg))}
                         </div>
 
                         <div className="flex justify-center">
@@ -891,23 +759,43 @@ export default function RateListSection({
                       </div>
 
                       {isExpanded && (
-                        <div className="bg-[#fbfcfe] px-8 py-4 border-t border-b border-line/70 space-y-3.5">
-                          <span className="block text-[10px] font-bold font-mono uppercase tracking-widest text-ink-faint">
+                        <div className="bg-[#FAFBFD] px-6 sm:px-8 py-4 border-t border-b border-slate-200/80 space-y-3.5">
+                          <span className="block text-[10px] font-bold font-mono uppercase tracking-widest text-slate-500">
                             TESTS INCLUDED
                           </span>
-                          <div className="space-y-3">
-                            {groups.map((group, gIdx) => (
-                              <div key={gIdx} className="border-l-2 border-[#60A5FA] pl-3 py-0.5">
-                                <span className="font-bold text-xs sm:text-sm text-navy block">
-                                  {group.label}
-                                </span>
-                                {group.parameters && group.parameters.length > 0 && (
-                                  <p className="text-xs text-ink-soft mt-1 leading-relaxed">
-                                    {group.parameters.join(' • ')}
-                                  </p>
-                                )}
-                              </div>
-                            ))}
+                          <div className="space-y-3.5">
+                            {groups.map((group, gIdx) => {
+                              const hasParams = group.parameters && group.parameters.length > 0;
+                              const isRedundantLabel =
+                                hasParams &&
+                                (groups.length === 1 ||
+                                  cleanProfileName(group.label).toLowerCase().replace(/\s*\(\d+\)/g, '').trim() ===
+                                  cleanProfileName(pkg.name).toLowerCase().replace(/\s*\(\d+\)/g, '').trim());
+
+                              return (
+                                <div key={gIdx} className="border-l-2 border-[#241A7A] pl-3.5 py-0.5">
+                                  {!isRedundantLabel && (
+                                    <span className="font-bold text-xs sm:text-sm text-slate-900 block mb-1.5">
+                                      {group.label}
+                                    </span>
+                                  )}
+                                  {hasParams ? (
+                                    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-1.5 text-xs text-slate-600">
+                                      {group.parameters.map((param, pIdx) => (
+                                        <li key={pIdx} className="flex items-start gap-1.5 leading-snug">
+                                          <span className="text-slate-400 select-none">•</span>
+                                          <span>{param}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  ) : (
+                                    <span className="text-xs text-slate-600">
+                                      {group.label}
+                                    </span>
+                                  )}
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
                       )}
@@ -929,7 +817,7 @@ export default function RateListSection({
               return (
                 <div
                   key={test.code}
-                  className={`bg-white border rounded-2xl p-4 shadow-sm space-y-3 transition-all ${isAdded ? 'border-emerald/40 bg-emerald-bg/10 ring-1 ring-emerald/30' : owner ? 'border-line/60 bg-slate-50/50 opacity-80' : 'border-line/80'
+                  className={`bg-white border rounded-[8px] p-4 shadow-2xs space-y-3 transition-all ${isAdded ? 'border-emerald-600/40 bg-emerald-50/20 ring-1 ring-emerald-600/30' : owner ? 'border-slate-200/70 bg-slate-50/50 opacity-80' : 'border-slate-200/90'
                     }`}
                 >
 
@@ -967,7 +855,7 @@ export default function RateListSection({
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-2 bg-paper-2/70 border border-line/70 rounded-xl p-2.5 text-center">
+                  <div className="grid grid-cols-2 gap-2 bg-paper-2/70 border border-line/70 rounded-xl p-2.5 text-center">
                     <div>
                       <div className="text-[10px] uppercase font-mono font-bold text-ink-faint tracking-wider">
                         Camp Rate
@@ -982,14 +870,6 @@ export default function RateListSection({
                       </div>
                       <div className="font-extrabold text-navy text-xs sm:text-sm mt-0.5">
                         {money(getCatalogueRate(test))}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-[10px] uppercase font-mono font-bold text-ink-faint tracking-wider">
-                        PCCLM
-                      </div>
-                      <div className="font-extrabold text-[#059669] text-xs sm:text-sm mt-0.5">
-                        +{money(getCatalogueRate(test) - getCampRate(test))}
                       </div>
                     </div>
                   </div>
@@ -1041,7 +921,7 @@ export default function RateListSection({
               return (
                 <div
                   key={pkg.id}
-                  className={`bg-white border rounded-2xl p-4 shadow-sm space-y-3.5 transition-all ${isAdded ? 'border-[#1E63B4]/40 bg-sky-50/20 ring-1 ring-[#1E63B4]/20' : 'border-line/80'
+                  className={`bg-white border rounded-[8px] p-4 shadow-2xs space-y-3.5 transition-all ${isAdded ? 'border-[#1E63B4]/40 bg-sky-50/20 ring-1 ring-[#1E63B4]/20' : 'border-slate-200/90'
                     }`}
                 >
 
@@ -1066,28 +946,48 @@ export default function RateListSection({
                   </div>
 
                   {isExpanded && (
-                    <div className="bg-[#f8fafc] p-3.5 rounded-xl border border-line/70 space-y-3">
-                      <span className="block text-[10px] font-bold font-mono uppercase tracking-widest text-ink-faint">
+                    <div className="bg-[#FAFBFD] p-3 rounded-[8px] border border-slate-200/80 space-y-3">
+                      <span className="block text-[10px] font-bold font-mono uppercase tracking-widest text-slate-500">
                         TESTS INCLUDED
                       </span>
-                      <div className="space-y-2.5">
-                        {groups.map((group, gIdx) => (
-                          <div key={gIdx} className="border-l-2 border-[#60A5FA] pl-2.5 py-0.5">
-                            <span className="font-bold text-xs text-navy block">
-                              {group.label}
-                            </span>
-                            {group.parameters && group.parameters.length > 0 && (
-                              <p className="text-[11px] text-ink-soft mt-0.5 leading-relaxed">
-                                {group.parameters.join(' • ')}
-                              </p>
-                            )}
-                          </div>
-                        ))}
+                      <div className="space-y-3">
+                        {groups.map((group, gIdx) => {
+                          const hasParams = group.parameters && group.parameters.length > 0;
+                          const isRedundantLabel =
+                            hasParams &&
+                            (groups.length === 1 ||
+                              cleanProfileName(group.label).toLowerCase().replace(/\s*\(\d+\)/g, '').trim() ===
+                              cleanProfileName(pkg.name).toLowerCase().replace(/\s*\(\d+\)/g, '').trim());
+
+                          return (
+                            <div key={gIdx} className="border-l-2 border-[#241A7A] pl-3 py-0.5">
+                              {!isRedundantLabel && (
+                                <span className="font-bold text-xs text-slate-900 block mb-1">
+                                  {group.label}
+                                </span>
+                              )}
+                              {hasParams ? (
+                                <ul className="space-y-1 text-xs text-slate-600">
+                                  {group.parameters.map((param, pIdx) => (
+                                    <li key={pIdx} className="flex items-start gap-1.5 leading-snug">
+                                      <span className="text-slate-400 select-none">•</span>
+                                      <span>{param}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              ) : (
+                                <span className="text-xs text-slate-600">
+                                  {group.label}
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
 
-                  <div className="grid grid-cols-3 gap-2 bg-paper-2/70 border border-line/70 rounded-xl p-2.5 text-center">
+                  <div className="grid grid-cols-2 gap-2 bg-paper-2/70 border border-line/70 rounded-[8px] p-2.5 text-center">
                     <div>
                       <div className="text-[10px] uppercase font-mono font-bold text-ink-faint tracking-wider">
                         Camp Rate
@@ -1102,14 +1002,6 @@ export default function RateListSection({
                       </div>
                       <div className="font-extrabold text-navy text-xs sm:text-sm mt-0.5">
                         {money(getCatalogueRate(pkg))}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-[10px] uppercase font-mono font-bold text-ink-faint tracking-wider">
-                        PCCLM
-                      </div>
-                      <div className="font-extrabold text-[#059669] text-xs sm:text-sm mt-0.5">
-                        +{money(getCatalogueRate(pkg) - getCampRate(pkg))}
                       </div>
                     </div>
                   </div>

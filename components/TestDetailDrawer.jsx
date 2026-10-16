@@ -128,12 +128,6 @@ export default function TestDetailDrawer({
               <span className="text-ink-soft">Catalogue Rate</span>
               <span className="font-bold text-navy text-base">{money(getCatalogueRate(test))}</span>
             </div>
-            <div className="flex justify-between text-sm pt-2 border-t border-line">
-              <span className="text-profit font-semibold" title="Includes Promotion, Collection, Consumables, Logistics & Margin">
-                PCCLM Margin
-              </span>
-              <span className="text-profit font-bold">+{money(getCatalogueRate(test) - getCampRate(test))}</span>
-            </div>
           </div>
 
           {hasParameters && (

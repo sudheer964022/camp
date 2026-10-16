@@ -202,49 +202,49 @@ export default function Hero({ onOpenCart, testCount = 78, profileCount = 13, mi
           </div>
         </div>
 
-        {/* 3 Floating Stat Cards below Banner (Compact on mobile, rich & balanced on laptop) */}
-        <div className="max-w-4xl mx-auto px-3 sm:px-0 grid grid-cols-3 gap-2 sm:gap-5 mt-2.5 sm:mt-6">
-          {/* Card 1: Tests */}
-          <div className="bg-white rounded-xl sm:rounded-2xl border border-slate-100/90 shadow-xs sm:shadow-sm hover:shadow-md p-2 sm:p-5 flex flex-col sm:flex-row items-center sm:justify-start text-center sm:text-left gap-1 sm:gap-4 transition-all">
-            <div className="w-7 h-7 sm:w-12 sm:h-12 rounded-lg sm:rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center flex-none">
-              <svg className="w-3.5 h-3.5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        {/* 3 Separate Stat Containers (Cards) - Prominent, classic & with 8px border radius */}
+        <div className="max-w-4xl mx-auto px-3 sm:px-0 grid grid-cols-3 gap-2.5 sm:gap-5 mt-3 sm:mt-6">
+          {/* Container 1: Tests */}
+          <div className="bg-white rounded-[8px] border border-slate-200/90 shadow-2xs hover:shadow-xs p-3 sm:py-5 sm:px-6 flex flex-col sm:flex-row items-center sm:justify-start text-center sm:text-left gap-2 sm:gap-4 transition-all">
+            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-[8px] bg-[#241A7A]/6 text-[#241A7A] flex items-center justify-center flex-none">
+              <svg className="w-4 h-4 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M10 2v7.31L4.62 17.5A2 2 0 0 0 6.34 21h11.32a2 2 0 0 0 1.72-3.5L14 9.31V2" />
                 <path d="M8.5 2h7" />
                 <path d="M7 16h10" />
               </svg>
             </div>
             <div className="min-w-0">
-              <div className="text-sm sm:text-2xl md:text-3xl font-extrabold text-slate-800 leading-none">{testCount}</div>
-              <div className="text-[10px] sm:text-xs font-medium text-slate-500 mt-0.5 sm:mt-1.5 truncate">Tests Available</div>
+              <div className="text-lg sm:text-2xl md:text-3xl font-extrabold text-[#141B38] tracking-tight leading-none">{testCount}</div>
+              <div className="text-[11px] sm:text-xs md:text-sm font-medium text-slate-500 mt-1 sm:mt-1.5 truncate">Tests Available</div>
             </div>
           </div>
 
-          {/* Card 2: Profiles */}
-          <div className="bg-white rounded-xl sm:rounded-2xl border border-slate-100/90 shadow-xs sm:shadow-sm hover:shadow-md p-2 sm:p-5 flex flex-col sm:flex-row items-center sm:justify-start text-center sm:text-left gap-1 sm:gap-4 transition-all">
-            <div className="w-7 h-7 sm:w-12 sm:h-12 rounded-lg sm:rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center flex-none">
-              <svg className="w-3.5 h-3.5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          {/* Container 2: Profiles */}
+          <div className="bg-white rounded-[8px] border border-slate-200/90 shadow-2xs hover:shadow-xs p-3 sm:py-5 sm:px-6 flex flex-col sm:flex-row items-center sm:justify-start text-center sm:text-left gap-2 sm:gap-4 transition-all">
+            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-[8px] bg-[#7C4FE0]/8 text-[#7C4FE0] flex items-center justify-center flex-none">
+              <svg className="w-4 h-4 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="4" width="18" height="16" rx="3" />
                 <line x1="8" y1="9" x2="16" y2="9" />
                 <line x1="8" y1="13" x2="14" y2="13" />
               </svg>
             </div>
             <div className="min-w-0">
-              <div className="text-sm sm:text-2xl md:text-3xl font-extrabold text-slate-800 leading-none">{profileCount}</div>
-              <div className="text-[10px] sm:text-xs font-medium text-slate-500 mt-0.5 sm:mt-1.5 truncate">Health Profiles</div>
+              <div className="text-lg sm:text-2xl md:text-3xl font-extrabold text-[#141B38] tracking-tight leading-none">{profileCount}</div>
+              <div className="text-[11px] sm:text-xs md:text-sm font-medium text-slate-500 mt-1 sm:mt-1.5 truncate">Health Profiles</div>
             </div>
           </div>
 
-          {/* Card 3: Rates */}
-          <div className="bg-white rounded-xl sm:rounded-2xl border border-slate-100/90 shadow-xs sm:shadow-sm hover:shadow-md p-2 sm:p-5 flex flex-col sm:flex-row items-center sm:justify-start text-center sm:text-left gap-1 sm:gap-4 transition-all">
-            <div className="w-7 h-7 sm:w-12 sm:h-12 rounded-lg sm:rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-none">
-              <svg className="w-3.5 h-3.5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          {/* Container 3: Rates */}
+          <div className="bg-white rounded-[8px] border border-slate-200/90 shadow-2xs hover:shadow-xs p-3 sm:py-5 sm:px-6 flex flex-col sm:flex-row items-center sm:justify-start text-center sm:text-left gap-2 sm:gap-4 transition-all">
+            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-[8px] bg-[#00BC7D]/8 text-[#00BC7D] flex items-center justify-center flex-none">
+              <svg className="w-4 h-4 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
                 <line x1="7" y1="7" x2="7.01" y2="7" />
               </svg>
             </div>
             <div className="min-w-0">
-              <div className="text-sm sm:text-2xl md:text-3xl font-extrabold text-slate-800 leading-none">₹{minRate}</div>
-              <div className="text-[10px] sm:text-xs font-medium text-slate-500 mt-0.5 sm:mt-1.5 truncate">Camp Rates From</div>
+              <div className="text-lg sm:text-2xl md:text-3xl font-extrabold text-[#141B38] tracking-tight leading-none">₹{minRate}</div>
+              <div className="text-[11px] sm:text-xs md:text-sm font-medium text-slate-500 mt-1 sm:mt-1.5 truncate">Rates From</div>
             </div>
           </div>
         </div>

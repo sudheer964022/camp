@@ -1,6 +1,17 @@
+'use client';
+
 import Link from 'next/link';
 
 export default function Footer({ onOpenCart }) {
+  const handleScrollTo = (id) => (e) => {
+    const el = document.getElementById(id);
+    if (el) {
+      e.preventDefault();
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.history.replaceState(null, '', `#${id}`);
+    }
+  };
+
   return (
     <>
       <footer className="bg-navy text-paper border-t border-navy-soft py-14">
@@ -14,8 +25,9 @@ export default function Footer({ onOpenCart }) {
             </div>
             <div>
               <ul className="space-y-2.5 text-sm text-[#CFE2F2] md:pt-8">
-                <li><Link className="hover:text-amber transition-colors" href="/#ratelist">Rate List</Link></li>
-                <li><Link className="hover:text-amber transition-colors" href="/how-to-create-a-camp">How to Create a Camp</Link></li>
+                <li><a className="hover:text-amber transition-colors cursor-pointer" href="/#ratelist" onClick={handleScrollTo('ratelist')}>Rate List</a></li>
+                <li><a className="hover:text-amber transition-colors cursor-pointer" href="/#register-camp" onClick={handleScrollTo('register-camp')}>Register a Camp</a></li>
+                <li><a className="hover:text-amber transition-colors cursor-pointer" href="/#faq" onClick={handleScrollTo('faq')}>FAQs</a></li>
                 <li><button onClick={onOpenCart} type="button" className="hover:text-amber transition-colors text-left cursor-pointer">Make My Profile</button></li>
               </ul>
             </div>

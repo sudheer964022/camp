@@ -36,7 +36,6 @@ export default function CartDrawer({
   // BBC-style pricing: system discount always applies, manual only takes effect below system price.
   const manualVal = discountedPrice !== '' ? Number(discountedPrice) : null;
   const pp = patientPrice(calc.b2c, manualVal);
-  const finalMargin = pp.isDiscounted ? pp.price - calc.campRate : calc.margin;
 
   const totalBundleTests = bundlePkgs.reduce((acc, p) => acc + getProfileTestCount(p), 0);
   const totalItemCount = cartItems.length + totalBundleTests;
@@ -55,8 +54,7 @@ export default function CartDrawer({
       ...cartItems.map(t => `- ${t.name} (${t.code}) | Camp Rate: ₹${getCampRate(t)} | Catalogue: ₹${getCatalogueRate(t)}`),
       `Camp Rate: ₹${calc.campRate}`,
       `Catalogue Rate: ₹${calc.b2c}`,
-      pp.isDiscounted ? `Discounted Price: ₹${pp.price}` : '',
-      `PCCLM: ₹${calc.margin}`
+      pp.isDiscounted ? `Discounted Price: ₹${pp.price}` : ''
     ].filter(Boolean).join('\n');
 
     navigator.clipboard.writeText(lines);
@@ -73,8 +71,7 @@ export default function CartDrawer({
       'Sample': 'Serum / Mixed',
       'Processed At': p.processedAt || 'LPL',
       'Camp Rate (₹)': getCampRate(p),
-      'Catalogue Rate (₹)': getCatalogueRate(p),
-      'PCCLM (₹)': getCatalogueRate(p) - getCampRate(p)
+      'Catalogue Rate (₹)': getCatalogueRate(p)
     }));
 
     const itemRows = cartItems.map((t, idx) => ({
@@ -85,8 +82,7 @@ export default function CartDrawer({
       'Sample': t.sample,
       'Processed At': t.processedAt,
       'Camp Rate (₹)': getCampRate(t),
-      'Catalogue Rate (₹)': getCatalogueRate(t),
-      'PCCLM (₹)': getCatalogueRate(t) - getCampRate(t)
+      'Catalogue Rate (₹)': getCatalogueRate(t)
     }));
 
     const data = [...bundleRows, ...itemRows];
@@ -165,7 +161,7 @@ export default function CartDrawer({
                   ? 'bg-teal/10 border-teal/40 text-teal-dark shadow-2xs'
                   : 'bg-white border-line text-ink-soft hover:border-slate-400'
               }`}
-              title="Toggle Customer Copy (Hides processing costs & PCCLM)"
+              title="Toggle Customer Copy"
             >
               <input
                 type="checkbox"
@@ -223,9 +219,6 @@ export default function CartDrawer({
                           </div>
                           <div className="text-right flex-none">
                             <div className="text-sm font-bold text-navy">{money(getCampRate(pkg))}</div>
-                            {!customerView && (
-                              <div className="text-xs text-profit font-semibold">+{money(getCatalogueRate(pkg) - getCampRate(pkg))}</div>
-                            )}
                           </div>
                           <button
                             type="button"
@@ -274,9 +267,6 @@ export default function CartDrawer({
                         </div>
                         <div className="text-right flex-none">
                           <div className="text-sm font-bold text-navy">{money(getCampRate(item))}</div>
-                          {!customerView && (
-                            <div className="text-xs text-profit font-semibold">+{money(getCatalogueRate(item) - getCampRate(item))}</div>
-                          )}
                         </div>
                         <button
                           type="button"
@@ -334,66 +324,48 @@ export default function CartDrawer({
             )}
           </div>
 
-          {/* ── DISCOUNTED PRICE input + YOUR PCCLM side-by-side (internal only) ── */}
+          {/* ── DISCOUNTED PRICE input (internal only) ── */}
           {!customerView && calc.b2c > 0 && (
-            <div className="flex gap-3 items-stretch">
-
-              {/* Left: editable discounted price input */}
-              <div className="flex-1 rounded-xl border border-line bg-paper/60 px-3 py-2.5 space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold font-mono uppercase tracking-widest text-ink-faint">
-                    Discounted Price
-                  </span>
-                  {discountedPrice !== '' && (
-                    <button
-                      type="button"
-                      onClick={() => setDiscountedPrice('')}
-                      className="text-[10px] text-ink-faint hover:text-red-600 font-medium transition-colors cursor-pointer"
-                    >
-                      ✕ Clear
-                    </button>
-                  )}
-                </div>
-                <div className="relative flex items-center">
-                  <span className="absolute left-2 text-sm font-bold text-ink-soft pointer-events-none">₹</span>
-                  <input
-                    type="number"
-                    min={0}
-                    max={calc.b2c}
-                    placeholder={String(calc.b2c)}
-                    value={discountedPrice}
-                    onFocus={(e) => e.target.select()}
-                    onChange={(e) => {
-                      const v = e.target.value;
-                      if (v !== '' && Number(v) > calc.b2c) {
-                        setDiscountedPrice(String(calc.b2c));
-                      } else {
-                        setDiscountedPrice(v);
-                      }
-                    }}
-                    className="w-full pl-6 pr-2 py-1.5 text-sm font-bold border border-line rounded-lg focus:outline-none focus:border-teal bg-white transition-colors"
-                  />
-                </div>
-                {discountedPrice !== '' && Number(discountedPrice) >= calc.b2c && (
-                  <p className="text-[10px] text-amber-dark font-medium">
-                    ⚠ Must be less than {money(calc.b2c)}
-                  </p>
+            <div className="rounded-xl border border-line bg-paper/60 px-3.5 py-2.5 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold font-mono uppercase tracking-widest text-ink-faint">
+                  Discounted Price
+                </span>
+                {discountedPrice !== '' && (
+                  <button
+                    type="button"
+                    onClick={() => setDiscountedPrice('')}
+                    className="text-[10px] text-ink-faint hover:text-red-600 font-medium transition-colors cursor-pointer"
+                  >
+                    ✕ Clear
+                  </button>
                 )}
               </div>
-
-              {/* Right: YOUR PCCLM highlighted box */}
-              <div className="flex-1 rounded-xl border-2 border-[#1E63B4]/40 bg-[#EFF6FF] px-3 py-2.5 flex flex-col justify-center">
-                <div className="flex items-center gap-1 mb-1">
-                  <span className="w-2 h-2 rounded-full bg-[#1E63B4] flex-none" />
-                  <span className="text-[10px] font-bold font-mono uppercase tracking-widest text-[#1E63B4] leading-tight">
-                    Your PCCLM{pp.isDiscounted ? ' (After Discount)' : ''}
-                  </span>
-                </div>
-                <span className={`text-xl font-extrabold ${finalMargin < 0 ? 'text-red-600' : 'text-[#1E63B4]'
-                  }`}>
-                  {money(finalMargin)}
-                </span>
+              <div className="relative flex items-center">
+                <span className="absolute left-2 text-sm font-bold text-ink-soft pointer-events-none">₹</span>
+                <input
+                  type="number"
+                  min={0}
+                  max={calc.b2c}
+                  placeholder={String(calc.b2c)}
+                  value={discountedPrice}
+                  onFocus={(e) => e.target.select()}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    if (v !== '' && Number(v) > calc.b2c) {
+                      setDiscountedPrice(String(calc.b2c));
+                    } else {
+                      setDiscountedPrice(v);
+                    }
+                  }}
+                  className="w-full pl-6 pr-2 py-1.5 text-sm font-bold border border-line rounded-lg focus:outline-none focus:border-teal bg-white transition-colors"
+                />
               </div>
+              {discountedPrice !== '' && Number(discountedPrice) >= calc.b2c && (
+                <p className="text-[10px] text-amber-dark font-medium">
+                  ⚠ Must be less than {money(calc.b2c)}
+                </p>
+              )}
             </div>
           )}
 

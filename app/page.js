@@ -19,6 +19,8 @@ import {
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import RateListSection from '../components/RateListSection';
+import CampRegistrationSection from '../components/CampRegistrationSection';
+import FaqSection from '../components/FaqSection';
 import CartDrawer from '../components/CartDrawer';
 import TestDetailDrawer from '../components/TestDetailDrawer';
 import Footer from '../components/Footer';
@@ -252,6 +254,10 @@ export default function Home() {
         onOpenTestDetail={handleOpenTestDetail}
         customerView={customerView}
       />
+
+      <CampRegistrationSection />
+
+      <FaqSection />
 
       <Footer
         onOpenCart={handleOpenCart}

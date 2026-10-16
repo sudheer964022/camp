@@ -2,7 +2,7 @@ import './globals.css';
 
 export const metadata = {
   title: 'AVMLabs — Health Check-up Camp Rate List | Tests & Profiles',
-  description: 'AVMLabs diagnostic health check-up camp rate list. Browse lab tests, compare technologies and build your own custom health profile — Processing Cost = B2B, Profile Price = 50% of B2C, and PCCLM margin on every test.',
+  description: 'AVMLabs diagnostic health check-up camp rate list. Browse lab tests, compare technologies and build your own custom health profile — Processing Cost = B2B, Profile Price = 50% of B2C, and margin on every test.',
   icons: {
     icon: '/assets/images/favicon.svg',
   },
