@@ -60,7 +60,7 @@ export default function Footer({ onOpenCart }) {
 
       <a
         className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex items-center justify-center w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-[#25D366] text-white shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all"
-        href="https://wa.me/919600661732?text=Interested%20in%20B2B%20Collaboration"
+        href="https://wa.me/919600661732?text=Interested%20in%20B2C%20Collaboration"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with AVMLabs on WhatsApp"
