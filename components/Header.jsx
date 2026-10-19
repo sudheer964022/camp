@@ -26,10 +26,12 @@ export default function Header({ cartCount = 0, onOpenCart }) {
 
         {/* Right Actions: Simple, Classic & Mobile Compatible */}
         <div className="flex items-center gap-2 sm:gap-3 flex-none ml-auto">
+          {/* Register a Camp - Hidden via display: none */}
           <a
             href="/#register-camp"
             onClick={handleScrollToRegister}
-            className="inline-flex items-center justify-center bg-[#E02029] hover:bg-[#c91821] text-white text-xs sm:text-sm font-semibold sm:font-bold py-1.5 sm:py-2 px-3 sm:px-5 rounded-full shadow-xs hover:shadow transition-all whitespace-nowrap active:scale-95 cursor-pointer"
+            style={{ display: 'none' }}
+            className="hidden inline-flex items-center justify-center bg-[#E02029] hover:bg-[#c91821] text-white text-xs sm:text-sm font-semibold sm:font-bold py-1.5 sm:py-2 px-3 sm:px-5 rounded-full shadow-xs hover:shadow transition-all whitespace-nowrap active:scale-95 cursor-pointer"
           >
             <span className="hidden sm:inline">Register a Camp</span>
             <span className="sm:hidden">Register</span>
